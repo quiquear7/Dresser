@@ -1,0 +1,42 @@
+<resources>
+    <string name="app_name">Dresser</string>
+    <string name="title_home">Outfit</string>
+    <string name="title_dashboard">Agregar Prenda</string>
+    <string name="title_notifications">Ajustes</string>
+    <string name="add">Add</string>
+    <string name="agregar">Agregar</string>
+
+    <string-array name="s_categorias">
+        <item>ABRIGOS</item>
+        <item>CAZADORAS</item>
+        <item>SOBRECAMISAS</item>
+        <item>CHALECOS</item>
+        <item>BLAZERS</item>
+        <item>CAMISAS</item>
+        <item>PANTALONES</item>
+        <item>TRAJES</item>
+        <item>JEANS</item>
+        <item>JERSÉIS | CHAQUETAS</item>
+        <item>SUDADERAS</item>
+        <item>CAMISETAS</item>
+        <item>POLOS</item>
+        <item>ZAPATOS</item>
+    </string-array>
+
+    <string-array name="s_colores">
+        <item>NEGRO</item>
+        <item>BLANCO</item>
+        <item>ROJO</item>
+        <item>AZUL</item>
+        <item>AMARILLO</item>
+        <item>VERDE</item>
+        <item>NARANJA</item>
+        <item>MORADO</item>
+        <item>MARRÓN</item>
+        <item>ROSA</item>
+    </string-array>
+
+    <string name="scategoria">Categoria</string>
+    <string name="scolores">Color</string>
+    <string name="camara">Foto</string>
+</resources>
