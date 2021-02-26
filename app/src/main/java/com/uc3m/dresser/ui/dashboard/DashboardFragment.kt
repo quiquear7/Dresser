@@ -1,6 +1,10 @@
 package com.uc3m.dresser.ui.dashboard
 
+import android.app.Activity
+import android.content.ContentValues
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
 import android.view.LayoutInflater
@@ -14,10 +18,15 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.uc3m.dresser.R
 
+
 class DashboardFragment : Fragment() {
 
     private lateinit var dashboardViewModel: DashboardViewModel
 
+    private var foto: Uri? = null
+    private val REQUEST_IMAGE_CAPTURE = 1
+
+    private var imgFoto: ImageView? = null
 
     override fun onCreateView(
             inflater: LayoutInflater,
@@ -64,32 +73,55 @@ class DashboardFragment : Fragment() {
             }
         }
 
+        imgFoto = root.findViewById<ImageView>(R.id.imgFoto)
 
         val botonCamara = root.findViewById<Button>(R.id.bCamara)
         botonCamara.setOnClickListener() {
-            /*val REQUEST_IMAGE_CAPTURE = 1
-            Intent(MediaStore.ACTION_IMAGE_CAPTURE).also { takePictureIntent ->
-                takePictureIntent.resolveActivity(packageManager)?.also {
-                    startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE)
-                }
-            }*/
-            Toast.makeText(requireActivity(),"hola",Toast.LENGTH_SHORT).show()
+            permisos()
         }
-
-
 
         return root
     }
 
-/*
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
-            val imageBitmap = data.extras.get("data") as Bitmap
-            imageView.setImageBitmap(imageBitmap)
+    private fun permisos(){
+        if(context?.checkSelfPermission(android.Manifest.permission.CAMERA)  == PackageManager.PERMISSION_DENIED
+                || context?.checkSelfPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED){
+            val permisosCamara = arrayOf(android.Manifest.permission.CAMERA, android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
+            requestPermissions(permisosCamara,REQUEST_IMAGE_CAPTURE)
         }
-    }*/
+        else{
+            abrirCamara()
+        }
+    }
 
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray){
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        when (requestCode){
+            REQUEST_IMAGE_CAPTURE ->{
+                if(grantResults[0] == PackageManager.PERMISSION_GRANTED){
+                    abrirCamara()
+                }
+                else{
+                    Toast.makeText(requireActivity(),"No puedes acceder a la cámara",Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
+    }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?){
+        super.onActivityResult(requestCode,resultCode, data)
+        if(resultCode == Activity.RESULT_OK && requestCode == REQUEST_IMAGE_CAPTURE){
+            imgFoto?.setImageURI(foto)
+        }
+    }
+
+    private fun  abrirCamara(){
+        val value = ContentValues()
+        value.put(MediaStore.Images.Media.TITLE, "Nueva imagen")
+        foto = context?.contentResolver?.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,value)
+        val camaraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+        camaraIntent.putExtra(MediaStore.EXTRA_OUTPUT, foto)
+        startActivityForResult(camaraIntent,REQUEST_IMAGE_CAPTURE )
+    }
 
 }

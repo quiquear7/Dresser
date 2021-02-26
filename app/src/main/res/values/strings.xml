@@ -21,6 +21,12 @@
         <item>CAMISETAS</item>
         <item>POLOS</item>
         <item>ZAPATOS</item>
+        <item>VESTIDOS</item>
+        <item>MONOS</item>
+        <item>TOPS</item>
+        <item> PUNTO</item>
+        <item>FALDAS</item>
+        <item>DEPORTIVAS</item>
     </string-array>
 
     <string-array name="s_colores">
