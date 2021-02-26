@@ -24,6 +24,8 @@ class DashboardFragment : Fragment() {
     private lateinit var dashboardViewModel: DashboardViewModel
 
     private var foto: Uri? = null
+    private var categoria =  ""
+    private var color =  ""
     private val REQUEST_IMAGE_CAPTURE = 1
 
     private var imgFoto: ImageView? = null
@@ -53,6 +55,7 @@ class DashboardFragment : Fragment() {
         spnCategorias.onItemSelectedListener = object:
             AdapterView.OnItemSelectedListener{
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                categoria = lCategorias[position]
                 //Toast.makeText(requireActivity(),lCategorias[position],Toast.LENGTH_SHORT).show()
             }
             override fun onNothingSelected(parent: AdapterView<*>?) {
@@ -63,6 +66,7 @@ class DashboardFragment : Fragment() {
         spnColores.onItemSelectedListener = object:
                 AdapterView.OnItemSelectedListener{
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                color = lColores[position]
                 //Toast.makeText(requireActivity(),lColores[position],Toast.LENGTH_SHORT).show()
             }
             override fun onNothingSelected(parent: AdapterView<*>?) {
@@ -77,6 +81,11 @@ class DashboardFragment : Fragment() {
             permisos()
         }
 
+        val botonAdd = root.findViewById<Button>(R.id.bagregar)
+        botonAdd.setOnClickListener(){
+            imgFoto?.setImageURI(null)
+            Toast.makeText(requireActivity(),"ADD",Toast.LENGTH_SHORT).show()
+        }
         return root
     }
 
