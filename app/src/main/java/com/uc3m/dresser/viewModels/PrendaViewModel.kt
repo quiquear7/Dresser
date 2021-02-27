@@ -17,7 +17,7 @@ class PrendaViewModel (application: Application): AndroidViewModel(application){
     private val repository: PrendaRepository
 
     init {
-        val prendaDAO = PrendaDatabase.getDatabase(application).PrendaDao()
+        val prendaDAO = PrendaDatabase.getDatabase(application).prendaDao()
         repository = PrendaRepository(prendaDAO)
         readAll = repository.readAll
     }

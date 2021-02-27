@@ -8,13 +8,13 @@ import androidx.room.RoomDatabase
 @Database (entities = [Prenda::class], version = 1, exportSchema = false)
 abstract class PrendaDatabase: RoomDatabase() {
 
-    abstract fun PrendaDao(): PrendaDao
+    abstract fun prendaDao(): PrendaDao
 
     companion object {
         @Volatile
         private var INSTANCE: PrendaDatabase? = null
 
-        fun getDatabase(context: Context): PrendaDatabase? {
+        fun getDatabase(context: Context): PrendaDatabase{
             synchronized(this){
                 var instance = INSTANCE
                 if (instance == null){

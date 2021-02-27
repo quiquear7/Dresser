@@ -9,5 +9,4 @@ class PrendaRepository (private val prendaDao: PrendaDao) {
     suspend fun addPrenda (prenda: Prenda){
         prendaDao.addPrenda(prenda)
     }
-//hola
 }

@@ -4,11 +4,13 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ListAdapter
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.uc3m.dresser.R
+import com.uc3m.dresser.viewModels.PrendaViewModel
 
 class NotificationsFragment : Fragment() {
 
@@ -25,6 +27,12 @@ class NotificationsFragment : Fragment() {
         val textView: TextView = root.findViewById(R.id.text_notifications)
         notificationsViewModel.text.observe(viewLifecycleOwner, Observer {
             textView.text = it
+        })
+
+        val texto: TextView = root.findViewById(R.id.aCategoria)
+        var prendaViewModel = ViewModelProvider(this).get(PrendaViewModel::class.java)
+        prendaViewModel.readAll.observe(viewLifecycleOwner, {
+            prenda -> texto.text = prenda.toString()
         })
         return root
     }

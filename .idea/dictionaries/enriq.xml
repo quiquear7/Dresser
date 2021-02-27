@@ -5,10 +5,13 @@
       <w>adaptador</w>
       <w>boton</w>
       <w>camara</w>
+      <w>categoria</w>
       <w>categorias</w>
       <w>colores</w>
       <w>foto</w>
       <w>permisos</w>
+      <w>prenda</w>
+      <w>texto</w>
     </words>
   </dictionary>
 </component>
