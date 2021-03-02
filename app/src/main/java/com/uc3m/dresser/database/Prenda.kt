@@ -9,5 +9,5 @@ data class Prenda(
     val id: Int,
     val categoria: String?,
     val color: String?,
-    //val foto: Uri
+    val ruta: String?
 )
