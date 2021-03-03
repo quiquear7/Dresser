@@ -47,8 +47,8 @@ class HomeFragment : Fragment() {
             fusedLocationClient.lastLocation
                 .addOnSuccessListener { location : Location? ->
                     if (location != null) {
-                        var latitud = location.latitude.toString()
-                        var longitud = location.longitude.toString()
+                        val latitud = location.latitude.toString()
+                        val longitud = location.longitude.toString()
                         llamarApi(latitud, longitud, binding)
                     }
                 }
@@ -60,12 +60,12 @@ class HomeFragment : Fragment() {
         val repository = Repository()
         val viewModelFactory = MainViewModelFactory(repository)
         val viewModel = ViewModelProvider(this, viewModelFactory).get(MainViewModel::class.java)
-        var map = mapOf("lat" to latitud, "lon" to longitud)
+        val map = mapOf("lat" to latitud, "lon" to longitud)
         viewModel.getClima(map)
         viewModel.myResponse.observe(viewLifecycleOwner, { response ->
             if(response.isSuccessful){
                 val w = response.body()?.main?.temp
-                var temperatura =  w.toString()
+                val temperatura =  w.toString()
                 Log.i("Temp", temperatura)
                 val texto = binding.tTemp
                 texto.text = "Temperatura Actual: "+temperatura +"ºC"
