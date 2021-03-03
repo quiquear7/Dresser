@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<network-security-congif>
+   <domain-config clearTextTrefficPermited="false">
+       <domain includeSubdomains="true"></domain>
+       <pin-set></pin-set>
+   </domain-config>
+</network-security-congif>

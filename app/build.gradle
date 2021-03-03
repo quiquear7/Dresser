@@ -100,6 +100,9 @@ dependencies {
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.4.1'
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.0'
 
+    //Location
+    implementation 'com.google.android.gms:play-services-location:18.0.0'
+
 
 
 }

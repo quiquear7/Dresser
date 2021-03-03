@@ -12,9 +12,9 @@ import retrofit2.Response
 class MainViewModel(private val repository: Repository): ViewModel() {
     val myResponse: MutableLiveData<Response<Clima>> = MutableLiveData()
 
-    fun getClima(){
+    fun getClima(s: Map<String, String>) {
         viewModelScope.launch{
-            val response = repository.getClima()
+            val response = repository.getClima(s)
             myResponse.value = response
         }
     }

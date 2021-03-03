@@ -7,7 +7,7 @@ data class Clima(
     @SerializedName("coord")
     var coord: Coord,
     @SerializedName("weather")
-    var weather: Weather,
+    var weather: Array<Weather>,
     var base: String,
     @SerializedName("main")
     var main: Main,

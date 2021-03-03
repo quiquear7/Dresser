@@ -13,6 +13,6 @@ object RetrofitInstance {
     }
 
     val weatherAPI: WeatherAPI by lazy {
-        retrofit.create(weatherAPI::class.java)
+        retrofit.create(WeatherAPI::class.java)
     }
 }

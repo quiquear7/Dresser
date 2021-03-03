@@ -5,8 +5,8 @@ import com.uc3m.dresser.model.Clima
 import retrofit2.Response
 
 class Repository {
-    suspend fun getClima(): Response<Clima>{
-        return RetrofitInstance.weatherAPI.getClima()
+    suspend fun getClima(s: Map<String, String>): Response<Clima>{
+        return RetrofitInstance.weatherAPI.getClima(s)
     }
 
 }
