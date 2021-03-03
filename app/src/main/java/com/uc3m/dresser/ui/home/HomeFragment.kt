@@ -49,24 +49,26 @@ class HomeFragment : Fragment() {
                     if (location != null) {
                         var latitud = location.latitude.toString()
                         var longitud = location.longitude.toString()
-                        llamarApi(latitud, longitud)
+                        llamarApi(latitud, longitud, binding)
                     }
                 }
         }
         return view
     }
 
-    private fun llamarApi(latitud: String, longitud: String) {
+    private fun llamarApi(latitud: String, longitud: String, binding: FragmentHomeBinding) {
         val repository = Repository()
         val viewModelFactory = MainViewModelFactory(repository)
         val viewModel = ViewModelProvider(this, viewModelFactory).get(MainViewModel::class.java)
         var map = mapOf("lat" to latitud, "lon" to longitud)
         viewModel.getClima(map)
-
         viewModel.myResponse.observe(viewLifecycleOwner, { response ->
             if(response.isSuccessful){
                 val w = response.body()?.main?.temp
-                Log.i("Temp:", w.toString())
+                var temperatura =  w.toString()
+                Log.i("Temp", temperatura)
+                val texto = binding.tTemp
+                texto.text = "Temperatura Actual: "+temperatura +"ºC"
             }
         })
     }
