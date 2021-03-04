@@ -1,5 +1,6 @@
 package com.uc3m.dresser
 
+import android.content.Context
 import android.os.Bundle
 import android.view.View
 import android.widget.*
@@ -9,13 +10,21 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
+import com.uc3m.dresser.databinding.ActivityAuthBinding
+import com.uc3m.dresser.databinding.ActivityMainBinding
+
+enum class ProviderType{
+    GOOGLE
+}
 
 class MainActivity : AppCompatActivity() {
-
+    private lateinit var binding: ActivityMainBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         setTheme(R.style.Theme_Dresser)
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
         val navView: BottomNavigationView = findViewById(R.id.nav_view)
 
         val navController = findNavController(R.id.nav_host_fragment)

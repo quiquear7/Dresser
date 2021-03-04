@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "38325270490",
+    "project_id": "dresser-35c5a",
+    "storage_bucket": "dresser-35c5a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:38325270490:android:ccfe78c623dc826e3f72e3",
+        "android_client_info": {
+          "package_name": "com.uc3m.dresser"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "38325270490-6260m4uvas8ds69ca8v0fb3e5vuab0uu.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCwmS1bkgEBdH3z8lvLROeLqvd_zj7G9Os"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "38325270490-6260m4uvas8ds69ca8v0fb3e5vuab0uu.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
