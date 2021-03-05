@@ -22,6 +22,7 @@ class AuthActivity : AppCompatActivity() {
 
     private val GOOGLE_SIGN_IN = 100
     override fun onCreate(savedInstanceState: Bundle?) {
+        setTheme(R.style.Theme_Dresser)
         super.onCreate(savedInstanceState)
         binding = ActivityAuthBinding.inflate(layoutInflater)
         setContentView(binding.root)
