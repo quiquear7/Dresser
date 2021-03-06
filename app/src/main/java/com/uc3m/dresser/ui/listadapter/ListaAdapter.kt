@@ -40,7 +40,7 @@ class ListaAdapter: RecyclerView.Adapter<ListaAdapter.MyViewHolder>() {
             binding.tOcasion.text = item.ocasion
         }
     }
-    
+
 
     override fun getItemCount(): Int {
         return prendaList.size

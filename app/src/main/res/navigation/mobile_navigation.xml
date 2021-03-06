@@ -9,7 +9,11 @@
         android:id="@+id/navigation_home"
         android:name="com.uc3m.dresser.ui.home.HomeFragment"
         android:label="@string/title_home"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_navigation_home_to_formularioFragment"
+            app:destination="@id/formularioFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/navigation_dashboard"
@@ -48,9 +52,15 @@
             android:id="@+id/action_listaFragment_to_ropaFragment"
             app:destination="@id/ropaFragment" />
     </fragment>
-
-
-
+    <fragment
+        android:id="@+id/formularioFragment"
+        android:name="com.uc3m.dresser.ui.formulario.FormularioFragment"
+        android:label="Opciones"
+        tools:layout="@layout/fragment_formulario" >
+        <action
+            android:id="@+id/action_formularioFragment_to_navigation_home"
+            app:destination="@id/navigation_home" />
+    </fragment>
 
 
 </navigation>

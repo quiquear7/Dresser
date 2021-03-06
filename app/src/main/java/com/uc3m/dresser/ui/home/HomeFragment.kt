@@ -10,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.uc3m.dresser.R
@@ -53,6 +54,11 @@ class HomeFragment : Fragment() {
                     }
                 }
         }
+
+        binding.fabHome.setOnClickListener{
+            findNavController().navigate(R.id.action_navigation_home_to_formularioFragment)
+        }
+
         return view
     }
 
