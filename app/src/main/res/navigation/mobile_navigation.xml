@@ -22,4 +22,35 @@
         android:name="com.uc3m.dresser.ui.notifications.NotificationsFragment"
         android:label="@string/title_notifications"
         tools:layout="@layout/fragment_notifications" />
+        <action
+        android:id="@+id/action_notificationsFragment_to_listaFragment"
+        app:destination="@id/listaFragment" />
+
+
+    <fragment
+        android:id="@+id/ropaFragment"
+        android:name="com.uc3m.dresser.ui.ropa.RopaFragment"
+        android:label=""
+        tools:layout="@layout/fragment_ropa">
+        <action
+            android:id="@+id/action_ropaFragment_to_listaFragment"
+            app:destination="@id/listaFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/listaFragment"
+        android:name="com.uc3m.dresser.ui.list.ListaFragment"
+        android:label="Prendas"
+        tools:layout="@layout/fragment_lista">
+        <action
+            android:id="@+id/action_listaFragment_to_notificationsFragment"
+            app:destination="@id/navigation_notifications" />
+        <action
+            android:id="@+id/action_listaFragment_to_ropaFragment"
+            app:destination="@id/ropaFragment" />
+    </fragment>
+
+
+
+
+
 </navigation>
