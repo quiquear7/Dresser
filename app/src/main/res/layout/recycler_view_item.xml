@@ -23,27 +23,41 @@
             <ImageButton
                 android:id="@+id/iButton"
                 android:layout_width="124dp"
-                android:layout_height="124dp"
+                android:layout_height="105dp"
                 android:layout_alignParentStart="true"
                 android:layout_alignParentTop="true"
                 android:layout_marginEnd="16dp"
                 android:contentDescription="@string/todo"
+                android:scaleType="centerCrop"
+                android:rotation="90"
                 tools:srcCompat="@tools:sample/avatars" />
 
             <TextView
-                android:id="@+id/tCategoriaPrenda"
-                android:layout_width="102dp"
+                android:id="@+id/tNombre"
+                android:layout_width="match_parent"
                 android:layout_height="30dp"
                 android:layout_alignParentTop="true"
                 android:layout_toEndOf="@+id/iButton"
                 android:text=""
-                android:textSize="30sp" />
+                android:textSize="22sp" />
+            <TextView
+                android:id="@+id/tCategoria"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tNombre"
+                android:layout_toEndOf="@+id/iButton" />
 
             <TextView
                 android:id="@+id/tColor"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/tCategoriaPrenda"
+                android:layout_below="@+id/tCategoria"
+                android:layout_toEndOf="@+id/iButton" />
+            <TextView
+                android:id="@+id/tOcasion"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tColor"
                 android:layout_toEndOf="@+id/iButton" />
 
         </RelativeLayout>

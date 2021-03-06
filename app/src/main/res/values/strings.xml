@@ -10,24 +10,31 @@
     <string-array name="s_categorias">
         <item>ABRIGOS</item>
         <item>CAZADORAS</item>
+        <item>CHUBASQUERO</item>
         <item>SOBRECAMISAS</item>
         <item>CHALECOS</item>
         <item>BLAZERS</item>
-        <item>CAMISAS</item>
+        <item>CAMISA MANGA LARGA</item>
+        <item>CAMISA MANGA CORTA</item>
         <item>PANTALONES</item>
         <item>TRAJES</item>
         <item>JEANS</item>
-        <item>JERSÉIS | CHAQUETAS</item>
+        <item>JERSÉIS</item>
+        <item>CHAQUETAS</item>
         <item>SUDADERAS</item>
-        <item>CAMISETAS</item>
+        <item>CAMISETAS MANGA CORTA</item>
+        <item>CAMISETAS MANGA LARGA</item>
+        <item>CAMISETAS TIRANTES</item>
         <item>POLOS</item>
-        <item>ZAPATOS</item>
         <item>VESTIDOS</item>
         <item>MONOS</item>
         <item>TOPS</item>
-        <item> PUNTO</item>
+        <item>PUNTO</item>
         <item>FALDAS</item>
+        <item>ZAPATOS</item>
         <item>DEPORTIVAS</item>
+        <item>BOTAS Y BOTINES</item>
+        <item>SANDALIAS</item>
     </string-array>
 
     <string-array name="s_colores">
@@ -41,6 +48,34 @@
         <item>MORADO</item>
         <item>MARRÓN</item>
         <item>ROSA</item>
+        <item>GRIS</item>
+        <item>BEIGE</item>
+        <item>CRUDOS</item>
+    </string-array>
+
+    <string-array name="s_ocasion">
+        <item>CASUAL</item>
+        <item>DEPORTE</item>
+        <item>FORMAL</item>
+        <item>PLAYA</item>
+    </string-array>
+
+    <string-array name="s_estampados">
+        <item>LISO</item>
+        <item>RAYAS</item>
+        <item>CUADROS</item>
+        <item>PUNTOS</item>
+        <item>ROMBOS</item>
+        <item>ANIMAL PRINT</item>
+        <item>PAISLEY</item>
+        <item>FLORAL</item>
+        <item>LETRAS</item>
+        <item>DIBUJO</item>
+        <item>PATA DE GALLO</item>
+        <item>TARTAN</item>
+        <item>CAMUFLAJE</item>
+        <item>TIE-DYE</item>
+        <item>OTROS</item>
     </string-array>
 
     <string name="scategoria">Categoria</string>
@@ -143,4 +178,7 @@
         "For example, position the FAB to one side of stream of a cards so the FAB won’t interfere "
         "when a user tries to pick up one of cards.\n\n"
     </string>
+    <string name="estampado">Estampado</string>
+    <string name="ocasi_n">Ocasión</string>
+    <string name="nombre">Nombre</string>
 </resources>

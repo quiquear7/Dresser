@@ -31,16 +31,16 @@ class ListaAdapter: RecyclerView.Adapter<ListaAdapter.MyViewHolder>() {
         with(holder){
             val imgBitmap: Bitmap =  BitmapFactory.decodeFile(item.ruta)
             binding.iButton.setImageBitmap(imgBitmap)
-            binding.tCategoriaPrenda.text = item.categoria.toString()
-            binding.tColor.text = item.color.toString()
+            binding.tCategoria.text = item.categoria
+            binding.tColor.text = item.color
             binding.iButton.setOnClickListener{
                 Log.i("imagen", "boton pulsado")
             }
+            binding.tNombre.text = item.nombre
+            binding.tOcasion.text = item.ocasion
         }
     }
-
-
-
+    
 
     override fun getItemCount(): Int {
         return prendaList.size

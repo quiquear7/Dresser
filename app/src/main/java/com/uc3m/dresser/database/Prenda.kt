@@ -1,5 +1,6 @@
 package com.uc3m.dresser.database
 
+import android.text.Editable
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
@@ -7,7 +8,10 @@ import androidx.room.PrimaryKey
 data class Prenda(
     @PrimaryKey(autoGenerate = true)
     val id: Int,
-    val categoria: String?,
-    val color: String?,
-    val ruta: String?
+    val nombre: String,
+    val categoria: String,
+    val color: String,
+    val estampado: String,
+    val ocasion: String,
+    val ruta: String
 )
