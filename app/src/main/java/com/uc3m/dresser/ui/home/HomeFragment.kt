@@ -59,6 +59,10 @@ class HomeFragment : Fragment() {
             findNavController().navigate(R.id.action_navigation_home_to_formularioFragment)
         }
 
+
+
+
+
         return view
     }
 
@@ -78,6 +82,7 @@ class HomeFragment : Fragment() {
             }
         })
     }
+
 
 
 }

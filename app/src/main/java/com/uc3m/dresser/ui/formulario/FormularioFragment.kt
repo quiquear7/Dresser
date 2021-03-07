@@ -11,6 +11,7 @@ import androidx.navigation.fragment.findNavController
 import com.uc3m.dresser.R
 import com.uc3m.dresser.databinding.FragmentFormularioBinding
 import androidx.navigation.Navigation.findNavController
+import androidx.navigation.findNavController
 import androidx.navigation.ui.navigateUp
 import com.uc3m.dresser.R.*
 
@@ -18,7 +19,7 @@ class FormularioFragment : Fragment() {
 
     private lateinit var binding: FragmentFormularioBinding
 
-    public var ocasion = ""
+    var ocasion = ""
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 
@@ -42,17 +43,15 @@ class FormularioFragment : Fragment() {
             }
         }
 
-
-
-
         binding.generar.setOnClickListener(){
             findNavController().navigate(R.id.action_formularioFragment_to_navigation_home)
         }
+
+        
+
         return view
     }
 
 
-
-   // override fun onSupportNavigateUp() = findNavController(R.id.listaFragment).navigateUp()
 
 }

@@ -41,6 +41,10 @@ class NotificationsFragment : Fragment() {
         binding.bPrendas.setOnClickListener{
             findNavController().navigate(R.id.action_notificationsFragment_to_listaFragment)
         }
+        
+        binding.bCalendar.setOnClickListener{
+            findNavController().navigate(R.id.action_navigation_notifications_to_historialFragment)
+        }
 
         return view
     }

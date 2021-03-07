@@ -86,10 +86,9 @@ class MainActivity : AppCompatActivity() {
         startActivity(homeIntent)
     }
 
-    /*override fun onSupportNavigateUp(): Boolean {
-        val navController = findNavController(R.id.fragment)
+  /* override fun onSupportNavigateUp(): Boolean {
+        val navController = findNavController(R.id.listaFragment)
         return navController.navigateUp()  ||super.onSupportNavigateUp()
     }*/
-
 }
 
