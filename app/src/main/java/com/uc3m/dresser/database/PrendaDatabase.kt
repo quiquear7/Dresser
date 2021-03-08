@@ -5,7 +5,7 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 
-@Database (entities = [Prenda::class], version = 1, exportSchema = false)
+@Database (entities = [Prenda::class, Registro::class], version = 1, exportSchema = false)
 abstract class PrendaDatabase: RoomDatabase() {
 
     abstract fun prendaDao(): PrendaDao

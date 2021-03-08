@@ -47,7 +47,7 @@ class FormularioFragment : Fragment() {
             findNavController().navigate(R.id.action_formularioFragment_to_navigation_home)
         }
 
-        
+
 
         return view
     }

@@ -14,4 +14,11 @@ interface PrendaDao {
 
     @Query ("SELECT * FROM table_prenda ORDER BY id ASC")
     fun readAll(): LiveData<List<Prenda>>
+
+
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    suspend fun addRegistro(registro: Registro)
+
+    @Query ("SELECT * FROM table_registro WHERE fecha = :fecha ")
+    fun readDate(fecha: String): LiveData<List<Registro>>
 }
