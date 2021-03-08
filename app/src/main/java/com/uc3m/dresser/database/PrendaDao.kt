@@ -15,6 +15,9 @@ interface PrendaDao {
     @Query ("SELECT * FROM table_prenda ORDER BY id ASC")
     fun readAll(): LiveData<List<Prenda>>
 
+  /*  @Query ("SELECT * FROM table_prenda WHERE ocasion = :fecha")
+    fun readOcasion(): LiveData<List<Prenda>>*/
+
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun addRegistro(registro: Registro)

@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.uc3m.dresser.R
 import com.uc3m.dresser.databinding.FragmentFormularioBinding
@@ -14,6 +15,9 @@ import androidx.navigation.Navigation.findNavController
 import androidx.navigation.findNavController
 import androidx.navigation.ui.navigateUp
 import com.uc3m.dresser.R.*
+import com.uc3m.dresser.viewModels.PrendaViewModel
+import java.text.SimpleDateFormat
+import java.util.*
 
 class FormularioFragment : Fragment() {
 
@@ -44,6 +48,12 @@ class FormularioFragment : Fragment() {
         }
 
         binding.generar.setOnClickListener(){
+            val prendaViewModel = ViewModelProvider(this).get(PrendaViewModel::class.java)
+            val sdf = SimpleDateFormat("dd/mm/yyyy")
+            val currentDate = sdf.format(Date())
+
+
+            //prendaViewModel.addRegistro()
             findNavController().navigate(R.id.action_formularioFragment_to_navigation_home)
         }
 

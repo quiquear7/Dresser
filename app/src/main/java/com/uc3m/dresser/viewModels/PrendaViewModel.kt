@@ -4,10 +4,7 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.viewModelScope
-import com.uc3m.dresser.database.Prenda
-import com.uc3m.dresser.database.PrendaDao
-import com.uc3m.dresser.database.PrendaDatabase
-import com.uc3m.dresser.database.PrendaRepository
+import com.uc3m.dresser.database.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
@@ -26,5 +23,15 @@ class PrendaViewModel (application: Application): AndroidViewModel(application){
         viewModelScope.launch(Dispatchers.IO) {
             repository.addPrenda(prenda)
         }
+    }
+
+    fun addRegistro(registro: Registro){
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.addRegistro(registro)
+        }
+    }
+
+    fun readDate(date: String): LiveData<List<Registro>>{
+        return repository.readDate(date)
     }
 }
