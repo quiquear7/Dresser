@@ -33,17 +33,90 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.846" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerViewHome"
-        android:layout_width="413dp"
-        android:layout_height="514dp"
-        android:layout_marginTop="147dp"
-        android:layout_marginBottom="208dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardView"
+        android:layout_width="450dp"
+        android:layout_weight=".70"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="229dp"
+        app:cardCornerRadius="4dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:cardElevation="10dp">
+
+        <RelativeLayout
+            android:id="@+id/rl1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="16dp">
+
+            <ImageView
+                android:id="@+id/iButton1"
+                android:layout_width="124dp"
+                android:layout_height="105dp"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginEnd="16dp"
+                android:contentDescription="@string/todo"
+                android:rotation="90"
+                android:scaleType="centerCrop"
+                tools:srcCompat="@tools:sample/avatars" />
+
+            <TextView
+                android:id="@+id/tNombre1"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:layout_alignParentTop="true"
+                android:layout_toEndOf="@+id/iButton1"
+                android:text=""
+                android:textSize="22sp" />
+
+            <ImageView
+                android:id="@+id/iButton2"
+                android:layout_width="124dp"
+                android:layout_height="105dp"
+                android:layout_below="@+id/iButton1"
+                android:layout_marginEnd="16dp"
+                android:contentDescription="@string/todo"
+                android:rotation="90"
+                android:scaleType="centerCrop"
+                tools:srcCompat="@tools:sample/avatars" />
+
+            <TextView
+                android:id="@+id/tNombre2"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:layout_marginTop="130dp"
+                android:layout_toEndOf="@+id/iButton2"
+                android:text=""
+                android:textSize="22sp" />
+
+            <ImageView
+                android:id="@+id/iButton3"
+                android:layout_width="124dp"
+                android:layout_height="105dp"
+                android:layout_below="@+id/iButton2"
+                android:layout_marginEnd="16dp"
+                android:contentDescription="@string/todo"
+                android:rotation="90"
+                android:scaleType="centerCrop"
+                tools:srcCompat="@tools:sample/avatars" />
+
+
+            <TextView
+                android:id="@+id/tNombre3"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:layout_marginTop="220dp"
+                android:layout_toEndOf="@+id/iButton3"
+                android:text=""
+                android:textSize="22sp" />
+        </RelativeLayout>
+
+    </androidx.cardview.widget.CardView>
 
     <TextView
         android:id="@+id/textView3"
@@ -51,7 +124,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="36dp"
         android:text="@string/ltimo_outfit"
-        app:layout_constraintBottom_toTopOf="@+id/recyclerViewHome"
+        app:layout_constraintBottom_toTopOf="@+id/cardView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 

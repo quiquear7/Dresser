@@ -45,8 +45,19 @@ class MainActivity : AppCompatActivity() {
                 R.id.navigation_home, R.id.navigation_dashboard, R.id.navigation_notifications))
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
+        supportFragmentManager.addOnBackStackChangedListener { setupHomeAsUp() }
+        setupHomeAsUp()
 
     }
+
+    private fun setupHomeAsUp() {
+        val shouldShow = 0 < supportFragmentManager.backStackEntryCount
+        supportActionBar?.setDisplayHomeAsUpEnabled(shouldShow)
+    }
+
+    override fun onSupportNavigateUp(): Boolean =
+            supportFragmentManager.popBackStack().run { true }
+
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         val inflater: MenuInflater = menuInflater
@@ -85,12 +96,7 @@ class MainActivity : AppCompatActivity() {
         }
         startActivity(homeIntent)
     }
-
-  /* override fun onSupportNavigateUp(): Boolean {
-        val navController = findNavController(R.id.listaFragment)
-        return navController.navigateUp()  ||super.onSupportNavigateUp()
-    }*/
-
+    
 
 }
 

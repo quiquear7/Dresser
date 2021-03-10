@@ -2,6 +2,8 @@ package com.uc3m.dresser.ui.home
 
 import android.Manifest
 import android.content.pm.PackageManager
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.location.Location
 import android.os.Bundle
 import android.util.Log
@@ -11,14 +13,11 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.uc3m.dresser.R
 import com.uc3m.dresser.databinding.FragmentHomeBinding
 import com.uc3m.dresser.repository.Repository
-import com.uc3m.dresser.ui.homeadapter.HomeAdapter
-import com.uc3m.dresser.ui.outfitadapter.OutfitAdapter
 import com.uc3m.dresser.viewModels.MainViewModel
 import com.uc3m.dresser.viewModels.MainViewModelFactory
 import com.uc3m.dresser.viewModels.PrendaViewModel
@@ -36,7 +35,7 @@ class HomeFragment : Fragment() {
     ): View {
         homeViewModel =
                 ViewModelProvider(this).get(HomeViewModel::class.java)
-        val root = inflater.inflate(R.layout.fragment_home, container, false)
+
 
         binding = FragmentHomeBinding.inflate(inflater, container, false)
         val view = binding.root
@@ -60,17 +59,23 @@ class HomeFragment : Fragment() {
                 }
         }
 
-        val adapter = HomeAdapter()
-
-        val recyclerView = binding.recyclerViewHome
-
-        recyclerView.setHasFixedSize(true)
-
-        recyclerView.adapter = adapter
-        recyclerView.layoutManager = LinearLayoutManager(requireContext())
         prendaViewModel = ViewModelProvider(this).get(PrendaViewModel::class.java)
         prendaViewModel.lastOutfit.observe(viewLifecycleOwner, {prendas->
-            adapter.setData(prendas.prenda)
+            for ( i in prendas.prenda){
+                val imgBitmap: Bitmap =  BitmapFactory.decodeFile(i.ruta)
+                if (i.categoria=="SOBRECAMISAS") {
+                    binding.iButton1.setImageBitmap(imgBitmap)
+                    binding.tNombre1.text = i.nombre
+                }
+                if (i.categoria=="PANTALONES"){
+                    binding.iButton2.setImageBitmap(imgBitmap)
+                    binding.tNombre2.text = i.nombre
+                }
+                if(i.categoria == "DEPORTIVAS"){
+                    binding.iButton3.setImageBitmap(imgBitmap)
+                    binding.tNombre3.text = i.nombre
+                }
+            }
         })
 
         binding.fabHome.setOnClickListener{
