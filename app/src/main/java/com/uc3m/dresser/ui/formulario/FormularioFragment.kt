@@ -1,25 +1,30 @@
 package com.uc3m.dresser.ui.formulario
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
+import android.util.Log
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import androidx.core.os.bundleOf
+import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.setFragmentResult
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.uc3m.dresser.R
 import com.uc3m.dresser.databinding.FragmentFormularioBinding
-import androidx.navigation.Navigation.findNavController
-import androidx.navigation.findNavController
-import androidx.navigation.ui.navigateUp
 import com.uc3m.dresser.R.*
+import com.uc3m.dresser.ui.elegiroutfit.ElegirOutfitFragment
 import com.uc3m.dresser.viewModels.PrendaViewModel
 import java.text.SimpleDateFormat
 import java.util.*
 
 class FormularioFragment : Fragment() {
+
+
 
     private lateinit var binding: FragmentFormularioBinding
 
@@ -48,20 +53,20 @@ class FormularioFragment : Fragment() {
         }
 
         binding.generar.setOnClickListener(){
-            val prendaViewModel = ViewModelProvider(this).get(PrendaViewModel::class.java)
-            val sdf = SimpleDateFormat("dd/mm/yyyy")
-            val currentDate = sdf.format(Date())
+            setFragmentResult("requestKey", bundleOf("bundleKey" to ocasion))
+            findNavController().navigate(R.id.action_formularioFragment_to_elegirOutfitFragment)
 
-
-            //prendaViewModel.addRegistro()
-            findNavController().navigate(R.id.action_formularioFragment_to_navigation_home)
         }
-
-
 
         return view
     }
 
 
 
+
+
+
+
 }
+
+

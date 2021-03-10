@@ -19,4 +19,10 @@ class PrendaRepository (private val prendaDao: PrendaDao) {
      fun readDate(date: String): LiveData<List<Registro>> {
         return prendaDao.readDate(date)
     }
+
+    fun readOcasion(ocasion: String): LiveData<List<Prenda>> {
+        return prendaDao.readOcasion(ocasion)
+    }
+
+    val readLastOutfit: LiveData<Registro> = prendaDao.readLastOutfit()
 }

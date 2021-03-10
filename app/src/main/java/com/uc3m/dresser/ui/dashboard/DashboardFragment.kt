@@ -1,5 +1,6 @@
 package com.uc3m.dresser.ui.dashboard
 
+import android.Manifest
 import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -115,7 +116,13 @@ class DashboardFragment : Fragment() {
 
         val botonCamara = binding.bCamara
         botonCamara.setOnClickListener() {
-            permisos()
+            if (context?.checkSelfPermission(android.Manifest.permission.CAMERA)  == PackageManager.PERMISSION_DENIED
+                || context?.checkSelfPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED) {
+                val permisosCamara = arrayOf(android.Manifest.permission.CAMERA, android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                requestPermissions(permisosCamara,REQUEST_IMAGE_CAPTURE)
+            }else{
+                abrirCamara()
+            }
         }
 
         val botonAdd = binding.bagregar
@@ -137,7 +144,7 @@ class DashboardFragment : Fragment() {
         return view
     }
 
-    private fun permisos(){
+   /* private fun permisos(){
         if(context?.checkSelfPermission(android.Manifest.permission.CAMERA)  == PackageManager.PERMISSION_DENIED
                 || context?.checkSelfPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED){
             val permisosCamara = arrayOf(android.Manifest.permission.CAMERA, android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
@@ -146,10 +153,10 @@ class DashboardFragment : Fragment() {
         else{
             abrirCamara()
         }
-    }
+    }*/
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray){
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+       /* super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         when (requestCode){
             REQUEST_IMAGE_CAPTURE ->{
                 if(grantResults[0] == PackageManager.PERMISSION_GRANTED){
@@ -157,9 +164,12 @@ class DashboardFragment : Fragment() {
                 }
                 else{
                     Toast.makeText(requireActivity(),"No puedes acceder a la cámara",Toast.LENGTH_SHORT).show()
+                    val permisosCamara = arrayOf(android.Manifest.permission.CAMERA, android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                    requestPermissions(permisosCamara,REQUEST_IMAGE_CAPTURE)
                 }
             }
-        }
+        }*/
+        abrirCamara()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?){

@@ -9,7 +9,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class PrendaViewModel (application: Application): AndroidViewModel(application){
-
+    val lastOutfit: LiveData<Registro>
     val readAll: LiveData<List<Prenda>>
     private val repository: PrendaRepository
 
@@ -17,6 +17,7 @@ class PrendaViewModel (application: Application): AndroidViewModel(application){
         val prendaDAO = PrendaDatabase.getDatabase(application).prendaDao()
         repository = PrendaRepository(prendaDAO)
         readAll = repository.readAll
+        lastOutfit = repository.readLastOutfit
     }
 
     fun addStudent(prenda: Prenda){
@@ -33,5 +34,9 @@ class PrendaViewModel (application: Application): AndroidViewModel(application){
 
     fun readDate(date: String): LiveData<List<Registro>>{
         return repository.readDate(date)
+    }
+
+    fun readOcasion(ocasion: String): LiveData<List<Prenda>>{
+        return repository.readOcasion(ocasion)
     }
 }

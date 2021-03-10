@@ -34,11 +34,11 @@ class HistorialAdapter: RecyclerView.Adapter<HistorialAdapter.MyViewHolder>()  {
     }
 
     fun setData(registroList: List<Registro>){
-       /* for ( i in registroList) {
+       for ( i in registroList) {
             for (x in i.prenda){
                 this.registroList += x
             }
-        }*/
+        }
 
         notifyDataSetChanged()
     }

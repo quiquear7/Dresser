@@ -62,8 +62,8 @@
         android:label="Opciones"
         tools:layout="@layout/fragment_formulario" >
         <action
-            android:id="@+id/action_formularioFragment_to_navigation_home"
-            app:destination="@id/navigation_home" />
+            android:id="@+id/action_formularioFragment_to_elegirOutfitFragment"
+            app:destination="@id/elegirOutfitFragment" />
     </fragment>
     <fragment
         android:id="@+id/historialFragment"
@@ -73,6 +73,15 @@
         <action
             android:id="@+id/action_historialFragment_to_navigation_notifications"
             app:destination="@id/navigation_notifications" />
+    </fragment>
+    <fragment
+        android:id="@+id/elegirOutfitFragment"
+        android:name="com.uc3m.dresser.ui.elegiroutfit.ElegirOutfitFragment"
+        android:label="Elige Outfit"
+        tools:layout="@layout/fragment_elegir_outfit" >
+        <action
+            android:id="@+id/action_elegirOutfitFragment_to_navigation_home"
+            app:destination="@id/navigation_home" />
     </fragment>
 
 

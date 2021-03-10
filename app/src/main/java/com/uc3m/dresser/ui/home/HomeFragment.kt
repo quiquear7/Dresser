@@ -11,24 +11,29 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.uc3m.dresser.R
 import com.uc3m.dresser.databinding.FragmentHomeBinding
 import com.uc3m.dresser.repository.Repository
+import com.uc3m.dresser.ui.homeadapter.HomeAdapter
+import com.uc3m.dresser.ui.outfitadapter.OutfitAdapter
 import com.uc3m.dresser.viewModels.MainViewModel
 import com.uc3m.dresser.viewModels.MainViewModelFactory
+import com.uc3m.dresser.viewModels.PrendaViewModel
 
 class HomeFragment : Fragment() {
 
     private lateinit var homeViewModel: HomeViewModel
     private lateinit var binding: FragmentHomeBinding
     private lateinit var fusedLocationClient: FusedLocationProviderClient
+    private lateinit var prendaViewModel: PrendaViewModel
     override fun onCreateView(
             inflater: LayoutInflater,
             container: ViewGroup?,
             savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         homeViewModel =
                 ViewModelProvider(this).get(HomeViewModel::class.java)
         val root = inflater.inflate(R.layout.fragment_home, container, false)
@@ -55,13 +60,22 @@ class HomeFragment : Fragment() {
                 }
         }
 
+        val adapter = HomeAdapter()
+
+        val recyclerView = binding.recyclerViewHome
+
+        recyclerView.setHasFixedSize(true)
+
+        recyclerView.adapter = adapter
+        recyclerView.layoutManager = LinearLayoutManager(requireContext())
+        prendaViewModel = ViewModelProvider(this).get(PrendaViewModel::class.java)
+        prendaViewModel.lastOutfit.observe(viewLifecycleOwner, {prendas->
+            adapter.setData(prendas.prenda)
+        })
+
         binding.fabHome.setOnClickListener{
             findNavController().navigate(R.id.action_navigation_home_to_formularioFragment)
         }
-
-
-
-
 
         return view
     }

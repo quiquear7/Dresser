@@ -90,5 +90,7 @@ class MainActivity : AppCompatActivity() {
         val navController = findNavController(R.id.listaFragment)
         return navController.navigateUp()  ||super.onSupportNavigateUp()
     }*/
+
+
 }
 
