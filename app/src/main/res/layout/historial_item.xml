@@ -13,5 +13,6 @@
         android:layout_width="411dp"
         android:layout_height="match_parent"
         tools:srcCompat="@tools:sample/avatars"
+        android:rotation="90"
         android:contentDescription="@string/todo" />
 </LinearLayout>
