@@ -2,12 +2,18 @@ package com.uc3m.dresser.ui.dashboard
 
 import android.Manifest
 import android.app.Activity
+import android.app.Application
+import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.database.Cursor
+import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
+import android.provider.DocumentsContract
 import android.provider.MediaStore
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -21,6 +27,7 @@ import com.uc3m.dresser.database.Prenda
 import com.uc3m.dresser.databinding.FragmentDashboardBinding
 import com.uc3m.dresser.viewModels.PrendaViewModel
 import java.io.File
+import java.nio.file.Files.copy
 
 
 class DashboardFragment : Fragment() {
@@ -35,6 +42,7 @@ class DashboardFragment : Fragment() {
     private var ocasion = ""
     private var estampado =  ""
     private val REQUEST_IMAGE_CAPTURE = 1
+    private val PHOTO_SELECTED = 2
 
     private var imgFoto: ImageView? = null
 
@@ -128,12 +136,13 @@ class DashboardFragment : Fragment() {
         val botonAdd = binding.bagregar
         botonAdd.setOnClickListener(){
             val nombre = binding.nameText.text.toString()
-            if(foto!=null || nombre != ""){
+            if(foto!=null && nombre != "" && ruta != ""){
                 val prendaViewModel = ViewModelProvider(this).get(PrendaViewModel::class.java)
                 val prenda = Prenda(0,nombre, categoria, color, estampado, ocasion, ruta)
                 prendaViewModel.addStudent(prenda)
                 imgFoto?.setImageURI(null)
                 foto = null
+                ruta = ""
                 binding.nameText.text.clear()
                 Toast.makeText(requireActivity(),"Add Completed",Toast.LENGTH_SHORT).show()
             }
@@ -141,6 +150,13 @@ class DashboardFragment : Fragment() {
                 Toast.makeText(requireActivity(),"Image Required",Toast.LENGTH_SHORT).show()
             }
         }
+
+        binding.fabGallery.setOnClickListener{
+            val intent = Intent(Intent.ACTION_GET_CONTENT)
+            intent.type = "image/*"
+            startActivityForResult(intent, PHOTO_SELECTED)
+        }
+
         return view
     }
 
@@ -173,15 +189,28 @@ class DashboardFragment : Fragment() {
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?){
-        super.onActivityResult(requestCode,resultCode, data)
+        //super.onActivityResult(requestCode,resultCode, data)
         if(resultCode == Activity.RESULT_OK && requestCode == REQUEST_IMAGE_CAPTURE){
             imgFoto?.setImageURI(foto)
         }
+        if(resultCode == Activity.RESULT_OK && requestCode == PHOTO_SELECTED ){
+            if (data != null) {
+                foto = data.data
+                if (foto != null) {
+                    ruta = "*"
+                    Log.i("ruta", ruta)
+                    imgFoto?.setImageURI(foto)
+                }
+            }
+        }
+
+
+
     }
 
     private fun  abrirCamara(){
         val camaraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-        var imagen: File? = crearImagen()
+        val imagen: File? = crearImagen()
         if(imagen != null){
             foto = context?.let { FileProvider.getUriForFile(it, "com.uc3m.dresser.ui.dashboard.fileprovider", imagen) }
             camaraIntent.putExtra(MediaStore.EXTRA_OUTPUT, foto)
@@ -198,4 +227,7 @@ class DashboardFragment : Fragment() {
     }
 
 
+
 }
+
+

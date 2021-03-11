@@ -29,8 +29,10 @@ class ListaAdapter: RecyclerView.Adapter<ListaAdapter.MyViewHolder>() {
     override fun onBindViewHolder(holder: MyViewHolder, position: Int){
         val item = prendaList[position]
         with(holder){
-            val imgBitmap: Bitmap =  BitmapFactory.decodeFile(item.ruta)
-            binding.iButton.setImageBitmap(imgBitmap)
+            if(item.ruta!="*"){
+                val imgBitmap: Bitmap =  BitmapFactory.decodeFile(item.ruta)
+                binding.iButton.setImageBitmap(imgBitmap)
+            }
             binding.tCategoria.text = item.categoria
             binding.tColor.text = item.color
             binding.iButton.setOnClickListener{

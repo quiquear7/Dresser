@@ -29,9 +29,12 @@ class ListaFragment : Fragment() {
 
         prendaViewModel = ViewModelProvider(this).get(PrendaViewModel::class.java)
         Log.i("información", "creación")
-        prendaViewModel.readAll.observe(viewLifecycleOwner, {
-                prenda-> adapter.setData(prenda)
+        prendaViewModel.readAll.observe(viewLifecycleOwner, { prenda->
+            if (prenda != null){
+                adapter.setData(prenda)
+            }
         })
+
 
         return view
     }

@@ -10,6 +10,7 @@ import android.view.View
 import android.widget.*
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.FragmentActivity
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
@@ -45,19 +46,25 @@ class MainActivity : AppCompatActivity() {
                 R.id.navigation_home, R.id.navigation_dashboard, R.id.navigation_notifications))
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
-        supportFragmentManager.addOnBackStackChangedListener { setupHomeAsUp() }
-        setupHomeAsUp()
+        this.supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
     }
 
-    private fun setupHomeAsUp() {
-        val shouldShow = 0 < supportFragmentManager.backStackEntryCount
-        supportActionBar?.setDisplayHomeAsUpEnabled(shouldShow)
+
+    override fun onBackPressed() {
+        val count = supportFragmentManager.backStackEntryCount
+        if (count == 0) {
+            super.onBackPressed()
+        } else {
+            supportFragmentManager.popBackStack()
+        }
     }
 
-    override fun onSupportNavigateUp(): Boolean =
-            supportFragmentManager.popBackStack().run { true }
-
+    override fun onSupportNavigateUp(): Boolean {
+        super.onSupportNavigateUp()
+        onBackPressed()
+        return true
+    }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         val inflater: MenuInflater = menuInflater
@@ -96,7 +103,7 @@ class MainActivity : AppCompatActivity() {
         }
         startActivity(homeIntent)
     }
-    
+
 
 }
 

@@ -61,21 +61,24 @@ class HomeFragment : Fragment() {
 
         prendaViewModel = ViewModelProvider(this).get(PrendaViewModel::class.java)
         prendaViewModel.lastOutfit.observe(viewLifecycleOwner, {prendas->
-            for ( i in prendas.prenda){
-                val imgBitmap: Bitmap =  BitmapFactory.decodeFile(i.ruta)
-                if (i.categoria=="SOBRECAMISAS") {
-                    binding.iButton1.setImageBitmap(imgBitmap)
-                    binding.tNombre1.text = i.nombre
-                }
-                if (i.categoria=="PANTALONES"){
-                    binding.iButton2.setImageBitmap(imgBitmap)
-                    binding.tNombre2.text = i.nombre
-                }
-                if(i.categoria == "DEPORTIVAS"){
-                    binding.iButton3.setImageBitmap(imgBitmap)
-                    binding.tNombre3.text = i.nombre
+            if (prendas != null){
+                for ( i in prendas.prenda){
+                    val imgBitmap: Bitmap =  BitmapFactory.decodeFile(i.ruta)
+                    if (i.categoria=="SOBRECAMISAS") {
+                        binding.iButton1.setImageBitmap(imgBitmap)
+                        binding.tNombre1.text = i.nombre
+                    }
+                    if (i.categoria=="PANTALONES"){
+                        binding.iButton2.setImageBitmap(imgBitmap)
+                        binding.tNombre2.text = i.nombre
+                    }
+                    if(i.categoria == "DEPORTIVAS"){
+                        binding.iButton3.setImageBitmap(imgBitmap)
+                        binding.tNombre3.text = i.nombre
+                    }
                 }
             }
+
         })
 
         binding.fabHome.setOnClickListener{
