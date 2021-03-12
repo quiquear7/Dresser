@@ -203,9 +203,6 @@ class DashboardFragment : Fragment() {
                 }
             }
         }
-
-
-
     }
 
     private fun  abrirCamara(){
