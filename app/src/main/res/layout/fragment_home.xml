@@ -65,14 +65,6 @@
                 android:scaleType="centerCrop"
                 tools:srcCompat="@tools:sample/avatars" />
 
-            <TextView
-                android:id="@+id/tNombre1"
-                android:layout_width="match_parent"
-                android:layout_height="30dp"
-                android:layout_alignParentTop="true"
-                android:layout_toEndOf="@+id/iButton1"
-                android:text=""
-                android:textSize="22sp" />
 
             <ImageView
                 android:id="@+id/iButton2"
@@ -85,14 +77,6 @@
                 android:scaleType="centerCrop"
                 tools:srcCompat="@tools:sample/avatars" />
 
-            <TextView
-                android:id="@+id/tNombre2"
-                android:layout_width="match_parent"
-                android:layout_height="30dp"
-                android:layout_marginTop="130dp"
-                android:layout_toEndOf="@+id/iButton2"
-                android:text=""
-                android:textSize="22sp" />
 
             <ImageView
                 android:id="@+id/iButton3"
@@ -105,15 +89,44 @@
                 android:scaleType="centerCrop"
                 tools:srcCompat="@tools:sample/avatars" />
 
+            <ImageView
+                android:id="@+id/iButton4"
+                android:layout_width="124dp"
+                android:layout_height="105dp"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginEnd="16dp"
+                android:contentDescription="@string/todo"
+                android:rotation="90"
+                android:scaleType="centerCrop"
+                tools:srcCompat="@tools:sample/avatars" />
 
-            <TextView
-                android:id="@+id/tNombre3"
-                android:layout_width="match_parent"
-                android:layout_height="30dp"
-                android:layout_marginTop="220dp"
-                android:layout_toEndOf="@+id/iButton3"
-                android:text=""
-                android:textSize="22sp" />
+
+            <ImageView
+                android:id="@+id/iButton5"
+                android:layout_width="124dp"
+                android:layout_height="105dp"
+                android:layout_alignParentEnd="true"
+                android:layout_below="@+id/iButton4"
+                android:layout_marginEnd="16dp"
+                android:contentDescription="@string/todo"
+                android:rotation="90"
+                android:scaleType="centerCrop"
+                tools:srcCompat="@tools:sample/avatars" />
+
+
+            <ImageView
+                android:id="@+id/iButton6"
+                android:layout_width="124dp"
+                android:layout_height="105dp"
+                android:layout_below="@+id/iButton5"
+                android:layout_marginEnd="16dp"
+                android:layout_alignParentEnd="true"
+                android:contentDescription="@string/todo"
+                android:rotation="90"
+                android:scaleType="centerCrop"
+                tools:srcCompat="@tools:sample/avatars" />
+
         </RelativeLayout>
 
     </androidx.cardview.widget.CardView>

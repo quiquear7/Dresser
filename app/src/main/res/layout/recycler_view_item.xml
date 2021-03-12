@@ -2,21 +2,21 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="450dp"
-
-    android:layout_height="169dp"
+    android:layout_width="match_parent"
+    android:layout_gravity="center_horizontal"
+    android:layout_height="159dp"
     android:orientation="vertical">
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cardView"
-        android:layout_width="match_parent"
-
-        android:layout_height="149dp"
-        android:layout_gravity="center"
-        app:cardCornerRadius="4dp">
+        android:layout_width="440dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        app:cardCornerRadius="4dp"
+        app:cardElevation="10dp">
 
         <RelativeLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="16dp">
 
@@ -28,8 +28,8 @@
                 android:layout_alignParentTop="true"
                 android:layout_marginEnd="16dp"
                 android:contentDescription="@string/todo"
-                android:scaleType="centerCrop"
                 android:rotation="90"
+                android:scaleType="centerCrop"
                 tools:srcCompat="@tools:sample/avatars" />
 
             <TextView
@@ -40,6 +40,7 @@
                 android:layout_toEndOf="@+id/iButton"
                 android:text=""
                 android:textSize="22sp" />
+
             <TextView
                 android:id="@+id/tCategoria"
                 android:layout_width="wrap_content"
@@ -53,6 +54,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/tCategoria"
                 android:layout_toEndOf="@+id/iButton" />
+
             <TextView
                 android:id="@+id/tOcasion"
                 android:layout_width="wrap_content"

@@ -10,7 +10,10 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.setFragmentResult
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.google.android.gms.location.FusedLocationProviderClient
@@ -23,7 +26,7 @@ import com.uc3m.dresser.viewModels.MainViewModelFactory
 import com.uc3m.dresser.viewModels.PrendaViewModel
 
 class HomeFragment : Fragment() {
-
+    private var temperatura: Float? = null
     private lateinit var homeViewModel: HomeViewModel
     private lateinit var binding: FragmentHomeBinding
     private lateinit var fusedLocationClient: FusedLocationProviderClient
@@ -64,17 +67,31 @@ class HomeFragment : Fragment() {
             if (prendas != null){
                 for ( i in prendas.prenda){
                     val imgBitmap: Bitmap =  BitmapFactory.decodeFile(i.ruta)
-                    if (i.categoria=="SOBRECAMISAS") {
+                    if (i.categoria=="CAMISA M. LARGA" || i.categoria=="CAMISA M. CORTA"
+                            || i.categoria=="CAMISETAS M. CORTA" || i.categoria=="CAMISETAS M. LARGA"
+                            || i.categoria=="CAMISETAS TIRANTES" || i.categoria=="POLOS"
+                            || i.categoria=="TOPS") {
                         binding.iButton1.setImageBitmap(imgBitmap)
-                        binding.tNombre1.text = i.nombre
                     }
-                    if (i.categoria=="PANTALONES"){
+                    if (i.categoria=="PANTALONES" || i.categoria == "PANTALONES CORTOS"
+                            || i.categoria=="FALDAS" || i.categoria == "JEANS" ){
                         binding.iButton2.setImageBitmap(imgBitmap)
-                        binding.tNombre2.text = i.nombre
                     }
-                    if(i.categoria == "DEPORTIVAS"){
+                    if(i.categoria == "DEPORTIVAS" || i.categoria == "ZAPATOS"
+                            || i.categoria == "BOTAS Y BOTINES" || i.categoria == "SANDALIAS"){
                         binding.iButton3.setImageBitmap(imgBitmap)
-                        binding.tNombre3.text = i.nombre
+                    }
+                    if (i.categoria=="ABRIGOS" || i.categoria=="CAZADORAS" || i.categoria=="CHUBASQUERO"
+                            || i.categoria=="BLAZERS") {
+                        binding.iButton4.setImageBitmap(imgBitmap)
+                    }
+                    if (i.categoria=="SOBRECAMISAS" || i.categoria=="CHALECOS" || i.categoria=="CHALECOS"
+                            || i.categoria=="JERSÉIS" || i.categoria=="CHAQUETAS" || i.categoria=="SUDADERAS"
+                    ){
+                        binding.iButton5.setImageBitmap(imgBitmap)
+                    }
+                    if(i.categoria=="VESTIDOS" || i.categoria=="MONOS" || i.categoria=="TRAJES"){
+                        binding.iButton6.setImageBitmap(imgBitmap)
                     }
                 }
             }
@@ -82,9 +99,15 @@ class HomeFragment : Fragment() {
         })
 
         binding.fabHome.setOnClickListener{
-            findNavController().navigate(R.id.action_navigation_home_to_formularioFragment)
-        }
+            if(temperatura!=null){
+                setFragmentResult("envioTemp", bundleOf("temperatura" to temperatura))
+                findNavController().navigate(R.id.action_navigation_home_to_formularioFragment)
+            }
+            else{
+                Toast.makeText(requireActivity(),"No se ha obtenido Temperatura", Toast.LENGTH_SHORT).show()
+            }
 
+        }
         return view
     }
 
@@ -97,10 +120,9 @@ class HomeFragment : Fragment() {
         viewModel.myResponse.observe(viewLifecycleOwner, { response ->
             if(response.isSuccessful){
                 val w = response.body()?.main?.temp
-                val temperatura =  w.toString()
-                Log.i("Temp", temperatura)
+                temperatura =  w
                 val texto = binding.tTemp
-                texto.text = "Temperatura Actual: "+temperatura +"ºC"
+                texto.text = "Temperatura Actual: "+temperatura.toString() +"ºC"
             }
         })
     }
