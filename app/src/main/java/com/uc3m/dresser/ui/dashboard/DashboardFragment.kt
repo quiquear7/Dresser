@@ -152,9 +152,13 @@ class DashboardFragment : Fragment() {
         }
 
         binding.fabGallery.setOnClickListener{
-            val intent = Intent(Intent.ACTION_GET_CONTENT)
-            intent.type = "image/*"
-            startActivityForResult(intent, PHOTO_SELECTED)
+            if ( context?.checkSelfPermission(android.Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED) {
+                val permisosLectura = arrayOf(android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                requestPermissions(permisosLectura,PHOTO_SELECTED)
+            }else{
+                abrirGaleria()
+            }
+
         }
 
         return view
@@ -185,7 +189,12 @@ class DashboardFragment : Fragment() {
                 }
             }
         }*/
-        abrirCamara()
+        if(requestCode == REQUEST_IMAGE_CAPTURE){
+            abrirCamara()
+        }
+        if(requestCode == PHOTO_SELECTED ){
+            abrirGaleria()
+        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?){
@@ -197,8 +206,10 @@ class DashboardFragment : Fragment() {
             if (data != null) {
                 foto = data.data
                 if (foto != null) {
-                    ruta = "*"
-                    Log.i("ruta", ruta)
+                    val list = foto!!.path?.split(":")
+                   // ruta = "/storage/emulated/0/"+list?.get(1).toString()
+                    ruta ="*"
+                    Log.i("ruta nueva", ruta)
                     imgFoto?.setImageURI(foto)
                 }
             }
@@ -221,6 +232,12 @@ class DashboardFragment : Fragment() {
         val imagen = File.createTempFile(nombre, ".jpg", directorio)
         ruta =  imagen.absolutePath
         return imagen
+    }
+
+    private fun  abrirGaleria(){
+        val intent = Intent(Intent.ACTION_GET_CONTENT)
+        intent.type = "image/*"
+        startActivityForResult(intent, PHOTO_SELECTED)
     }
 
 
