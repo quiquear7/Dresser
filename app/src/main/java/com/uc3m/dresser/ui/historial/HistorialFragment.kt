@@ -47,12 +47,11 @@ class HistorialFragment : Fragment() {
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
 
         binding.calendarView.setOnDateChangeListener{view, year, month, dayOfMonth ->
-            // Note that months are indexed from 0. So, 0 means January, 1 means february, 2 means march etc.
             val date = ""+dayOfMonth + "/" + (month + 1) + "/" + year
             val msg = "Selected date is $date"
             prendaViewModel = ViewModelProvider(this).get(PrendaViewModel::class.java)
-            Log.i("información", "creación")
             prendaViewModel.readDate(date).observe(viewLifecycleOwner, { registro->
+                adapter.deleteData()
                 adapter.setData(registro)
             })
             Toast.makeText(requireActivity(), msg, Toast.LENGTH_SHORT).show()

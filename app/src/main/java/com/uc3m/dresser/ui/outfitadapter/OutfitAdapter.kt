@@ -76,7 +76,7 @@ class OutfitAdapter(listener: SendData): RecyclerView.Adapter<OutfitAdapter.MyVi
             binding.confirmarOutfit.setOnClickListener {
                 val sdf = SimpleDateFormat("dd/M/yyyy")
                 val currentDate = sdf.format(Date())
-                registro = Registro(0,currentDate, prenda as List<Prenda>)
+                registro = Registro(0,currentDate, i)
                 listener.sendInfo(registro)
             }
         }
@@ -97,15 +97,15 @@ class OutfitAdapter(listener: SendData): RecyclerView.Adapter<OutfitAdapter.MyVi
     private fun generarOutfits(outfitList: List<Prenda>, temperatura: Float): List<Combinacion> {
 
         val combinaciones = emptyList<Combinacion>().toMutableList()
-        var prendasNecesarias = 4
+        var prendasNecesarias = 5
         Log.i("temperatura", temperatura.toString())
-        /*
+
         if(temperatura>15 && temperatura<=25){
             prendasNecesarias = 4
         }
         if(temperatura>25){
             prendasNecesarias = 3
-        }*/
+        }
 
         var cont = 0
         var registro  = Combinacion(null, null, null, null, null, null)

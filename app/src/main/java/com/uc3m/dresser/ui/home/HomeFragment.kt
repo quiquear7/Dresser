@@ -65,37 +65,33 @@ class HomeFragment : Fragment() {
         prendaViewModel = ViewModelProvider(this).get(PrendaViewModel::class.java)
         prendaViewModel.lastOutfit.observe(viewLifecycleOwner, {prendas->
             if (prendas != null){
-                for ( i in prendas.prenda){
-                    val imgBitmap: Bitmap =  BitmapFactory.decodeFile(i.ruta)
-                    if (i.categoria=="CAMISA M. LARGA" || i.categoria=="CAMISA M. CORTA"
-                            || i.categoria=="CAMISETAS M. CORTA" || i.categoria=="CAMISETAS M. LARGA"
-                            || i.categoria=="CAMISETAS TIRANTES" || i.categoria=="POLOS"
-                            || i.categoria=="TOPS") {
-                        binding.iButton1.setImageBitmap(imgBitmap)
-                    }
-                    if (i.categoria=="PANTALONES" || i.categoria == "PANTALONES CORTOS"
-                            || i.categoria=="FALDAS" || i.categoria == "JEANS" ){
-                        binding.iButton2.setImageBitmap(imgBitmap)
-                    }
-                    if(i.categoria == "DEPORTIVAS" || i.categoria == "ZAPATOS"
-                            || i.categoria == "BOTAS Y BOTINES" || i.categoria == "SANDALIAS"){
-                        binding.iButton3.setImageBitmap(imgBitmap)
-                    }
-                    if (i.categoria=="ABRIGOS" || i.categoria=="CAZADORAS" || i.categoria=="CHUBASQUERO"
-                            || i.categoria=="BLAZERS") {
-                        binding.iButton4.setImageBitmap(imgBitmap)
-                    }
-                    if (i.categoria=="SOBRECAMISAS" || i.categoria=="CHALECOS" || i.categoria=="CHALECOS"
-                            || i.categoria=="JERSÉIS" || i.categoria=="CHAQUETAS" || i.categoria=="SUDADERAS"
-                    ){
-                        binding.iButton5.setImageBitmap(imgBitmap)
-                    }
-                    if(i.categoria=="VESTIDOS" || i.categoria=="MONOS" || i.categoria=="TRAJES"){
-                        binding.iButton6.setImageBitmap(imgBitmap)
-                    }
+                val i = prendas.prenda
+                if(i.parteSuperior!=null){
+                    val imgBitmap: Bitmap =  BitmapFactory.decodeFile(i.parteSuperior!!.ruta)
+                    binding.iButton1.setImageBitmap(imgBitmap)
+                }
+                if(i.parteInferior!=null){
+                    val imgBitmap: Bitmap =  BitmapFactory.decodeFile(i.parteInferior!!.ruta)
+                    binding.iButton2.setImageBitmap(imgBitmap)
+                }
+                if(i.calzado!=null){
+                    val imgBitmap: Bitmap =  BitmapFactory.decodeFile(i.calzado!!.ruta)
+                    binding.iButton3.setImageBitmap(imgBitmap)
+                }
+                if(i.cazadoras!=null){
+                    val imgBitmap: Bitmap =  BitmapFactory.decodeFile(i.cazadoras!!.ruta)
+                    binding.iButton4.setImageBitmap(imgBitmap)
+                }
+                if(i.jerseis!=null){
+                    val imgBitmap: Bitmap =  BitmapFactory.decodeFile(i.jerseis!!.ruta)
+                    binding.iButton5.setImageBitmap(imgBitmap)
+                }
+                if(i.conjuntos!=null){
+                    val imgBitmap: Bitmap =  BitmapFactory.decodeFile(i.conjuntos!!.ruta)
+                    binding.iButton6.setImageBitmap(imgBitmap)
+
                 }
             }
-
         })
 
         binding.fabHome.setOnClickListener{

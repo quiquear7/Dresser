@@ -4,12 +4,9 @@ import androidx.room.TypeConverter
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 
-class RegistroTypeConverter {
+open class RegistroTypeConverter {
     @TypeConverter
-    open fun lisiToString(list: List<Prenda>): String {
-        if (list == null || list.size === 0) {
-            return ""
-        }
+    open fun lisiToString(list: Combinacion): String {
         val gson = Gson()
         val type = object : TypeToken<List<Prenda>>() {
 
@@ -20,10 +17,10 @@ class RegistroTypeConverter {
     }
 
     @TypeConverter
-    open fun StringToArray(value: String): List<Prenda> {
+    open fun StringToArray(value: String): Combinacion {
 
         val gson = Gson()
-        val type = object : TypeToken<List<Prenda>>() {
+        val type = object : TypeToken<Combinacion>() {
 
         }.type
         return gson.fromJson(value, type)

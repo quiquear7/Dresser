@@ -5,12 +5,13 @@ import android.graphics.BitmapFactory
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.uc3m.dresser.database.Combinacion
 import com.uc3m.dresser.database.Prenda
 import com.uc3m.dresser.database.Registro
 import com.uc3m.dresser.databinding.HistorialItemBinding
 
 class HistorialAdapter: RecyclerView.Adapter<HistorialAdapter.MyViewHolder>()  {
-    private var registroList = emptyList<Prenda>()
+    private var outfitList = emptyList<Combinacion>()
 
     class MyViewHolder(val binding: HistorialItemBinding): RecyclerView.ViewHolder(binding.root)
 
@@ -21,25 +22,54 @@ class HistorialAdapter: RecyclerView.Adapter<HistorialAdapter.MyViewHolder>()  {
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int){
-        val item = registroList[position]
+        val i = outfitList[position]
         with(holder){
-            val imgBitmap: Bitmap =  BitmapFactory.decodeFile(item.ruta)
-            binding.imageView.setImageBitmap(imgBitmap)
+            if(i.parteSuperior!=null){
+                val imgBitmap: Bitmap =  BitmapFactory.decodeFile(i.parteSuperior!!.ruta)
+                binding.iButton1.setImageBitmap(imgBitmap)
+                binding.tNombre1.text = i.parteSuperior!!.nombre
+            }
+            if(i.parteInferior!=null){
+                val imgBitmap: Bitmap =  BitmapFactory.decodeFile(i.parteInferior!!.ruta)
+                binding.iButton2.setImageBitmap(imgBitmap)
+                binding.tNombre2.text = i.parteInferior!!.nombre
+            }
+            if(i.calzado!=null){
+                val imgBitmap: Bitmap =  BitmapFactory.decodeFile(i.calzado!!.ruta)
+                binding.iButton3.setImageBitmap(imgBitmap)
+                binding.tNombre3.text = i.calzado!!.nombre
+            }
+            if(i.cazadoras!=null){
+                val imgBitmap: Bitmap =  BitmapFactory.decodeFile(i.cazadoras!!.ruta)
+                binding.iButton4.setImageBitmap(imgBitmap)
+                binding.tNombre4.text = i.cazadoras!!.nombre
+            }
+            if(i.jerseis!=null){
+                val imgBitmap: Bitmap =  BitmapFactory.decodeFile(i.jerseis!!.ruta)
+                binding.iButton5.setImageBitmap(imgBitmap)
+                binding.tNombre5.text = i.jerseis!!.nombre
+            }
+            if(i.conjuntos!=null){
+                val imgBitmap: Bitmap =  BitmapFactory.decodeFile(i.conjuntos!!.ruta)
+                binding.iButton6.setImageBitmap(imgBitmap)
+                binding.tNombre6.text = i.conjuntos!!.nombre
+            }
         }
     }
 
 
     override fun getItemCount(): Int {
-        return registroList.size
+        return outfitList.size
     }
 
     fun setData(registroList: List<Registro>){
        for ( i in registroList) {
-            for (x in i.prenda){
-                this.registroList += x
-            }
-        }
-
+                this.outfitList += i.prenda
+       }
         notifyDataSetChanged()
+    }
+
+    fun deleteData(){
+        this.outfitList = emptyList<Combinacion>()
     }
 }

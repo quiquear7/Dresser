@@ -8,7 +8,7 @@ data class Registro(
         val id: Int,
         val fecha: String,
         @TypeConverters(RegistroTypeConverter::class)
-        val prenda: List<Prenda>
+        val prenda: Combinacion
 )
 
 
