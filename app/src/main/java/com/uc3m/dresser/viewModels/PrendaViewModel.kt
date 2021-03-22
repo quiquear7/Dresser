@@ -20,7 +20,7 @@ class PrendaViewModel (application: Application): AndroidViewModel(application){
         lastOutfit = repository.readLastOutfit
     }
 
-    fun addStudent(prenda: Prenda){
+    fun addPrenda(prenda: Prenda){
         viewModelScope.launch(Dispatchers.IO) {
             repository.addPrenda(prenda)
         }
@@ -38,5 +38,16 @@ class PrendaViewModel (application: Application): AndroidViewModel(application){
 
     fun readOcasion(ocasion: String): LiveData<List<Prenda>>{
         return repository.readOcasion(ocasion)
+    }
+
+    fun deletePrenda(prenda: Prenda) {
+        viewModelScope.launch(Dispatchers.IO){
+            repository.deletePrenda(prenda)
+        }
+
+    }
+
+    fun readId(id: Int): LiveData<Prenda> {
+        return repository.readId(id)
     }
 }

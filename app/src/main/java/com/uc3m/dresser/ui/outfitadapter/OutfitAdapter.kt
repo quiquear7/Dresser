@@ -98,7 +98,6 @@ class OutfitAdapter(listener: SendData): RecyclerView.Adapter<OutfitAdapter.MyVi
 
         val combinaciones = emptyList<Combinacion>().toMutableList()
         var prendasNecesarias = 5
-        Log.i("temperatura", temperatura.toString())
 
         if(temperatura>15 && temperatura<=25){
             prendasNecesarias = 4

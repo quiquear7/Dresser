@@ -66,7 +66,7 @@ class DashboardFragment : Fragment() {
                 categoria = lCategorias[position]
             }
             override fun onNothingSelected(parent: AdapterView<*>?) {
-                TODO("Not yet implemented")
+
             }
         }
 
@@ -84,7 +84,7 @@ class DashboardFragment : Fragment() {
                 color = lColores[position]
             }
             override fun onNothingSelected(parent: AdapterView<*>?) {
-                TODO("Not yet implemented")
+
             }
         }
 
@@ -100,7 +100,7 @@ class DashboardFragment : Fragment() {
                 estampado = lEstampados[position]
             }
             override fun onNothingSelected(parent: AdapterView<*>?) {
-                TODO("Not yet implemented")
+
             }
         }
 
@@ -116,7 +116,7 @@ class DashboardFragment : Fragment() {
                 ocasion = lOcasion[position]
             }
             override fun onNothingSelected(parent: AdapterView<*>?) {
-                TODO("Not yet implemented")
+
             }
         }
 
@@ -139,7 +139,7 @@ class DashboardFragment : Fragment() {
             if(foto!=null && nombre != "" && ruta != ""){
                 val prendaViewModel = ViewModelProvider(this).get(PrendaViewModel::class.java)
                 val prenda = Prenda(0,nombre, categoria, color, estampado, ocasion, ruta)
-                prendaViewModel.addStudent(prenda)
+                prendaViewModel.addPrenda(prenda)
                 imgFoto?.setImageURI(null)
                 foto = null
                 ruta = ""

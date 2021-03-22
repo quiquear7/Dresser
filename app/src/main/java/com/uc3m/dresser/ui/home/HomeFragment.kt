@@ -89,7 +89,6 @@ class HomeFragment : Fragment() {
                 if(i.conjuntos!=null){
                     val imgBitmap: Bitmap =  BitmapFactory.decodeFile(i.conjuntos!!.ruta)
                     binding.iButton6.setImageBitmap(imgBitmap)
-
                 }
             }
         })
@@ -102,7 +101,6 @@ class HomeFragment : Fragment() {
             else{
                 Toast.makeText(requireActivity(),"No se ha obtenido Temperatura", Toast.LENGTH_SHORT).show()
             }
-
         }
         return view
     }

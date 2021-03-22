@@ -52,7 +52,7 @@ class FormularioFragment : Fragment() {
                 ocasion = lOcasion[position]
             }
             override fun onNothingSelected(parent: AdapterView<*>?) {
-                TODO("Not yet implemented")
+
             }
         }
 

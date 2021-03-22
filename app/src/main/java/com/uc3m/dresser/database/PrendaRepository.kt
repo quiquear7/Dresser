@@ -24,5 +24,14 @@ class PrendaRepository (private val prendaDao: PrendaDao) {
         return prendaDao.readOcasion(ocasion)
     }
 
+    suspend fun deletePrenda(prenda: Prenda) {
+        prendaDao.deletePrenda(prenda)
+
+    }
+
+    fun readId(id: Int): LiveData<Prenda> {
+        return prendaDao.readId(id)
+    }
+
     val readLastOutfit: LiveData<Registro> = prendaDao.readLastOutfit()
 }

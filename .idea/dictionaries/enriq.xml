@@ -30,6 +30,7 @@
       <w>necesarias</w>
       <w>nombre</w>
       <w>ocasion</w>
+      <w>operacion</w>
       <w>permisos</w>
       <w>prenda</w>
       <w>prendas</w>
@@ -38,6 +39,7 @@
       <w>ruta</w>
       <w>temperatura</w>
       <w>texto</w>
+      <w>touchhelper</w>
     </words>
   </dictionary>
 </component>
