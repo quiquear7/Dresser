@@ -50,4 +50,10 @@ class PrendaViewModel (application: Application): AndroidViewModel(application){
     fun readId(id: Int): LiveData<Prenda> {
         return repository.readId(id)
     }
+
+    fun updatePrenda(prenda: Prenda) {
+        viewModelScope.launch(Dispatchers.IO){
+            repository.updatePrenda(prenda)
+        }
+    }
 }

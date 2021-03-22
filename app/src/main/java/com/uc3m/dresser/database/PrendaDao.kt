@@ -31,4 +31,7 @@ interface PrendaDao {
 
     @Delete()
     suspend fun deletePrenda(prenda: Prenda)
+
+    @Update(entity =  Prenda::class)
+    suspend fun updatePrenda(prenda: Prenda)
 }

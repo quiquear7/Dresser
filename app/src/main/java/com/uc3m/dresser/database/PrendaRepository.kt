@@ -33,5 +33,9 @@ class PrendaRepository (private val prendaDao: PrendaDao) {
         return prendaDao.readId(id)
     }
 
+    suspend fun updatePrenda(prenda: Prenda) {
+        prendaDao.updatePrenda(prenda)
+    }
+
     val readLastOutfit: LiveData<Registro> = prendaDao.readLastOutfit()
 }

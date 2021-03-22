@@ -13,14 +13,12 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView
-import android.widget.ArrayAdapter
-import android.widget.ImageView
-import android.widget.Toast
+import android.widget.*
 import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResultListener
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import com.uc3m.dresser.R
 import com.uc3m.dresser.database.Prenda
 import com.uc3m.dresser.databinding.FragmentDashboardBinding
@@ -33,6 +31,11 @@ class RopaFragment : Fragment() {
 
     private lateinit var dashboardViewModel: DashboardViewModel
     private lateinit var binding: FragmentRopaBinding
+    private var idPrenda: Int? = null
+    private lateinit var spnEstampado: Spinner
+    private lateinit var spnCategorias: Spinner
+    private lateinit var spnColores: Spinner
+    private lateinit var spnOcasion: Spinner
 
     private var foto: Uri? = null
     private var categoria =  ""
@@ -42,7 +45,6 @@ class RopaFragment : Fragment() {
     private var estampado =  ""
     private val REQUEST_IMAGE_CAPTURE = 1
     private val PHOTO_SELECTED = 2
-    private lateinit var prenda: Prenda
     private var imgFoto: ImageView? = null
     private lateinit var prendaViewModel: PrendaViewModel
 
@@ -51,14 +53,21 @@ class RopaFragment : Fragment() {
         prendaViewModel = ViewModelProvider(this).get(PrendaViewModel::class.java)
         binding = FragmentRopaBinding.inflate(inflater, container, false)
         val view = binding.root
+
+        spnCategorias = binding.categorias
+        spnColores = binding.colores
+        spnEstampado = binding.estampados
+        spnOcasion = binding.ocasion
+
         setFragmentResultListener("envioPrenda") { key, bundle ->
             val id = bundle.getInt("prenda")
             prendaViewModel.readId(id).observe(viewLifecycleOwner, {prendas->
+                idPrenda = prendas.id
                 llenarInfo(prendas)
             })
         }
 
-        val spnCategorias = binding.categorias
+
         val lCategorias = resources.getStringArray(R.array.s_categorias)
 
         val aCat = ArrayAdapter(requireActivity(), android.R.layout.simple_spinner_item, lCategorias)
@@ -70,11 +79,10 @@ class RopaFragment : Fragment() {
                 categoria = lCategorias[position]
             }
             override fun onNothingSelected(parent: AdapterView<*>?) {
-
             }
         }
 
-        val spnColores = binding.colores
+
         val lColores = resources.getStringArray(R.array.s_colores)
 
         val aCol = ArrayAdapter(requireActivity(), android.R.layout.simple_spinner_item, lColores)
@@ -89,11 +97,12 @@ class RopaFragment : Fragment() {
             }
         }
 
-        val spnEstampado = binding.estampados
+
         val lEstampados = resources.getStringArray(R.array.s_estampados)
 
         val aEst = ArrayAdapter(requireActivity(), android.R.layout.simple_spinner_item, lEstampados)
         spnEstampado.adapter = aEst
+
 
         spnEstampado.onItemSelectedListener = object:
             AdapterView.OnItemSelectedListener{
@@ -105,12 +114,11 @@ class RopaFragment : Fragment() {
             }
         }
 
-        val spnOcasion = binding.ocasion
+
         val lOcasion = resources.getStringArray(R.array.s_ocasion)
 
         val aOc = ArrayAdapter(requireActivity(), android.R.layout.simple_spinner_item, lOcasion)
         spnOcasion.adapter = aOc
-
         spnOcasion.onItemSelectedListener = object:
             AdapterView.OnItemSelectedListener{
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
@@ -137,20 +145,18 @@ class RopaFragment : Fragment() {
         val botonAdd = binding.bagregar
         botonAdd.setOnClickListener(){
             val nombre = binding.nameText.text.toString()
-            if(foto!=null && nombre != "" && ruta != ""){
-
-                val prenda = Prenda(0,nombre, categoria, color, estampado, ocasion, ruta)
-                //prendaViewModel.addStudent(prenda)
+            if (idPrenda!=null){
+                val prenda = Prenda(idPrenda!!,nombre, categoria, color, estampado, ocasion, ruta)
+                prendaViewModel.updatePrenda(prenda)
 
                 imgFoto?.setImageURI(null)
                 foto = null
                 ruta = ""
                 binding.nameText.text.clear()
-                Toast.makeText(requireActivity(),"Add Completed", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireActivity(),"Updated Completed", Toast.LENGTH_SHORT).show()
+                findNavController().navigate(R.id.action_ropaFragment_to_listaFragment)
             }
-            else{
-                Toast.makeText(requireActivity(),"Image Required", Toast.LENGTH_SHORT).show()
-            }
+
         }
 
         binding.fabGallery.setOnClickListener{
@@ -160,9 +166,7 @@ class RopaFragment : Fragment() {
             }else{
                 abrirGaleria()
             }
-
         }
-
         return view
     }
 
@@ -170,6 +174,23 @@ class RopaFragment : Fragment() {
         val imgBitmap: Bitmap =  BitmapFactory.decodeFile(prenda.ruta)
         binding.imgFoto.setImageBitmap(imgBitmap)
         binding.nameText.setText(prenda.nombre)
+        categoria = prenda.categoria
+        color =  prenda.color
+        estampado = prenda.estampado
+        ocasion = prenda.ocasion
+        ruta = prenda.ruta
+
+        val lCategorias = resources.getStringArray(R.array.s_categorias)
+        spnCategorias.setSelection(lCategorias.indexOf(categoria),true)
+
+        val lColores = resources.getStringArray(R.array.s_colores)
+        spnColores.setSelection(lColores.indexOf(color),true)
+
+        val lEstampado = resources.getStringArray(R.array.s_estampados)
+        spnEstampado.setSelection(lEstampado.indexOf(estampado),true)
+
+        val lOcasion = resources.getStringArray(R.array.s_ocasion)
+        spnOcasion.setSelection(lOcasion.indexOf(ocasion),true)
     }
 
     /* private fun permisos(){
@@ -184,8 +205,8 @@ class RopaFragment : Fragment() {
      }*/
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray){
-        /* super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-         when (requestCode){
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        /* when (requestCode){
              REQUEST_IMAGE_CAPTURE ->{
                  if(grantResults[0] == PackageManager.PERMISSION_GRANTED){
                      abrirCamara()
@@ -206,7 +227,7 @@ class RopaFragment : Fragment() {
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?){
-        //super.onActivityResult(requestCode,resultCode, data)
+        super.onActivityResult(requestCode,resultCode, data)
         if(resultCode == Activity.RESULT_OK && requestCode == REQUEST_IMAGE_CAPTURE){
             imgFoto?.setImageURI(foto)
         }

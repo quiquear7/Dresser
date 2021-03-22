@@ -69,6 +69,7 @@
         android:layout_marginBottom="603dp"
         android:contentDescription="@string/todo"
         android:scaleType="fitXY"
+        android:rotation="90"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
