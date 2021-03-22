@@ -8,7 +8,7 @@ open class RegistroTypeConverter {
     @TypeConverter
     open fun lisiToString(list: Combinacion): String {
         val gson = Gson()
-        val type = object : TypeToken<List<Prenda>>() {
+        val type = object : TypeToken<Combinacion>() {
 
         }.type
         val json = gson.toJson(list, type)

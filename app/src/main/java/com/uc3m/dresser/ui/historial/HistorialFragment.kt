@@ -19,6 +19,8 @@ import com.uc3m.dresser.ui.historialadapter.HistorialAdapter
 import com.uc3m.dresser.ui.listadapter.ListaAdapter
 import com.uc3m.dresser.ui.notifications.NotificationsViewModel
 import com.uc3m.dresser.viewModels.PrendaViewModel
+import java.text.SimpleDateFormat
+import java.util.*
 
 class HistorialFragment : Fragment() {
 
@@ -35,7 +37,7 @@ class HistorialFragment : Fragment() {
 
         binding = FragmentHistorialBinding.inflate(inflater, container, false)
         val view = binding.root
-
+        prendaViewModel = ViewModelProvider(this).get(PrendaViewModel::class.java)
 
         binding.calendarView.date
 
@@ -45,11 +47,18 @@ class HistorialFragment : Fragment() {
         recyclerView.setHasFixedSize(true)
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
+        val sdf = SimpleDateFormat("dd/M/yyyy")
+        val currentDate = sdf.format(Date())
+        prendaViewModel.readDate(currentDate).observe(viewLifecycleOwner, { registro->
+            adapter.deleteData()
+            adapter.setData(registro)
+        })
+
 
         binding.calendarView.setOnDateChangeListener{view, year, month, dayOfMonth ->
             val date = ""+dayOfMonth + "/" + (month + 1) + "/" + year
             val msg = "Selected date is $date"
-            prendaViewModel = ViewModelProvider(this).get(PrendaViewModel::class.java)
+
             prendaViewModel.readDate(date).observe(viewLifecycleOwner, { registro->
                 adapter.deleteData()
                 adapter.setData(registro)

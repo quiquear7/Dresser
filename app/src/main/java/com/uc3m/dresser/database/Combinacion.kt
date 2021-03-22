@@ -1,6 +1,6 @@
 package com.uc3m.dresser.database
 
-data class Combinacion(
+ class Combinacion(
         var parteSuperior: Prenda?,
         var parteInferior: Prenda?,
         var calzado: Prenda?,
