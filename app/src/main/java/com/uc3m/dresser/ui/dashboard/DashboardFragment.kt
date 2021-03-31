@@ -1,24 +1,19 @@
 package com.uc3m.dresser.ui.dashboard
 
-import android.Manifest
+import android.R.attr
 import android.app.Activity
-import android.app.Application
-import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.database.Cursor
-import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
-import android.provider.DocumentsContract
 import android.provider.MediaStore
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
-import android.widget.ArrayAdapter
 import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -27,7 +22,6 @@ import com.uc3m.dresser.database.Prenda
 import com.uc3m.dresser.databinding.FragmentDashboardBinding
 import com.uc3m.dresser.viewModels.PrendaViewModel
 import java.io.File
-import java.nio.file.Files.copy
 
 
 class DashboardFragment : Fragment() {
@@ -127,7 +121,7 @@ class DashboardFragment : Fragment() {
             if (context?.checkSelfPermission(android.Manifest.permission.CAMERA)  == PackageManager.PERMISSION_DENIED
                 || context?.checkSelfPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED) {
                 val permisosCamara = arrayOf(android.Manifest.permission.CAMERA, android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                requestPermissions(permisosCamara,REQUEST_IMAGE_CAPTURE)
+                requestPermissions(permisosCamara, REQUEST_IMAGE_CAPTURE)
             }else{
                 abrirCamara()
             }
@@ -138,23 +132,23 @@ class DashboardFragment : Fragment() {
             val nombre = binding.nameText.text.toString()
             if(foto!=null && nombre != "" && ruta != ""){
                 val prendaViewModel = ViewModelProvider(this).get(PrendaViewModel::class.java)
-                val prenda = Prenda(0,nombre, categoria, color, estampado, ocasion, ruta)
+                val prenda = Prenda(0, nombre, categoria, color, estampado, ocasion, ruta)
                 prendaViewModel.addPrenda(prenda)
                 imgFoto?.setImageURI(null)
                 foto = null
                 ruta = ""
                 binding.nameText.text.clear()
-                Toast.makeText(requireActivity(),"Add Completed",Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireActivity(), "Add Completed", Toast.LENGTH_SHORT).show()
             }
             else{
-                Toast.makeText(requireActivity(),"Image Required",Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireActivity(), "Image Required", Toast.LENGTH_SHORT).show()
             }
         }
 
         binding.fabGallery.setOnClickListener{
             if ( context?.checkSelfPermission(android.Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED) {
                 val permisosLectura = arrayOf(android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                requestPermissions(permisosLectura,PHOTO_SELECTED)
+                requestPermissions(permisosLectura, PHOTO_SELECTED)
             }else{
                 abrirGaleria()
             }
@@ -206,10 +200,9 @@ class DashboardFragment : Fragment() {
             if (data != null) {
                 foto = data.data
                 if (foto != null) {
-                    val list = foto!!.path?.split(":")
+                   // val list = foto!!.path?.split(":")
                    // ruta = "/storage/emulated/0/"+list?.get(1).toString()
                     ruta ="*"
-                    Log.i("ruta nueva", ruta)
                     imgFoto?.setImageURI(foto)
                 }
             }
@@ -222,7 +215,7 @@ class DashboardFragment : Fragment() {
         if(imagen != null){
             foto = context?.let { FileProvider.getUriForFile(it, "com.uc3m.dresser.ui.dashboard.fileprovider", imagen) }
             camaraIntent.putExtra(MediaStore.EXTRA_OUTPUT, foto)
-            startActivityForResult(camaraIntent,REQUEST_IMAGE_CAPTURE )
+            startActivityForResult(camaraIntent, REQUEST_IMAGE_CAPTURE)
         }
     }
 

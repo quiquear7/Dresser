@@ -5,5 +5,6 @@
         <pin-set>
             <pin digest="SHA-256">axmGTWYycVN5oCjh3GJrxWVndLSZjypDO6evrHMwbXg=</pin>
         </pin-set>
+
     </domain-config>
 </network-security-config>

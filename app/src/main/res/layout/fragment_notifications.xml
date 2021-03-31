@@ -5,29 +5,35 @@
     android:id="@+id/notificationsFragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:hapticFeedbackEnabled="false"
     tools:context=".ui.notifications.NotificationsFragment">
 
-    <Button
-        android:id="@+id/bPrendas"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="68dp"
-        android:text="@string/todasprendas"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/bPrendas"
+        android:layout_width="match_parent"
+        android:layout_height="75dp"
+        android:background="#FFFFFF"
+        android:backgroundTint="#FFFFFF"
+        android:drawableStart="@drawable/ic_t_shirt"
+        android:drawablePadding="-150dp"
+        android:paddingStart="30dp"
+        android:text="@string/todasprendas"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout_editor_absoluteX="0dp" />
+
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/bCalendar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="242dp"
-        android:layout_marginBottom="579dp"
+        android:layout_width="match_parent"
+        android:layout_height="75dp"
+        android:layout_below="@+id/bPrendas"
+        android:layout_marginTop="75dp"
+        android:drawablePadding="-177dp"
+        android:paddingStart="30dp"
+        android:background="#FFFFFF"
+        android:drawableStart="@drawable/ic_baseline_calendar_today_24"
         android:text="@string/historial_ropa"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout_editor_absoluteX="0dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

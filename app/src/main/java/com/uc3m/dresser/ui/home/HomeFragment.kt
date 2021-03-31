@@ -18,12 +18,15 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
+import com.squareup.picasso.Picasso
 import com.uc3m.dresser.R
 import com.uc3m.dresser.databinding.FragmentHomeBinding
 import com.uc3m.dresser.repository.Repository
 import com.uc3m.dresser.viewModels.MainViewModel
 import com.uc3m.dresser.viewModels.MainViewModelFactory
 import com.uc3m.dresser.viewModels.PrendaViewModel
+import java.net.URL
+
 
 class HomeFragment : Fragment() {
     private var temperatura: Float? = null
@@ -32,9 +35,9 @@ class HomeFragment : Fragment() {
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     private lateinit var prendaViewModel: PrendaViewModel
     override fun onCreateView(
-            inflater: LayoutInflater,
-            container: ViewGroup?,
-            savedInstanceState: Bundle?
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View {
         homeViewModel =
                 ViewModelProvider(this).get(HomeViewModel::class.java)
@@ -44,16 +47,20 @@ class HomeFragment : Fragment() {
         val view = binding.root
 
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(activity)
-        if (context?.checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION
+        if (context?.checkSelfPermission(
+                Manifest.permission.ACCESS_FINE_LOCATION
             ) != PackageManager.PERMISSION_GRANTED && context?.checkSelfPermission(
                 Manifest.permission.ACCESS_COARSE_LOCATION
             ) != PackageManager.PERMISSION_GRANTED
         ) {
-            val permisosCamara = arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION, android.Manifest.permission.ACCESS_COARSE_LOCATION)
-            requestPermissions(permisosCamara,1)
+            val permisosCamara = arrayOf(
+                android.Manifest.permission.ACCESS_FINE_LOCATION,
+                android.Manifest.permission.ACCESS_COARSE_LOCATION
+            )
+            requestPermissions(permisosCamara, 1)
         }else{
             fusedLocationClient.lastLocation
-                .addOnSuccessListener { location : Location? ->
+                .addOnSuccessListener { location: Location? ->
                     if (location != null) {
                         val latitud = location.latitude.toString()
                         val longitud = location.longitude.toString()
@@ -63,31 +70,31 @@ class HomeFragment : Fragment() {
         }
 
         prendaViewModel = ViewModelProvider(this).get(PrendaViewModel::class.java)
-        prendaViewModel.lastOutfit.observe(viewLifecycleOwner, {prendas->
-            if (prendas != null){
+        prendaViewModel.lastOutfit.observe(viewLifecycleOwner, { prendas ->
+            if (prendas != null) {
                 val i = prendas.prenda
-                if(i.parteSuperior!=null){
-                    val imgBitmap: Bitmap =  BitmapFactory.decodeFile(i.parteSuperior!!.ruta)
+                if (i.parteSuperior != null) {
+                    val imgBitmap: Bitmap = BitmapFactory.decodeFile(i.parteSuperior!!.ruta)
                     binding.iButton1.setImageBitmap(imgBitmap)
                 }
-                if(i.parteInferior!=null){
-                    val imgBitmap: Bitmap =  BitmapFactory.decodeFile(i.parteInferior!!.ruta)
+                if (i.parteInferior != null) {
+                    val imgBitmap: Bitmap = BitmapFactory.decodeFile(i.parteInferior!!.ruta)
                     binding.iButton2.setImageBitmap(imgBitmap)
                 }
-                if(i.calzado!=null){
-                    val imgBitmap: Bitmap =  BitmapFactory.decodeFile(i.calzado!!.ruta)
+                if (i.calzado != null) {
+                    val imgBitmap: Bitmap = BitmapFactory.decodeFile(i.calzado!!.ruta)
                     binding.iButton3.setImageBitmap(imgBitmap)
                 }
-                if(i.cazadoras!=null){
-                    val imgBitmap: Bitmap =  BitmapFactory.decodeFile(i.cazadoras!!.ruta)
+                if (i.cazadoras != null) {
+                    val imgBitmap: Bitmap = BitmapFactory.decodeFile(i.cazadoras!!.ruta)
                     binding.iButton4.setImageBitmap(imgBitmap)
                 }
-                if(i.jerseis!=null){
-                    val imgBitmap: Bitmap =  BitmapFactory.decodeFile(i.jerseis!!.ruta)
+                if (i.jerseis != null) {
+                    val imgBitmap: Bitmap = BitmapFactory.decodeFile(i.jerseis!!.ruta)
                     binding.iButton5.setImageBitmap(imgBitmap)
                 }
-                if(i.conjuntos!=null){
-                    val imgBitmap: Bitmap =  BitmapFactory.decodeFile(i.conjuntos!!.ruta)
+                if (i.conjuntos != null) {
+                    val imgBitmap: Bitmap = BitmapFactory.decodeFile(i.conjuntos!!.ruta)
                     binding.iButton6.setImageBitmap(imgBitmap)
                 }
             }
@@ -99,7 +106,11 @@ class HomeFragment : Fragment() {
                 findNavController().navigate(R.id.action_navigation_home_to_formularioFragment)
             }
             else{
-                Toast.makeText(requireActivity(),"No se ha obtenido Temperatura", Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    requireActivity(),
+                    "No se ha obtenido Temperatura",
+                    Toast.LENGTH_SHORT
+                ).show()
             }
         }
         return view
@@ -112,11 +123,27 @@ class HomeFragment : Fragment() {
         val map = mapOf("lat" to latitud, "lon" to longitud)
         viewModel.getClima(map)
         viewModel.myResponse.observe(viewLifecycleOwner, { response ->
-            if(response.isSuccessful){
-                val w = response.body()?.main?.temp
-                temperatura =  w
+            if (response.isSuccessful) {
+                val w = response.body()
+                val hDia = "d"
+                if (w != null) {
+                    val imgclima = w.weather[0].icon
+
+                    Picasso.with(context).load("https://openweathermap.org/img/wn/$imgclima@2x.png")
+                        .into(
+                            binding.imageTiempo
+                        )
+
+                  /*  val url = URL("https://openweathermap.org/img/wn/$imgclima@2x.png")
+                    val bmp = BitmapFactory.decodeStream(url.openConnection().getInputStream())
+                    binding.imageTiempo.setImageBitmap(bmp)*/
+
+                    Log.i("temp", "https://openweathermap.org/img/wn/$imgclima@2x.png")
+                    temperatura = w.main.temp
+
+                }
                 val texto = binding.tTemp
-                texto.text = "Temperatura Actual: "+temperatura.toString() +"ºC"
+                texto.text = "Temperatura Actual: " + temperatura.toString() + "ºC"
             }
         })
     }
