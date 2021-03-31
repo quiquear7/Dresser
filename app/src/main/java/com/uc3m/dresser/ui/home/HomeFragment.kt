@@ -134,16 +134,16 @@ class HomeFragment : Fragment() {
                             binding.imageTiempo
                         )
 
-                  /*  val url = URL("https://openweathermap.org/img/wn/$imgclima@2x.png")
-                    val bmp = BitmapFactory.decodeStream(url.openConnection().getInputStream())
-                    binding.imageTiempo.setImageBitmap(bmp)*/
 
-                    Log.i("temp", "https://openweathermap.org/img/wn/$imgclima@2x.png")
                     temperatura = w.main.temp
+                    binding.textCity.text = w.name
+                    binding.tTemp.text = "Temperatura Actual: " + temperatura.toString() + "ºC"
+
 
                 }
-                val texto = binding.tTemp
-                texto.text = "Temperatura Actual: " + temperatura.toString() + "ºC"
+
+
+
             }
         })
     }
