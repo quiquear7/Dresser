@@ -25,7 +25,7 @@ import com.uc3m.dresser.repository.Repository
 import com.uc3m.dresser.viewModels.MainViewModel
 import com.uc3m.dresser.viewModels.MainViewModelFactory
 import com.uc3m.dresser.viewModels.PrendaViewModel
-import java.net.URL
+
 
 
 class HomeFragment : Fragment() {
@@ -125,25 +125,22 @@ class HomeFragment : Fragment() {
         viewModel.myResponse.observe(viewLifecycleOwner, { response ->
             if (response.isSuccessful) {
                 val w = response.body()
-                val hDia = "d"
                 if (w != null) {
                     val imgclima = w.weather[0].icon
 
                     Picasso.with(context).load("https://openweathermap.org/img/wn/$imgclima@2x.png")
-                        .into(
-                            binding.imageTiempo
-                        )
-
+                        .into(binding.imageTiempo)
 
                     temperatura = w.main.temp
-                    binding.textCity.text = w.name
-                    binding.tTemp.text = "Temperatura Actual: " + temperatura.toString() + "ºC"
-
-
+                    val tempInt = temperatura!!.toInt()
+                    binding.textCity.text = w.name +", "+w.sys.country
+                    binding.tTemp.text = tempInt.toString() + " °C"
+                    val sTermica = w.main.feels_like.toInt()
+                    binding.sTermica.text = "Sensación Termica: "+sTermica.toString()+ " °C"
+                   /* val min = w.main.temp_min.toInt()
+                    val max = w.main.temp_max.toInt()
+                    binding.textMaxMin.text = "Max: "+max.toString()+" °C  \n"+"Min:  "+min.toString()+" °C"*/
                 }
-
-
-
             }
         })
     }
