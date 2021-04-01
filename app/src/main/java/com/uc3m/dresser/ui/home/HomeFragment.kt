@@ -1,6 +1,7 @@
 package com.uc3m.dresser.ui.home
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
@@ -54,8 +55,8 @@ class HomeFragment : Fragment() {
             ) != PackageManager.PERMISSION_GRANTED
         ) {
             val permisosCamara = arrayOf(
-                android.Manifest.permission.ACCESS_FINE_LOCATION,
-                android.Manifest.permission.ACCESS_COARSE_LOCATION
+                Manifest.permission.ACCESS_FINE_LOCATION,
+                Manifest.permission.ACCESS_COARSE_LOCATION
             )
             requestPermissions(permisosCamara, 1)
         }else{
@@ -116,6 +117,7 @@ class HomeFragment : Fragment() {
         return view
     }
 
+    @SuppressLint("SetTextI18n")
     private fun llamarApi(latitud: String, longitud: String, binding: FragmentHomeBinding) {
         val repository = Repository()
         val viewModelFactory = MainViewModelFactory(repository)
@@ -134,9 +136,10 @@ class HomeFragment : Fragment() {
                     temperatura = w.main.temp
                     val tempInt = temperatura!!.toInt()
                     binding.textCity.text = w.name +", "+w.sys.country
-                    binding.tTemp.text = tempInt.toString() + " °C"
+                    binding.tTemp.text = "$tempInt °C"
                     val sTermica = w.main.feels_like.toInt()
-                    binding.sTermica.text = "Sensación Termica: "+sTermica.toString()+ " °C"
+                    binding.sTermica.text = "Sensación Termica: $sTermica °C "
+                    binding.textClima.text = w.weather[0].description
                    /* val min = w.main.temp_min.toInt()
                     val max = w.main.temp_max.toInt()
                     binding.textMaxMin.text = "Max: "+max.toString()+" °C  \n"+"Min:  "+min.toString()+" °C"*/
