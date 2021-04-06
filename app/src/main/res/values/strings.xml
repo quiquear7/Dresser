@@ -183,4 +183,9 @@
     <string name="nombre">Nombre</string>
     <string name="historial_ropa">Historial Ropa</string>
     <string name="ltimo_outfit">ÚLTIMO OUTFIT</string>
+    <string name="title_activity_scrolling">ScrollingActivity</string>
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_scrolling_activityafeaf">ScrollingActivity</string>
+    <string name="title_activity_scrolling_activityadsfasdf">ScrollingActivity</string>
+    <string name="title_activity_scrolling_activitydf">ScrollingActivity</string>
 </resources>

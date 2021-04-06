@@ -140,9 +140,6 @@ class HomeFragment : Fragment() {
                     val sTermica = w.main.feels_like.toInt()
                     binding.sTermica.text = "Sensación Termica: $sTermica °C "
                     binding.textClima.text = w.weather[0].description
-                   /* val min = w.main.temp_min.toInt()
-                    val max = w.main.temp_max.toInt()
-                    binding.textMaxMin.text = "Max: "+max.toString()+" °C  \n"+"Min:  "+min.toString()+" °C"*/
                 }
             }
         })
