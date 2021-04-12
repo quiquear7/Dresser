@@ -145,7 +145,7 @@ class DashboardFragment : Fragment() {
             }
         }
 
-        binding.fabGallery.setOnClickListener{
+       /* binding.fabGallery.setOnClickListener{
             if ( context?.checkSelfPermission(android.Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED) {
                 val permisosLectura = arrayOf(android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
                 requestPermissions(permisosLectura, PHOTO_SELECTED)
@@ -153,7 +153,7 @@ class DashboardFragment : Fragment() {
                 abrirGaleria()
             }
 
-        }
+        }*/
 
         return view
     }
