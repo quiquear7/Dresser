@@ -9,6 +9,9 @@ import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
+import android.security.keystore.KeyGenParameterSpec
+import android.security.keystore.KeyProperties
+import android.util.Base64
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -22,6 +25,7 @@ import com.uc3m.dresser.database.Prenda
 import com.uc3m.dresser.databinding.FragmentDashboardBinding
 import com.uc3m.dresser.viewModels.PrendaViewModel
 import java.io.File
+import javax.crypto.KeyGenerator
 
 
 class DashboardFragment : Fragment() {
@@ -47,6 +51,17 @@ class DashboardFragment : Fragment() {
 
         binding = FragmentDashboardBinding.inflate(inflater, container, false)
         val view = binding.root
+
+        if(!dashboardViewModel.checkKey()){
+            val keyGenerator = KeyGenerator.getInstance(KeyProperties.KEY_ALGORITHM_AES, "AndroidKeyStore")
+            val keyGenParameterSpec = KeyGenParameterSpec
+                    .Builder("MyKeyStore", KeyProperties.PURPOSE_ENCRYPT or KeyProperties.PURPOSE_DECRYPT)
+                    .setBlockModes(KeyProperties.BLOCK_MODE_CBC)
+                    .setEncryptionPaddings(KeyProperties.ENCRYPTION_PADDING_NONE)
+                    .build()
+            keyGenerator.init(keyGenParameterSpec)
+            keyGenerator.generateKey()
+        }
 
         val spnCategorias = binding.categorias
         val lCategorias = resources.getStringArray(R.array.s_categorias)
@@ -127,12 +142,19 @@ class DashboardFragment : Fragment() {
             }
         }
 
+
+
+
         val botonAdd = binding.bagregar
         botonAdd.setOnClickListener(){
+
             val nombre = binding.nameText.text.toString()
             if(foto!=null && nombre != "" && ruta != ""){
+                val pair = dashboardViewModel.encrypData(ruta)
+                val encodedIV: String = Base64.encodeToString(pair.first, Base64.DEFAULT)
+                val encodedText: String = Base64.encodeToString(pair.second, Base64.DEFAULT)
                 val prendaViewModel = ViewModelProvider(this).get(PrendaViewModel::class.java)
-                val prenda = Prenda(0, nombre, categoria, color, estampado, ocasion, ruta)
+                val prenda = Prenda(0, nombre, categoria, color, estampado, ocasion, encodedIV, encodedText)
                 prendaViewModel.addPrenda(prenda)
                 imgFoto?.setImageURI(null)
                 foto = null

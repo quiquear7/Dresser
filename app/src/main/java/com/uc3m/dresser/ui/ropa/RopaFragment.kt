@@ -9,6 +9,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
+import android.util.Base64
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -29,7 +30,7 @@ import java.io.File
 
 class RopaFragment : Fragment() {
 
-    private lateinit var dashboardViewModel: DashboardViewModel
+    private lateinit var ropaViewModel: RopaViewModel
     private lateinit var binding: FragmentRopaBinding
     private var idPrenda: Int? = null
     private lateinit var spnEstampado: Spinner
@@ -49,7 +50,7 @@ class RopaFragment : Fragment() {
     private lateinit var prendaViewModel: PrendaViewModel
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        dashboardViewModel = ViewModelProvider(this).get(DashboardViewModel::class.java)
+        ropaViewModel = ViewModelProvider(this).get(RopaViewModel::class.java)
         prendaViewModel = ViewModelProvider(this).get(PrendaViewModel::class.java)
         binding = FragmentRopaBinding.inflate(inflater, container, false)
         val view = binding.root
@@ -146,7 +147,10 @@ class RopaFragment : Fragment() {
         botonAdd.setOnClickListener(){
             val nombre = binding.nameText.text.toString()
             if (idPrenda!=null){
-                val prenda = Prenda(idPrenda!!,nombre, categoria, color, estampado, ocasion, ruta)
+                val pair = ropaViewModel.encrypData(ruta)
+                val encodedIV: String = Base64.encodeToString(pair.first, Base64.DEFAULT)
+                val encodedText: String = Base64.encodeToString(pair.second, Base64.DEFAULT)
+                val prenda = Prenda(idPrenda!!,nombre, categoria, color, estampado, ocasion, encodedIV, encodedText)
                 prendaViewModel.updatePrenda(prenda)
 
                 imgFoto?.setImageURI(null)
@@ -159,26 +163,29 @@ class RopaFragment : Fragment() {
 
         }
 
-        binding.fabGallery.setOnClickListener{
+       /* binding.fabGallery.setOnClickListener{
             if ( context?.checkSelfPermission(android.Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED) {
                 val permisosLectura = arrayOf(android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
                 requestPermissions(permisosLectura,PHOTO_SELECTED)
             }else{
                 abrirGaleria()
             }
-        }
+        }*/
         return view
     }
 
     private fun llenarInfo(prenda: Prenda) {
-        val imgBitmap: Bitmap =  BitmapFactory.decodeFile(prenda.ruta)
+        val iv: ByteArray = Base64.decode(prenda.iv, Base64.DEFAULT)
+        val text: ByteArray = Base64.decode(prenda.encryptedRuta, Base64.DEFAULT)
+        val rutaTemp = ropaViewModel.decryptData(iv, text)
+        val imgBitmap: Bitmap =  BitmapFactory.decodeFile(ruta)
         binding.imgFoto.setImageBitmap(imgBitmap)
         binding.nameText.setText(prenda.nombre)
         categoria = prenda.categoria
         color =  prenda.color
         estampado = prenda.estampado
         ocasion = prenda.ocasion
-        ruta = prenda.ruta
+        ruta = rutaTemp
 
         val lCategorias = resources.getStringArray(R.array.s_categorias)
         spnCategorias.setSelection(lCategorias.indexOf(categoria),true)

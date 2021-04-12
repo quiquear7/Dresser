@@ -68,8 +68,8 @@
         android:layout_marginTop="16dp"
         android:layout_marginBottom="603dp"
         android:contentDescription="@string/todo"
-        android:scaleType="fitXY"
         android:rotation="90"
+        android:scaleType="fitXY"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
@@ -89,7 +89,7 @@
         android:src="@drawable/ic_baseline_camera_alt_24"
         app:backgroundTint="#009688"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.321"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imgFoto" />
 
@@ -146,18 +146,5 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView2" />
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fabGallery"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="84dp"
-        android:layout_marginTop="24dp"
-        android:clickable="true"
-        android:contentDescription="@string/todo"
-        android:src="@drawable/ic_baseline_image_24"
-        app:backgroundTint="#009688"
-        app:layout_constraintStart_toEndOf="@+id/bCamara"
-        app:layout_constraintTop_toBottomOf="@+id/imgFoto" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

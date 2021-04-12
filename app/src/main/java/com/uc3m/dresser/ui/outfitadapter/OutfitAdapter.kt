@@ -2,20 +2,31 @@ package com.uc3m.dresser.ui.outfitadapter
 
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.util.Base64
+import android.util.Base64.decode
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
 import com.uc3m.dresser.database.Combinacion
 import com.uc3m.dresser.database.Prenda
 import com.uc3m.dresser.database.Registro
 import com.uc3m.dresser.databinding.OutfitItemBinding
 import com.uc3m.dresser.ui.SendData
+import com.uc3m.dresser.ui.dashboard.DashboardViewModel
 import com.uc3m.dresser.viewModels.PrendaViewModel
+import java.security.KeyStore
 import java.text.SimpleDateFormat
 import java.util.*
+import javax.crypto.Cipher
+import javax.crypto.SecretKey
+import javax.crypto.spec.IvParameterSpec
 
 class OutfitAdapter(listener: SendData): RecyclerView.Adapter<OutfitAdapter.MyViewHolder>() {
+
+
+
     private var outfitList = emptyList<Combinacion>()
     private lateinit var prendaViewModel: PrendaViewModel
     private lateinit var registro: Registro
@@ -37,37 +48,55 @@ class OutfitAdapter(listener: SendData): RecyclerView.Adapter<OutfitAdapter.MyVi
         with(holder){
             Log.i("prenda", i.toString())
             if(i.parteSuperior!=null){
-                val imgBitmap: Bitmap =  BitmapFactory.decodeFile(i.parteSuperior!!.ruta)
+                val iv: ByteArray = Base64.decode(i.parteSuperior!!.iv, Base64.DEFAULT)
+                val text: ByteArray = Base64.decode(i.parteSuperior!!.encryptedRuta, Base64.DEFAULT)
+                val ruta = decryptData(iv, text)
+                val imgBitmap: Bitmap =  BitmapFactory.decodeFile(ruta)
                 binding.iButton1.setImageBitmap(imgBitmap)
                 binding.tNombre1.text = i.parteSuperior!!.nombre
                 prenda += i.parteSuperior
             }
             if(i.parteInferior!=null){
-                val imgBitmap: Bitmap =  BitmapFactory.decodeFile(i.parteInferior!!.ruta)
+                val iv: ByteArray = Base64.decode(i.parteInferior!!.iv, Base64.DEFAULT)
+                val text: ByteArray = Base64.decode(i.parteInferior!!.encryptedRuta, Base64.DEFAULT)
+                val ruta = decryptData(iv, text)
+                val imgBitmap: Bitmap =  BitmapFactory.decodeFile(ruta)
                 binding.iButton2.setImageBitmap(imgBitmap)
                 binding.tNombre2.text = i.parteInferior!!.nombre
                 prenda += i.parteInferior
             }
             if(i.calzado!=null){
-                val imgBitmap: Bitmap =  BitmapFactory.decodeFile(i.calzado!!.ruta)
+                val iv: ByteArray = Base64.decode(i.calzado!!.iv, Base64.DEFAULT)
+                val text: ByteArray = Base64.decode(i.calzado!!.encryptedRuta, Base64.DEFAULT)
+                val ruta = decryptData(iv, text)
+                val imgBitmap: Bitmap =  BitmapFactory.decodeFile(ruta)
                 binding.iButton3.setImageBitmap(imgBitmap)
                 binding.tNombre3.text = i.calzado!!.nombre
                 prenda += i.calzado
             }
             if(i.cazadoras!=null){
-                val imgBitmap: Bitmap =  BitmapFactory.decodeFile(i.cazadoras!!.ruta)
+                val iv: ByteArray = Base64.decode(i.cazadoras!!.iv, Base64.DEFAULT)
+                val text: ByteArray = Base64.decode(i.cazadoras!!.encryptedRuta, Base64.DEFAULT)
+                val ruta = decryptData(iv, text)
+                val imgBitmap: Bitmap =  BitmapFactory.decodeFile(ruta)
                 binding.iButton4.setImageBitmap(imgBitmap)
                 binding.tNombre4.text = i.cazadoras!!.nombre
                 prenda += i.cazadoras
             }
             if(i.jerseis!=null){
-                val imgBitmap: Bitmap =  BitmapFactory.decodeFile(i.jerseis!!.ruta)
+                val iv: ByteArray = Base64.decode(i.jerseis!!.iv, Base64.DEFAULT)
+                val text: ByteArray = Base64.decode(i.jerseis!!.encryptedRuta, Base64.DEFAULT)
+                val ruta = decryptData(iv, text)
+                val imgBitmap: Bitmap =  BitmapFactory.decodeFile(ruta)
                 binding.iButton5.setImageBitmap(imgBitmap)
                 binding.tNombre5.text = i.jerseis!!.nombre
                 prenda += i.jerseis
             }
             if(i.conjuntos!=null){
-                val imgBitmap: Bitmap =  BitmapFactory.decodeFile(i.conjuntos!!.ruta)
+                val iv: ByteArray = Base64.decode(i.conjuntos!!.iv, Base64.DEFAULT)
+                val text: ByteArray = Base64.decode(i.conjuntos!!.encryptedRuta, Base64.DEFAULT)
+                val ruta = decryptData(iv, text)
+                val imgBitmap: Bitmap =  BitmapFactory.decodeFile(ruta)
                 binding.iButton6.setImageBitmap(imgBitmap)
                 binding.tNombre6.text = i.conjuntos!!.nombre
                 prenda += i.conjuntos
@@ -168,4 +197,25 @@ class OutfitAdapter(listener: SendData): RecyclerView.Adapter<OutfitAdapter.MyVi
     }
 
 
+
+    fun getKey(): SecretKey {
+        val keystore: KeyStore = KeyStore.getInstance("AndroidKeyStore")
+        keystore.load(null)
+        val secretKeyEntry = keystore.getEntry("MyKeyStore", null) as KeyStore.SecretKeyEntry
+        return secretKeyEntry.secretKey
+    }
+
+
+    fun decryptData(ivBytes: ByteArray, data: ByteArray) : String{
+        val cipher = Cipher.getInstance("AES/CBC/NoPadding")
+        val spec = IvParameterSpec(ivBytes)
+        cipher.init(Cipher.DECRYPT_MODE, getKey(),spec)
+        return cipher.doFinal(data).toString(Charsets.UTF_8).trim()
+    }
+
+
+
+
 }
+
+

@@ -1,4 +1,4 @@
-package com.uc3m.dresser.ui.dashboard
+package com.uc3m.dresser.ui.ropa
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -8,7 +8,7 @@ import javax.crypto.Cipher
 import javax.crypto.SecretKey
 import javax.crypto.spec.IvParameterSpec
 
-class DashboardViewModel : ViewModel() {
+class RopaViewModel : ViewModel() {
 
     private val _text = MutableLiveData<String>().apply {
         value = "Agregar Nueva Prenda de Ropa"
@@ -18,13 +18,8 @@ class DashboardViewModel : ViewModel() {
     fun checkKey(): Boolean{
         val keystore: KeyStore = KeyStore.getInstance("AndroidKeyStore")
         keystore.load(null)
-        val secretKeyEntry = keystore.getEntry("MyKeyStore", null) as? KeyStore.SecretKeyEntry
-        return if (secretKeyEntry != null) {
-            secretKeyEntry.secretKey != null
-        }
-        else{
-            false
-        }
+        val secretKeyEntry = keystore.getEntry("MyKeyStore", null) as KeyStore.SecretKeyEntry
+        return secretKeyEntry.secretKey != null
     }
 
     fun getKey(): SecretKey {

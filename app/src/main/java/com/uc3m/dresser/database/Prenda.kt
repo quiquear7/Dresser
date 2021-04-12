@@ -13,6 +13,7 @@ data class Prenda(
     val color: String,
     val estampado: String,
     val ocasion: String,
-    val ruta: String
+    val iv: String,
+    val encryptedRuta: String
 )
 

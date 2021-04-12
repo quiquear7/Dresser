@@ -7,6 +7,7 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.location.Location
 import android.os.Bundle
+import android.util.Base64
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -75,27 +76,45 @@ class HomeFragment : Fragment() {
             if (prendas != null) {
                 val i = prendas.prenda
                 if (i.parteSuperior != null) {
-                    val imgBitmap: Bitmap = BitmapFactory.decodeFile(i.parteSuperior!!.ruta)
+                    val iv: ByteArray = Base64.decode(i.parteSuperior!!.iv, Base64.DEFAULT)
+                    val text: ByteArray = Base64.decode(i.parteSuperior!!.encryptedRuta, Base64.DEFAULT)
+                    val ruta = homeViewModel.decryptData(iv, text)
+                    val imgBitmap: Bitmap = BitmapFactory.decodeFile(ruta)
                     binding.iButton1.setImageBitmap(imgBitmap)
                 }
                 if (i.parteInferior != null) {
-                    val imgBitmap: Bitmap = BitmapFactory.decodeFile(i.parteInferior!!.ruta)
+                    val iv: ByteArray = Base64.decode(i.parteInferior!!.iv, Base64.DEFAULT)
+                    val text: ByteArray = Base64.decode(i.parteInferior!!.encryptedRuta, Base64.DEFAULT)
+                    val ruta = homeViewModel.decryptData(iv, text)
+                    val imgBitmap: Bitmap = BitmapFactory.decodeFile(ruta)
                     binding.iButton2.setImageBitmap(imgBitmap)
                 }
                 if (i.calzado != null) {
-                    val imgBitmap: Bitmap = BitmapFactory.decodeFile(i.calzado!!.ruta)
+                    val iv: ByteArray = Base64.decode(i.calzado!!.iv, Base64.DEFAULT)
+                    val text: ByteArray = Base64.decode(i.calzado!!.encryptedRuta, Base64.DEFAULT)
+                    val ruta = homeViewModel.decryptData(iv, text)
+                    val imgBitmap: Bitmap = BitmapFactory.decodeFile(ruta)
                     binding.iButton3.setImageBitmap(imgBitmap)
                 }
                 if (i.cazadoras != null) {
-                    val imgBitmap: Bitmap = BitmapFactory.decodeFile(i.cazadoras!!.ruta)
+                    val iv: ByteArray = Base64.decode(i.cazadoras!!.iv, Base64.DEFAULT)
+                    val text: ByteArray = Base64.decode(i.cazadoras!!.encryptedRuta, Base64.DEFAULT)
+                    val ruta = homeViewModel.decryptData(iv, text)
+                    val imgBitmap: Bitmap = BitmapFactory.decodeFile(ruta)
                     binding.iButton4.setImageBitmap(imgBitmap)
                 }
                 if (i.jerseis != null) {
-                    val imgBitmap: Bitmap = BitmapFactory.decodeFile(i.jerseis!!.ruta)
+                    val iv: ByteArray = Base64.decode(i.jerseis!!.iv, Base64.DEFAULT)
+                    val text: ByteArray = Base64.decode(i.jerseis!!.encryptedRuta, Base64.DEFAULT)
+                    val ruta = homeViewModel.decryptData(iv, text)
+                    val imgBitmap: Bitmap = BitmapFactory.decodeFile(ruta)
                     binding.iButton5.setImageBitmap(imgBitmap)
                 }
                 if (i.conjuntos != null) {
-                    val imgBitmap: Bitmap = BitmapFactory.decodeFile(i.conjuntos!!.ruta)
+                    val iv: ByteArray = Base64.decode(i.conjuntos!!.iv, Base64.DEFAULT)
+                    val text: ByteArray = Base64.decode(i.conjuntos!!.encryptedRuta, Base64.DEFAULT)
+                    val ruta = homeViewModel.decryptData(iv, text)
+                    val imgBitmap: Bitmap = BitmapFactory.decodeFile(ruta)
                     binding.iButton6.setImageBitmap(imgBitmap)
                 }
             }

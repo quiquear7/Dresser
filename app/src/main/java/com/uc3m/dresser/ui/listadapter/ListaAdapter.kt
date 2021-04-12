@@ -3,6 +3,7 @@ package com.uc3m.dresser.ui.listadapter
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.Bundle
+import android.util.Base64
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -10,6 +11,10 @@ import com.chauthai.swipereveallayout.ViewBinderHelper
 import com.uc3m.dresser.database.Prenda
 import com.uc3m.dresser.databinding.RecyclerViewItemBinding
 import com.uc3m.dresser.ui.SendData
+import java.security.KeyStore
+import javax.crypto.Cipher
+import javax.crypto.SecretKey
+import javax.crypto.spec.IvParameterSpec
 
 
 class ListaAdapter(listener: SendPrenda): RecyclerView.Adapter<ListaAdapter.MyViewHolder>() {
@@ -34,10 +39,11 @@ class ListaAdapter(listener: SendPrenda): RecyclerView.Adapter<ListaAdapter.MyVi
             viewBinderHelper.setOpenOnlyOne(true)
             viewBinderHelper.bind(holder.binding.swipeLayout, prendaList[position].id.toString())
             viewBinderHelper.closeLayout(prendaList[position].id.toString())
-            if(item.ruta!="*"){
-                val imgBitmap: Bitmap =  BitmapFactory.decodeFile(item.ruta)
-                binding.iButton.setImageBitmap(imgBitmap)
-            }
+            val iv: ByteArray = Base64.decode(item.iv, Base64.DEFAULT)
+            val text: ByteArray = Base64.decode(item.encryptedRuta, Base64.DEFAULT)
+            val ruta = decryptData(iv, text)
+            val imgBitmap: Bitmap =  BitmapFactory.decodeFile(ruta)
+            binding.iButton.setImageBitmap(imgBitmap)
             binding.tCategoria.text = item.categoria
             binding.tColor.text = item.color
             binding.tNombre.text = item.nombre
@@ -68,5 +74,20 @@ class ListaAdapter(listener: SendPrenda): RecyclerView.Adapter<ListaAdapter.MyVi
 
     fun restoreStates(inState: Bundle?) {
         viewBinderHelper.restoreStates(inState)
+    }
+
+    fun getKey(): SecretKey {
+        val keystore: KeyStore = KeyStore.getInstance("AndroidKeyStore")
+        keystore.load(null)
+        val secretKeyEntry = keystore.getEntry("MyKeyStore", null) as KeyStore.SecretKeyEntry
+        return secretKeyEntry.secretKey
+    }
+
+
+    fun decryptData(ivBytes: ByteArray, data: ByteArray) : String{
+        val cipher = Cipher.getInstance("AES/CBC/NoPadding")
+        val spec = IvParameterSpec(ivBytes)
+        cipher.init(Cipher.DECRYPT_MODE, getKey(),spec)
+        return cipher.doFinal(data).toString(Charsets.UTF_8).trim()
     }
 }
