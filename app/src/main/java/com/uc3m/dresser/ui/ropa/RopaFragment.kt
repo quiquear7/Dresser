@@ -178,7 +178,7 @@ class RopaFragment : Fragment() {
         val iv: ByteArray = Base64.decode(prenda.iv, Base64.DEFAULT)
         val text: ByteArray = Base64.decode(prenda.encryptedRuta, Base64.DEFAULT)
         val rutaTemp = ropaViewModel.decryptData(iv, text)
-        val imgBitmap: Bitmap =  BitmapFactory.decodeFile(ruta)
+        val imgBitmap: Bitmap =  BitmapFactory.decodeFile(rutaTemp)
         binding.imgFoto.setImageBitmap(imgBitmap)
         binding.nameText.setText(prenda.nombre)
         categoria = prenda.categoria

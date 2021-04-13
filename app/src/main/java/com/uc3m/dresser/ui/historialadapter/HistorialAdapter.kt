@@ -3,6 +3,7 @@ package com.uc3m.dresser.ui.historialadapter
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.util.Base64
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -87,7 +88,7 @@ class HistorialAdapter: RecyclerView.Adapter<HistorialAdapter.MyViewHolder>()  {
 
     fun setData(registroList: List<Registro>){
        for ( i in registroList) {
-                this.outfitList += i.prenda
+           this.outfitList += i.prenda
        }
         notifyDataSetChanged()
     }

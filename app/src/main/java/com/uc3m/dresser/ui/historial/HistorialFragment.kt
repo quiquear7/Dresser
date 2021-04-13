@@ -61,6 +61,7 @@ class HistorialFragment : Fragment() {
 
             prendaViewModel.readDate(date).observe(viewLifecycleOwner, { registro->
                 adapter.deleteData()
+                Log.i("registro", registro.toString())
                 adapter.setData(registro)
             })
             Toast.makeText(requireActivity(), msg, Toast.LENGTH_SHORT).show()

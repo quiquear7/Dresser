@@ -8,6 +8,7 @@ import android.graphics.BitmapFactory
 import android.location.Location
 import android.os.Bundle
 import android.util.Base64
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -73,6 +74,7 @@ class HomeFragment : Fragment() {
 
         prendaViewModel = ViewModelProvider(this).get(PrendaViewModel::class.java)
         prendaViewModel.lastOutfit.observe(viewLifecycleOwner, { prendas ->
+            Log.i("prendas Home: ", prendas.toString())
             if (prendas != null) {
                 val i = prendas.prenda
                 if (i.parteSuperior != null) {

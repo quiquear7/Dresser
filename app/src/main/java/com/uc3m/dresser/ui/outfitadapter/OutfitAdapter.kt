@@ -113,132 +113,10 @@ class OutfitAdapter(listener: SendData): RecyclerView.Adapter<OutfitAdapter.MyVi
         return outfitList.size
     }
 
-    fun setData(outfit: List<Prenda>, temperatura: Float, llueve: Boolean){
-        Log.i("list",outfit.toString())
-        this.outfitList =  generarOutfits(outfit, temperatura, llueve)
-        Log.i("list",this.outfitList.toString())
+    fun setData(outfit: List<Combinacion>){
+        this.outfitList =  outfit
         notifyDataSetChanged()
     }
-
-    private fun generarOutfits(outfitList: List<Prenda>, temperatura: Float, llueve: Boolean): List<Combinacion> {
-
-        val combinaciones = emptyList<Combinacion>().toMutableList()
-        var prendasNecesarias = 5
-
-        if(temperatura>15 && temperatura<=25){
-            prendasNecesarias = 4
-        }
-        if(temperatura>25){
-            prendasNecesarias = 3
-        }
-
-        var parteSuperior = 0
-        var parteInferior = 0
-        var calzado = 0
-        var jerseis = 0
-        var cazadoras = 0
-        var conjuntos = 0
-        val m = parteSuperior + parteInferior + calzado + jerseis + cazadoras + conjuntos
-        val n = prendasNecesarias
-        val comb = funFactorial((n+m-1))/(funFactorial(m)*funFactorial(n-1))
-
-        for (t in 1..comb){
-            val registro  = Combinacion(null, null, null, null, null, null)
-            combinaciones += registro
-        }
-
-
-        for (i in outfitList){
-            if((i.categoria=="CAMISA M. LARGA" || i.categoria=="CAMISA M. CORTA"
-                        || i.categoria=="CAMISETAS M. CORTA" || i.categoria=="CAMISETAS M. LARGA"
-                        || i.categoria=="CAMISETAS TIRANTES" || i.categoria=="POLOS"
-                        || i.categoria=="TOPS")) {
-                parteSuperior++
-            }
-            if ((i.categoria == "PANTALONES" || i.categoria == "PANTALONES CORTOS"
-                        || i.categoria=="FALDAS" || i.categoria == "JEANS")){
-                parteInferior++
-            }
-            if((i.categoria == "DEPORTIVAS" || i.categoria == "ZAPATOS"
-                        || i.categoria == "BOTAS Y BOTINES" || i.categoria == "SANDALIAS")){
-                calzado++
-            }
-            if ((i.categoria=="ABRIGOS" || i.categoria=="CAZADORAS" || i.categoria=="CHUBASQUERO"
-                        || i.categoria=="BLAZERS")) {
-                cazadoras++
-            }
-            if ((i.categoria=="SOBRECAMISAS" || i.categoria=="CHALECOS" || i.categoria=="CHALECOS"
-                        || i.categoria=="JERSÉIS" || i.categoria=="CHAQUETAS" || i.categoria=="SUDADERAS")){
-                jerseis++
-            }
-            if((i.categoria=="VESTIDOS" || i.categoria=="MONOS" || i.categoria=="TRAJES")){
-                conjuntos++
-            }
-        }
-
-        var cont = 0
-        var registro  = Combinacion(null, null, null, null, null, null)
-        for (i in outfitList){
-
-            Log.i("cont", cont.toString())
-            Log.i("Combinacion", registro.toString())
-            if((i.categoria=="CAMISA M. LARGA" || i.categoria=="CAMISA M. CORTA"
-                    || i.categoria=="CAMISETAS M. CORTA" || i.categoria=="CAMISETAS M. LARGA"
-                    || i.categoria=="CAMISETAS TIRANTES" || i.categoria=="POLOS"
-                    || i.categoria=="TOPS") && registro.parteSuperior == null ) {
-                        registro.parteSuperior=i
-                        cont++
-            }
-            if ((i.categoria == "PANTALONES" || i.categoria == "PANTALONES CORTOS"
-                    || i.categoria=="FALDAS" || i.categoria == "JEANS") && registro.parteInferior==null ){
-                        registro.parteInferior = i
-                        cont++
-            }
-            if((i.categoria == "DEPORTIVAS" || i.categoria == "ZAPATOS"
-                    || i.categoria == "BOTAS Y BOTINES" || i.categoria == "SANDALIAS") && registro.calzado==null){
-                        registro.calzado = i
-                        cont++
-            }
-            if ((i.categoria=="ABRIGOS" || i.categoria=="CAZADORAS" || i.categoria=="CHUBASQUERO"
-                    || i.categoria=="BLAZERS") && registro.cazadoras == null) {
-                        registro.cazadoras=i
-                        cont++
-            }
-            if ((i.categoria=="SOBRECAMISAS" || i.categoria=="CHALECOS" || i.categoria=="CHALECOS"
-                    || i.categoria=="JERSÉIS" || i.categoria=="CHAQUETAS" || i.categoria=="SUDADERAS")
-                    && registro.jerseis == null){
-                registro.jerseis = i
-                cont++
-            }
-            if((i.categoria=="VESTIDOS" || i.categoria=="MONOS") && registro.conjuntos == null){
-                registro.conjuntos = i
-                if(prendasNecesarias==3 && cont+2<=prendasNecesarias){
-                    cont += 2
-                }
-                if(prendasNecesarias>=4&& cont+3<=prendasNecesarias){
-                    cont += 3
-                }
-            }
-            if(i.categoria=="TRAJES" && registro.conjuntos == null){
-                registro.conjuntos = i
-                if(prendasNecesarias==3 && cont+2<=prendasNecesarias){
-                    cont += 2
-                }
-                if(prendasNecesarias>=4 && cont+3<=prendasNecesarias){
-                    cont += 3
-                }
-            }
-
-            if (cont == prendasNecesarias){
-                combinaciones += registro
-                registro  = Combinacion(null, null, null, null, null, null)
-                cont = 0
-            }
-        }
-        return combinaciones
-    }
-
-
 
     fun getKey(): SecretKey {
         val keystore: KeyStore = KeyStore.getInstance("AndroidKeyStore")
@@ -247,28 +125,12 @@ class OutfitAdapter(listener: SendData): RecyclerView.Adapter<OutfitAdapter.MyVi
         return secretKeyEntry.secretKey
     }
 
-
     fun decryptData(ivBytes: ByteArray, data: ByteArray) : String{
         val cipher = Cipher.getInstance("AES/CBC/NoPadding")
         val spec = IvParameterSpec(ivBytes)
         cipher.init(Cipher.DECRYPT_MODE, getKey(),spec)
         return cipher.doFinal(data).toString(Charsets.UTF_8).trim()
     }
-
-    fun funFactorial(num: Int): Long {
-        var factorial: Long=1
-
-        for(i in 1..num){
-            // Calculate Factorial
-            factorial*=i.toLong()
-        }
-
-        return factorial
-    }
-
-
-
-
 }
 
 

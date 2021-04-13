@@ -17,9 +17,11 @@ import com.uc3m.dresser.viewModels.PrendaViewModel
 import androidx.fragment.app.setFragmentResultListener
 import com.uc3m.dresser.database.Registro
 import com.uc3m.dresser.ui.SendData
+import com.uc3m.dresser.ui.dashboard.DashboardViewModel
 
 
 class ElegirOutfitFragment :  Fragment(), SendData {
+    private lateinit var elegirOutfitViewModel: ElegirOutfitViewModel
     private lateinit var binding: FragmentElegirOutfitBinding
     private lateinit var prendaViewModel: PrendaViewModel
     var ocasion: String = ""
@@ -33,6 +35,7 @@ class ElegirOutfitFragment :  Fragment(), SendData {
     ): View {
         binding = FragmentElegirOutfitBinding.inflate(inflater, container, false)
         prendaViewModel = ViewModelProvider(this).get(PrendaViewModel::class.java)
+        elegirOutfitViewModel = ViewModelProvider(this).get(ElegirOutfitViewModel::class.java)
         return binding.root
     }
 
@@ -48,9 +51,6 @@ class ElegirOutfitFragment :  Fragment(), SendData {
                     // We use a String here, but any type that can be put in a Bundle is supported
                     temperatura = bundle.getFloat("temperatura")
 
-                    Log.i("Temperatura recibida: ", temperatura.toString())
-                    Log.i("Ocasion recibida: ", ocasion.toString())
-
                     val adapter = OutfitAdapter(this)
                     val recyclerView = binding.recyclerView
                     recyclerView.setHasFixedSize(true)
@@ -59,7 +59,8 @@ class ElegirOutfitFragment :  Fragment(), SendData {
 
                     prendaViewModel.readOcasion(ocasion).observe(viewLifecycleOwner, {prendas->
                         if(temperatura!=null){
-                            adapter.setData(prendas, temperatura!!, llueve)
+                            val list = elegirOutfitViewModel.generarOutfits(prendas, temperatura!!, llueve)
+                            adapter.setData(list)
                         }
                         else{
                             Toast.makeText(requireActivity(),"No se ha obtenido Temperatura", Toast.LENGTH_SHORT).show()
