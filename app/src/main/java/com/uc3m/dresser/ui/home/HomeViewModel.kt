@@ -1,8 +1,13 @@
 package com.uc3m.dresser.ui.home
 
+import android.widget.Toast
+import androidx.core.os.bundleOf
+import androidx.fragment.app.setFragmentResult
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.navigation.fragment.findNavController
+import com.uc3m.dresser.R
 import java.security.KeyStore
 import javax.crypto.Cipher
 import javax.crypto.SecretKey
@@ -29,4 +34,9 @@ class HomeViewModel : ViewModel() {
         cipher.init(Cipher.DECRYPT_MODE, getKey(),spec)
         return cipher.doFinal(data).toString(Charsets.UTF_8).trim()
     }
+
+
+
+
+
 }

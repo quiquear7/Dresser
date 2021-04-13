@@ -9,4 +9,5 @@
     <color name="white">#FFFFFFFF</color>
     <color name="cyan">#009688</color>
     <color name="teal">#00796B</color>
+    <color name="negro_semitransparente">#B2000000</color>
 </resources>

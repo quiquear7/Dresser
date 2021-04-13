@@ -3,18 +3,15 @@ package com.uc3m.dresser.ui.outfitadapter
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.util.Base64
-import android.util.Base64.decode
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
 import com.uc3m.dresser.database.Combinacion
 import com.uc3m.dresser.database.Prenda
 import com.uc3m.dresser.database.Registro
 import com.uc3m.dresser.databinding.OutfitItemBinding
 import com.uc3m.dresser.ui.SendData
-import com.uc3m.dresser.ui.dashboard.DashboardViewModel
 import com.uc3m.dresser.viewModels.PrendaViewModel
 import java.security.KeyStore
 import java.text.SimpleDateFormat
@@ -116,14 +113,14 @@ class OutfitAdapter(listener: SendData): RecyclerView.Adapter<OutfitAdapter.MyVi
         return outfitList.size
     }
 
-    fun setData(outfit: List<Prenda>, temperatura: Float){
+    fun setData(outfit: List<Prenda>, temperatura: Float, llueve: Boolean){
         Log.i("list",outfit.toString())
-        this.outfitList =  generarOutfits(outfit, temperatura)
+        this.outfitList =  generarOutfits(outfit, temperatura, llueve)
         Log.i("list",this.outfitList.toString())
         notifyDataSetChanged()
     }
 
-    private fun generarOutfits(outfitList: List<Prenda>, temperatura: Float): List<Combinacion> {
+    private fun generarOutfits(outfitList: List<Prenda>, temperatura: Float, llueve: Boolean): List<Combinacion> {
 
         val combinaciones = emptyList<Combinacion>().toMutableList()
         var prendasNecesarias = 5
@@ -135,9 +132,54 @@ class OutfitAdapter(listener: SendData): RecyclerView.Adapter<OutfitAdapter.MyVi
             prendasNecesarias = 3
         }
 
-        var cont = 0
-        var registro  = Combinacion(null, null, null, null, null, null)
+        var parteSuperior = 0
+        var parteInferior = 0
+        var calzado = 0
+        var jerseis = 0
+        var cazadoras = 0
+        var conjuntos = 0
+        val m = parteSuperior + parteInferior + calzado + jerseis + cazadoras + conjuntos
+        val n = prendasNecesarias
+        val comb = funFactorial((n+m-1))/(funFactorial(m)*funFactorial(n-1))
+
+        for (t in 1..comb){
+            val registro  = Combinacion(null, null, null, null, null, null)
+            combinaciones += registro
+        }
+
+
         for (i in outfitList){
+            if((i.categoria=="CAMISA M. LARGA" || i.categoria=="CAMISA M. CORTA"
+                        || i.categoria=="CAMISETAS M. CORTA" || i.categoria=="CAMISETAS M. LARGA"
+                        || i.categoria=="CAMISETAS TIRANTES" || i.categoria=="POLOS"
+                        || i.categoria=="TOPS")) {
+                parteSuperior++
+            }
+            if ((i.categoria == "PANTALONES" || i.categoria == "PANTALONES CORTOS"
+                        || i.categoria=="FALDAS" || i.categoria == "JEANS")){
+                parteInferior++
+            }
+            if((i.categoria == "DEPORTIVAS" || i.categoria == "ZAPATOS"
+                        || i.categoria == "BOTAS Y BOTINES" || i.categoria == "SANDALIAS")){
+                calzado++
+            }
+            if ((i.categoria=="ABRIGOS" || i.categoria=="CAZADORAS" || i.categoria=="CHUBASQUERO"
+                        || i.categoria=="BLAZERS")) {
+                cazadoras++
+            }
+            if ((i.categoria=="SOBRECAMISAS" || i.categoria=="CHALECOS" || i.categoria=="CHALECOS"
+                        || i.categoria=="JERSÉIS" || i.categoria=="CHAQUETAS" || i.categoria=="SUDADERAS")){
+                jerseis++
+            }
+            if((i.categoria=="VESTIDOS" || i.categoria=="MONOS" || i.categoria=="TRAJES")){
+                conjuntos++
+            }
+        }
+
+        var cont = 0
+
+        for (i in outfitList){
+
             Log.i("cont", cont.toString())
             Log.i("Combinacion", registro.toString())
             if((i.categoria=="CAMISA M. LARGA" || i.categoria=="CAMISA M. CORTA"
@@ -211,6 +253,17 @@ class OutfitAdapter(listener: SendData): RecyclerView.Adapter<OutfitAdapter.MyVi
         val spec = IvParameterSpec(ivBytes)
         cipher.init(Cipher.DECRYPT_MODE, getKey(),spec)
         return cipher.doFinal(data).toString(Charsets.UTF_8).trim()
+    }
+
+    fun funFactorial(num: Int): Long {
+        var factorial: Long=1
+
+        for(i in 1..num){
+            // Calculate Factorial
+            factorial*=i.toLong()
+        }
+
+        return factorial
     }
 
 

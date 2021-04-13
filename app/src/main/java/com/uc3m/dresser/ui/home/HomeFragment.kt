@@ -8,7 +8,6 @@ import android.graphics.BitmapFactory
 import android.location.Location
 import android.os.Bundle
 import android.util.Base64
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -32,6 +31,7 @@ import com.uc3m.dresser.viewModels.PrendaViewModel
 
 class HomeFragment : Fragment() {
     private var temperatura: Float? = null
+    private var llueve: Boolean = false
     private lateinit var homeViewModel: HomeViewModel
     private lateinit var binding: FragmentHomeBinding
     private lateinit var fusedLocationClient: FusedLocationProviderClient
@@ -120,19 +120,22 @@ class HomeFragment : Fragment() {
             }
         })
 
-        binding.fabHome.setOnClickListener{
-            if(temperatura!=null){
-                setFragmentResult("envioTemp", bundleOf("temperatura" to temperatura))
-                findNavController().navigate(R.id.action_navigation_home_to_formularioFragment)
-            }
-            else{
-                Toast.makeText(
-                    requireActivity(),
-                    "No se ha obtenido Temperatura",
-                    Toast.LENGTH_SHORT
-                ).show()
-            }
+
+
+        binding.accionCasual.setOnClickListener{
+            seleccionContexto(temperatura, "CASUAL", llueve)
         }
+        binding.accionDeporte.setOnClickListener{
+            seleccionContexto(temperatura, "DEPORTE", llueve)
+        }
+        binding.accionFormal.setOnClickListener{
+            seleccionContexto(temperatura, "FORMAL", llueve)
+        }
+        binding.accionPlaya.setOnClickListener{
+            seleccionContexto(temperatura, "PLAYA", llueve)
+        }
+
+
         return view
     }
 
@@ -159,11 +162,25 @@ class HomeFragment : Fragment() {
                     val sTermica = w.main.feels_like.toInt()
                     binding.sTermica.text = "Sensación Termica: $sTermica °C "
                     binding.textClima.text = w.weather[0].description
+                    if(("09" in imgclima) || ("10" in imgclima) || ("11" in imgclima) || ("13" in imgclima)){
+                        llueve = true
+                    }
                 }
             }
         })
     }
 
+    private fun seleccionContexto(temp: Float?, ocasion: String, llueve: Boolean){
+        if(temp!=null && ocasion!=""){
+            setFragmentResult("ocasion", bundleOf("ocasion" to ocasion))
+            setFragmentResult("temperatura", bundleOf("temperatura" to temp))
+            setFragmentResult("lluvia", bundleOf("lluvia" to llueve))
+            findNavController().navigate(R.id.action_navigation_home_to_elegirOutfitFragment)
+        }
+        else{
+            Toast.makeText(requireActivity(),"No se ha obtenido Temperatura",Toast.LENGTH_SHORT).show()
+        }
+    }
 
 
 }
