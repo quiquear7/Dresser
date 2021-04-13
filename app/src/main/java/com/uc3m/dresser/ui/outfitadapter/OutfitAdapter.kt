@@ -177,7 +177,7 @@ class OutfitAdapter(listener: SendData): RecyclerView.Adapter<OutfitAdapter.MyVi
         }
 
         var cont = 0
-
+        var registro  = Combinacion(null, null, null, null, null, null)
         for (i in outfitList){
 
             Log.i("cont", cont.toString())
