@@ -56,24 +56,19 @@ class MainActivity : AppCompatActivity() {
     override fun onBackPressed() {
         val currentFragment = findNavController(R.id.nav_host_fragment).currentDestination
         if (currentFragment != null) {
-            if(currentFragment.id == R.id.navigation_home ){
+            if(currentFragment.id == R.id.navigation_home || currentFragment.id == R.id.authFragment){
                 if (tiempoPrimerClick + INTERVALO > System.currentTimeMillis()){
-                    finish()
+                    finishAffinity()
                 }else {
                     Toast.makeText(this, "Vuelve a presionar para salir", Toast.LENGTH_SHORT).show()
                 }
                 tiempoPrimerClick = System.currentTimeMillis()
-
             }else{
-                if(currentFragment.id != R.id.authFragment ){
-                    val count = supportFragmentManager.backStackEntryCount
-                    if (count == 0) {
-                        super.onBackPressed()
-                    } else {
-                        supportFragmentManager.popBackStack()
-                    }
-                }else{
-                    finishAffinity()
+                val count = supportFragmentManager.backStackEntryCount
+                if (count == 0) {
+                    super.onBackPressed()
+                } else {
+                    supportFragmentManager.popBackStack()
                 }
             }
         }
