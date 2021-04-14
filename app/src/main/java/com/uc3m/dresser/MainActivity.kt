@@ -72,6 +72,8 @@ class MainActivity : AppCompatActivity() {
                     } else {
                         supportFragmentManager.popBackStack()
                     }
+                }else{
+                    finishAffinity()
                 }
             }
         }
