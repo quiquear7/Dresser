@@ -15,6 +15,8 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import com.google.firebase.auth.FirebaseAuth
+import com.squareup.picasso.Picasso
 import com.uc3m.dresser.R
 import com.uc3m.dresser.databinding.FragmentDashboardBinding
 import com.uc3m.dresser.databinding.FragmentNotificationsBinding
@@ -24,6 +26,7 @@ class NotificationsFragment : Fragment() {
 
     private lateinit var notificationsViewModel: NotificationsViewModel
     private lateinit var binding: FragmentNotificationsBinding
+    private lateinit var auth: FirebaseAuth
 
     @SuppressLint("SetTextI18n")
     override fun onCreateView(
@@ -38,6 +41,14 @@ class NotificationsFragment : Fragment() {
         binding = FragmentNotificationsBinding.inflate(inflater, container, false)
         val view = binding.root
 
+        auth = FirebaseAuth.getInstance()
+        val currentUser = auth.currentUser
+        Picasso.with(context).load(currentUser.photoUrl)
+            .into(binding.imageFoto)
+        currentUser.photoUrl
+        binding.textName.text = currentUser.displayName
+        binding.textEmail.text = currentUser.email
+
         binding.bPrendas.setOnClickListener{
             findNavController().navigate(R.id.action_navigation_notifications_to_listaFragment)
         }
@@ -46,6 +57,10 @@ class NotificationsFragment : Fragment() {
             findNavController().navigate(R.id.action_navigation_notifications_to_historialFragment)
         }
 
+        binding.cbLogout.setOnClickListener{
+            auth.signOut()
+            findNavController().navigate(R.id.action_navigation_notifications_to_authFragment)
+        }
         return view
     }
 }

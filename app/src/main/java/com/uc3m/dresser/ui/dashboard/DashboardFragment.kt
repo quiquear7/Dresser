@@ -10,6 +10,7 @@ import android.provider.MediaStore
 import android.security.keystore.KeyGenParameterSpec
 import android.security.keystore.KeyProperties
 import android.util.Base64
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -167,7 +168,7 @@ class DashboardFragment : Fragment() {
             }
         }
 
-       /* binding.fabGallery.setOnClickListener{
+       binding.fabGallery.setOnClickListener{
             if ( context?.checkSelfPermission(android.Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED) {
                 val permisosLectura = arrayOf(android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
                 requestPermissions(permisosLectura, PHOTO_SELECTED)
@@ -175,7 +176,7 @@ class DashboardFragment : Fragment() {
                 abrirGaleria()
             }
 
-        }*/
+        }
 
         return view
     }
@@ -222,9 +223,10 @@ class DashboardFragment : Fragment() {
             if (data != null) {
                 foto = data.data
                 if (foto != null) {
-                   // val list = foto!!.path?.split(":")
-                   // ruta = "/storage/emulated/0/"+list?.get(1).toString()
-                    ruta ="*"
+                    Log.i("Ruta: ", foto!!.path.toString())
+                   //val list = foto!!.path?.split(":")
+                   //ruta = "/storage/emulated/0/"+list?.get(1).toString()
+                   // ruta ="*"
                     imgFoto?.setImageURI(foto)
                 }
             }

@@ -53,7 +53,11 @@ class ListaFragment : Fragment(), SendPrenda{
         Log.i("información", "creación")
         prendaViewModel.readAll.observe(viewLifecycleOwner, { prenda ->
             if (prenda != null) {
+               // binding.textLvacia.text = ""
                 adapter.setData(prenda)
+            }else{
+                Log.i("vacia:", "vacia")
+                //binding.textLvacia.="Todavía no has agregado una prenda"
             }
         })
 

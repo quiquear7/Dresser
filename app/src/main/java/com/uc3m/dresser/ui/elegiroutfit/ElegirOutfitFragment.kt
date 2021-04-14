@@ -69,7 +69,6 @@ class ElegirOutfitFragment :  Fragment(), SendData {
                     prendaViewModel.readOcasion(ocasion, fecha.time).observe(viewLifecycleOwner, {prendas->
                         if(temperatura!=null){
                             val list = elegirOutfitViewModel.generarOutfits(prendas, temperatura!!, llueve)
-                            Log.i("list", list.toString())
                             adapter.setData(list)
                         } else{
                             Toast.makeText(requireActivity(),"No se ha obtenido Temperatura", Toast.LENGTH_SHORT).show()
@@ -80,7 +79,7 @@ class ElegirOutfitFragment :  Fragment(), SendData {
         }
     }
 
-    override fun sendInfo(registro: Registro, date: Date?) {
+    override fun sendInfo(registro: Registro, date: String) {
         prendaViewModel.addRegistro(registro)
         updatePrenda(registro.prenda.cazadoras, date)
         updatePrenda(registro.prenda.calzado, date)
@@ -92,11 +91,13 @@ class ElegirOutfitFragment :  Fragment(), SendData {
         findNavController().navigate(R.id.action_elegirOutfitFragment_to_navigation_home)
     }
 
-    private fun updatePrenda(prenda: Prenda?, date:Date?){
+    private fun updatePrenda(prenda: Prenda?, date:String){
         if(prenda!=null){
             val currentPrenda: Prenda = prenda
             if (date != null) {
-                currentPrenda.ultimoUso = date.time
+                val fechas = date.split("/")
+                val fecha = Date(fechas[0].toInt() , fechas[1].toInt(), fechas[2].toInt())
+                currentPrenda.ultimoUso = fecha.time
                 prendaViewModel.updatePrenda(currentPrenda)
             }
         }

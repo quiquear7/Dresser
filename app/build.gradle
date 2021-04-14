@@ -51,6 +51,7 @@ android {
 dependencies {
 
     implementation 'androidx.coordinatorlayout:coordinatorlayout:1.1.0'
+    implementation 'com.google.firebase:firebase-auth:20.0.4'
 
     def room_version = "2.2.6"
 
@@ -80,7 +81,7 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
 
     // Kotlin components
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.4.31"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.4.32"
     api "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.4.2"
     api "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.4.1"
 
@@ -131,14 +132,6 @@ dependencies {
 
     implementation 'com.getbase:floatingactionbutton:1.10.1'
 
-
-
-
-
-
-
-
-
-
+    implementation 'de.hdodenhof:circleimageview:3.1.0'
 
 }

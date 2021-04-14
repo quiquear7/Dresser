@@ -8,6 +8,7 @@ import android.graphics.BitmapFactory
 import android.location.Location
 import android.os.Bundle
 import android.util.Base64
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -72,9 +73,10 @@ class HomeFragment : Fragment() {
         }
 
         prendaViewModel = ViewModelProvider(this).get(PrendaViewModel::class.java)
-        prendaViewModel.lastOutfit.observe(viewLifecycleOwner, { prendas ->
-            if (prendas != null) {
-                val i = prendas.prenda
+        prendaViewModel.lastOutfit.observe(viewLifecycleOwner, { registro ->
+            if (registro != null) {
+                binding.tituloOutfit.text = "ÚLTIMO OUTFIT"
+                val i = registro.prenda
                 if (i.parteSuperior != null) {
                     val iv: ByteArray = Base64.decode(i.parteSuperior!!.iv, Base64.DEFAULT)
                     val text: ByteArray = Base64.decode(
@@ -156,6 +158,7 @@ class HomeFragment : Fragment() {
             if (response.isSuccessful) {
                 val w = response.body()
                 if (w != null) {
+
                     val imgclima = w.weather[0].icon
 
                     Picasso.with(context).load("https://openweathermap.org/img/wn/$imgclima@2x.png")

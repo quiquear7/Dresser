@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/navigation_home">
+    app:startDestination="@id/authFragment">
 
     <fragment
         android:id="@+id/navigation_home"
@@ -35,6 +35,9 @@
         <action
             android:id="@+id/action_navigation_notifications_to_historialFragment"
             app:destination="@id/historialFragment" />
+        <action
+            android:id="@+id/action_navigation_notifications_to_authFragment"
+            app:destination="@id/authFragment" />
     </fragment>
 
 
@@ -79,6 +82,15 @@
         tools:layout="@layout/fragment_elegir_outfit" >
         <action
             android:id="@+id/action_elegirOutfitFragment_to_navigation_home"
+            app:destination="@id/navigation_home" />
+    </fragment>
+    <fragment
+        android:id="@+id/authFragment"
+        android:name="com.uc3m.dresser.ui.auth.AuthFragment"
+        android:label="Dresser"
+        tools:layout="@layout/fragment_auth" >
+        <action
+            android:id="@+id/action_authFragment_to_navigation_home"
             app:destination="@id/navigation_home" />
     </fragment>
 
