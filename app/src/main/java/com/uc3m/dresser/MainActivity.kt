@@ -1,12 +1,15 @@
 package com.uc3m.dresser
 
+import android.R.id.toggle
 import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
+import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
@@ -14,7 +17,6 @@ import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.FirebaseAuth
 import com.uc3m.dresser.databinding.ActivityMainBinding
-import com.uc3m.dresser.ui.auth.AuthFragment
 
 
 enum class ProviderType{
@@ -36,6 +38,7 @@ class MainActivity : AppCompatActivity() {
         val navController = findNavController(R.id.nav_host_fragment)
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
+        setupNav()
         val appBarConfiguration = AppBarConfiguration(
             setOf(
                 R.id.navigation_home, R.id.navigation_dashboard, R.id.navigation_notifications
@@ -53,7 +56,7 @@ class MainActivity : AppCompatActivity() {
     override fun onBackPressed() {
         val currentFragment = findNavController(R.id.nav_host_fragment).currentDestination
         if (currentFragment != null) {
-            if(currentFragment.id == R.id.authFragment || currentFragment.id == R.id.navigation_home ){
+            if(currentFragment.id == R.id.navigation_home ){
                 if (tiempoPrimerClick + INTERVALO > System.currentTimeMillis()){
                     finish()
                 }else {
@@ -62,11 +65,13 @@ class MainActivity : AppCompatActivity() {
                 tiempoPrimerClick = System.currentTimeMillis()
 
             }else{
-                val count = supportFragmentManager.backStackEntryCount
-                if (count == 0) {
-                    super.onBackPressed()
-                } else {
-                    supportFragmentManager.popBackStack()
+                if(currentFragment.id != R.id.authFragment ){
+                    val count = supportFragmentManager.backStackEntryCount
+                    if (count == 0) {
+                        super.onBackPressed()
+                    } else {
+                        supportFragmentManager.popBackStack()
+                    }
                 }
             }
         }
@@ -100,10 +105,33 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    private fun setupNav() {
+        val navController = findNavController(R.id.nav_host_fragment)
+        findViewById<BottomNavigationView>(R.id.nav_view)
+            .setupWithNavController(navController)
 
+        navController.addOnDestinationChangedListener { _, destination, _ ->
+            when (destination.id) {
+                R.id.authFragment -> hideBottomNav()
+                else -> showBottomNav()
+            }
+        }
+    }
+
+    private fun showBottomNav() {
+        binding.navView.visibility = View.VISIBLE
+
+    }
+
+    private fun hideBottomNav() {
+        binding.navView.visibility = View.GONE
+
+    }
 
 
 
 
 }
+
+
 
