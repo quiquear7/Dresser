@@ -1,8 +1,8 @@
 package com.uc3m.dresser.database
 
-import android.text.Editable
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import androidx.room.TypeConverters
 
 @Entity (tableName = "table_prenda")
 data class Prenda(
@@ -13,6 +13,8 @@ data class Prenda(
     val color: String,
     val estampado: String,
     val ocasion: String,
+    @TypeConverters(DateConverter::class)
+    var ultimoUso: Long,
     val iv: String,
     val encryptedRuta: String
 )

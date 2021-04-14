@@ -1,10 +1,8 @@
 package com.uc3m.dresser.ui.dashboard
 
-import android.R.attr
 import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.database.Cursor
 import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
@@ -12,7 +10,6 @@ import android.provider.MediaStore
 import android.security.keystore.KeyGenParameterSpec
 import android.security.keystore.KeyProperties
 import android.util.Base64
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -25,6 +22,7 @@ import com.uc3m.dresser.database.Prenda
 import com.uc3m.dresser.databinding.FragmentDashboardBinding
 import com.uc3m.dresser.viewModels.PrendaViewModel
 import java.io.File
+import java.util.*
 import javax.crypto.KeyGenerator
 
 
@@ -154,7 +152,9 @@ class DashboardFragment : Fragment() {
                 val encodedIV: String = Base64.encodeToString(pair.first, Base64.DEFAULT)
                 val encodedText: String = Base64.encodeToString(pair.second, Base64.DEFAULT)
                 val prendaViewModel = ViewModelProvider(this).get(PrendaViewModel::class.java)
-                val prenda = Prenda(0, nombre, categoria, color, estampado, ocasion, encodedIV, encodedText)
+                val fecha = Date(2021,1, 31)
+                val fechaLong = fecha.time
+                val prenda = Prenda(0, nombre, categoria, color, estampado, ocasion, fechaLong,encodedIV, encodedText)
                 prendaViewModel.addPrenda(prenda)
                 imgFoto?.setImageURI(null)
                 foto = null
@@ -163,7 +163,7 @@ class DashboardFragment : Fragment() {
                 Toast.makeText(requireActivity(), "Add Completed", Toast.LENGTH_SHORT).show()
             }
             else{
-                Toast.makeText(requireActivity(), "Image Required", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireActivity(), "Image and Name Required", Toast.LENGTH_SHORT).show()
             }
         }
 

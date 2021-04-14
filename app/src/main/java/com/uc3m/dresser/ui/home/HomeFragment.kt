@@ -8,7 +8,6 @@ import android.graphics.BitmapFactory
 import android.location.Location
 import android.os.Bundle
 import android.util.Base64
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -21,13 +20,13 @@ import androidx.navigation.fragment.findNavController
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.squareup.picasso.Picasso
+import com.uc3m.dresser.MainActivity
 import com.uc3m.dresser.R
 import com.uc3m.dresser.databinding.FragmentHomeBinding
 import com.uc3m.dresser.repository.Repository
 import com.uc3m.dresser.viewModels.MainViewModel
 import com.uc3m.dresser.viewModels.MainViewModelFactory
 import com.uc3m.dresser.viewModels.PrendaViewModel
-
 
 
 class HomeFragment : Fragment() {
@@ -74,19 +73,24 @@ class HomeFragment : Fragment() {
 
         prendaViewModel = ViewModelProvider(this).get(PrendaViewModel::class.java)
         prendaViewModel.lastOutfit.observe(viewLifecycleOwner, { prendas ->
-            Log.i("prendas Home: ", prendas.toString())
             if (prendas != null) {
                 val i = prendas.prenda
                 if (i.parteSuperior != null) {
                     val iv: ByteArray = Base64.decode(i.parteSuperior!!.iv, Base64.DEFAULT)
-                    val text: ByteArray = Base64.decode(i.parteSuperior!!.encryptedRuta, Base64.DEFAULT)
+                    val text: ByteArray = Base64.decode(
+                        i.parteSuperior!!.encryptedRuta,
+                        Base64.DEFAULT
+                    )
                     val ruta = homeViewModel.decryptData(iv, text)
                     val imgBitmap: Bitmap = BitmapFactory.decodeFile(ruta)
                     binding.iButton1.setImageBitmap(imgBitmap)
                 }
                 if (i.parteInferior != null) {
                     val iv: ByteArray = Base64.decode(i.parteInferior!!.iv, Base64.DEFAULT)
-                    val text: ByteArray = Base64.decode(i.parteInferior!!.encryptedRuta, Base64.DEFAULT)
+                    val text: ByteArray = Base64.decode(
+                        i.parteInferior!!.encryptedRuta,
+                        Base64.DEFAULT
+                    )
                     val ruta = homeViewModel.decryptData(iv, text)
                     val imgBitmap: Bitmap = BitmapFactory.decodeFile(ruta)
                     binding.iButton2.setImageBitmap(imgBitmap)
@@ -159,12 +163,12 @@ class HomeFragment : Fragment() {
 
                     temperatura = w.main.temp
                     val tempInt = temperatura!!.toInt()
-                    binding.textCity.text = w.name +", "+w.sys.country
+                    binding.textCity.text = w.name + ", " + w.sys.country
                     binding.tTemp.text = "$tempInt °C"
                     val sTermica = w.main.feels_like.toInt()
                     binding.sTermica.text = "Sensación Termica: $sTermica °C "
                     binding.textClima.text = w.weather[0].description
-                    if(("09" in imgclima) || ("10" in imgclima) || ("11" in imgclima) || ("13" in imgclima)){
+                    if (("09" in imgclima) || ("10" in imgclima) || ("11" in imgclima) || ("13" in imgclima)) {
                         llueve = true
                     }
                 }
@@ -180,9 +184,8 @@ class HomeFragment : Fragment() {
             findNavController().navigate(R.id.action_navigation_home_to_elegirOutfitFragment)
         }
         else{
-            Toast.makeText(requireActivity(),"No se ha obtenido Temperatura",Toast.LENGTH_SHORT).show()
+            Toast.makeText(requireActivity(), "No se ha obtenido Temperatura", Toast.LENGTH_SHORT).show()
         }
     }
-
 
 }

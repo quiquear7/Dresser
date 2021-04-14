@@ -1,6 +1,8 @@
 package com.uc3m.dresser.database
 
 import androidx.lifecycle.LiveData
+import java.time.LocalDate
+import java.util.*
 
 class PrendaRepository (private val prendaDao: PrendaDao) {
 
@@ -20,8 +22,8 @@ class PrendaRepository (private val prendaDao: PrendaDao) {
         return prendaDao.readDate(date)
     }
 
-    fun readOcasion(ocasion: String): LiveData<List<Prenda>> {
-        return prendaDao.readOcasion(ocasion)
+    fun readOcasion(ocasion: String, currentDate: Long): LiveData<List<Prenda>> {
+        return prendaDao.readOcasion(ocasion, currentDate)
     }
 
     suspend fun deletePrenda(prenda: Prenda) {

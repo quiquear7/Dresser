@@ -1,6 +1,7 @@
 package com.uc3m.dresser.ui.notifications
 
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.Bundle
@@ -36,7 +37,6 @@ class NotificationsFragment : Fragment() {
 
         binding = FragmentNotificationsBinding.inflate(inflater, container, false)
         val view = binding.root
-
 
         binding.bPrendas.setOnClickListener{
             findNavController().navigate(R.id.action_navigation_notifications_to_listaFragment)

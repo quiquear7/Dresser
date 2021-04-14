@@ -102,8 +102,9 @@ class OutfitAdapter(listener: SendData): RecyclerView.Adapter<OutfitAdapter.MyVi
             binding.confirmarOutfit.setOnClickListener {
                 val sdf = SimpleDateFormat("dd/M/yyyy")
                 val currentDate = sdf.format(Date())
+                val date: Date? = sdf.parse(currentDate)
                 registro = Registro(0,currentDate, i)
-                listener.sendInfo(registro)
+                listener.sendInfo(registro, date)
             }
         }
     }

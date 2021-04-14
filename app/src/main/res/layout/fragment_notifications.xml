@@ -17,7 +17,7 @@
         android:backgroundTint="#FFFFFF"
         android:drawableStart="@drawable/ic_t_shirt"
         android:drawablePadding="-150dp"
-        android:paddingStart="30dp"
+        android:paddingStart="29dp"
         android:text="@string/todasprendas"
         app:layout_constraintTop_toTopOf="parent"
         tools:layout_editor_absoluteX="0dp" />

@@ -7,6 +7,8 @@ import androidx.lifecycle.viewModelScope
 import com.uc3m.dresser.database.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import java.time.LocalDate
+import java.util.*
 
 class PrendaViewModel (application: Application): AndroidViewModel(application){
     val lastOutfit: LiveData<Registro>
@@ -36,8 +38,8 @@ class PrendaViewModel (application: Application): AndroidViewModel(application){
         return repository.readDate(date)
     }
 
-    fun readOcasion(ocasion: String): LiveData<List<Prenda>>{
-        return repository.readOcasion(ocasion)
+    fun readOcasion(ocasion: String, currentDate: Long): LiveData<List<Prenda>>{
+        return repository.readOcasion(ocasion, currentDate)
     }
 
     fun deletePrenda(prenda: Prenda) {

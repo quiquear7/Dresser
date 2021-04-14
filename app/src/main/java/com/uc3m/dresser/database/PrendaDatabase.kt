@@ -7,7 +7,7 @@ import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 
 @Database (entities = [Prenda::class, Registro::class], version = 1, exportSchema = false)
-@TypeConverters(RegistroTypeConverter::class)
+@TypeConverters(RegistroTypeConverter::class,DateConverter::class)
 abstract class PrendaDatabase: RoomDatabase() {
 
     abstract fun prendaDao(): PrendaDao

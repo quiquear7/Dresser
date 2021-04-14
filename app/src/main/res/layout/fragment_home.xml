@@ -7,6 +7,7 @@
     android:layout_height="match_parent"
     tools:context=".ui.home.HomeFragment">
 
+
     <RelativeLayout
         android:id="@+id/rl2"
         android:layout_width="match_parent"
@@ -187,7 +188,10 @@
         android:text="@string/ltimo_outfit"
         app:layout_constraintBottom_toTopOf="@+id/rl1"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        android:textStyle="bold"/>
 
 
 
@@ -206,6 +210,7 @@
         app:layout_constraintVertical_bias="0.846"
         app:fab_labelStyle="@style/Etiquetas"
         fab:fab_addButtonColorNormal="@color/cyan"
+        app:fab_addButtonColorPressed="@color/teal"
         fab:fab_addButtonSize="normal"
         fab:fab_labelsPosition="left">
 
@@ -214,6 +219,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             fab:fab_colorNormal="@color/teal"
+
+            app:fab_colorPressed="@color/cyan"
             fab:fab_icon="@drawable/ic_camiseta_casual"
             fab:fab_size="mini"
             fab:fab_title="CASUAL" />
@@ -224,7 +231,9 @@
             android:layout_height="wrap_content"
             fab:fab_colorNormal="@color/teal"
             fab:fab_icon="@drawable/ic_baseline_sports"
+            app:fab_addButtonColorPressed="@color/cyan"
             fab:fab_size="mini"
+            app:fab_colorPressed="@color/cyan"
             fab:fab_title="DEPORTE" />
 
         <com.getbase.floatingactionbutton.FloatingActionButton
@@ -233,6 +242,8 @@
             android:layout_height="wrap_content"
             fab:fab_colorNormal="@color/teal"
             fab:fab_icon="@drawable/ic_bowtie"
+            app:fab_addButtonColorPressed="@color/cyan"
+            app:fab_colorPressed="@color/cyan"
             fab:fab_size="mini"
             fab:fab_title="FORMAL" />
 
@@ -241,13 +252,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             fab:fab_colorNormal="@color/teal"
+            app:fab_addButtonColorPressed="@color/cyan"
+            app:fab_colorPressed="@color/cyan"
             fab:fab_icon="@drawable/ic_ola"
             fab:fab_size="mini"
             fab:fab_title="PLAYA" />
 
     </com.getbase.floatingactionbutton.FloatingActionsMenu>
-
-
-
-
 </androidx.constraintlayout.widget.ConstraintLayout>

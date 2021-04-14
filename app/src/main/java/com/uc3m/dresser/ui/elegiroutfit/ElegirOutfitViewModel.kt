@@ -1,8 +1,7 @@
 package com.uc3m.dresser.ui.elegiroutfit
 
+
 import android.util.Log
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.uc3m.dresser.database.Combinacion
 import com.uc3m.dresser.database.Prenda
@@ -12,9 +11,6 @@ import javax.crypto.SecretKey
 import javax.crypto.spec.IvParameterSpec
 
 class ElegirOutfitViewModel : ViewModel() {
-
-
-
 
     fun checkKey(): Boolean{
         val keystore: KeyStore = KeyStore.getInstance("AndroidKeyStore")
@@ -111,9 +107,8 @@ class ElegirOutfitViewModel : ViewModel() {
             combinaciones += registro
         }
 
-
         for (i in outfitList){
-
+            Log.i("Registro: ", combinaciones.toString())
             if((i.categoria=="CAMISA M. LARGA" || i.categoria=="CAMISA M. CORTA"
                         || i.categoria=="CAMISETAS M. CORTA" || i.categoria=="CAMISETAS M. LARGA"
                         || i.categoria=="CAMISETAS TIRANTES" || i.categoria=="POLOS"
@@ -177,20 +172,21 @@ class ElegirOutfitViewModel : ViewModel() {
                 }
             }
         }
+
         val indices: MutableList<Int> = mutableListOf()
         for((index, i) in combinaciones.withIndex()){
-            if (i.calzado == null){
+            if (i.calzado == null || i.parteInferior == null || i.parteSuperior==null){
                 indices.add(0,index)
             }
         }
-        
+
         for (i in indices){
             combinaciones.removeAt(i)
         }
         return combinaciones
     }
 
-    fun funFactorial(num: Int): Long {
+    private fun funFactorial(num: Int): Long {
         var factorial: Long=1
         for(i in 1..num){
             factorial*=i.toLong()

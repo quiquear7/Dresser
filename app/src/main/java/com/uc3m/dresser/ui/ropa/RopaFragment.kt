@@ -22,11 +22,10 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.uc3m.dresser.R
 import com.uc3m.dresser.database.Prenda
-import com.uc3m.dresser.databinding.FragmentDashboardBinding
 import com.uc3m.dresser.databinding.FragmentRopaBinding
-import com.uc3m.dresser.ui.dashboard.DashboardViewModel
 import com.uc3m.dresser.viewModels.PrendaViewModel
 import java.io.File
+import java.util.*
 
 class RopaFragment : Fragment() {
 
@@ -46,6 +45,7 @@ class RopaFragment : Fragment() {
     private var estampado =  ""
     private val REQUEST_IMAGE_CAPTURE = 1
     private val PHOTO_SELECTED = 2
+    private var ultimoUso: Long = 0
     private var imgFoto: ImageView? = null
     private lateinit var prendaViewModel: PrendaViewModel
 
@@ -150,7 +150,7 @@ class RopaFragment : Fragment() {
                 val pair = ropaViewModel.encrypData(ruta)
                 val encodedIV: String = Base64.encodeToString(pair.first, Base64.DEFAULT)
                 val encodedText: String = Base64.encodeToString(pair.second, Base64.DEFAULT)
-                val prenda = Prenda(idPrenda!!,nombre, categoria, color, estampado, ocasion, encodedIV, encodedText)
+                val prenda = Prenda(idPrenda!!,nombre, categoria, color, estampado, ocasion, ultimoUso,encodedIV, encodedText)
                 prendaViewModel.updatePrenda(prenda)
 
                 imgFoto?.setImageURI(null)
@@ -185,6 +185,7 @@ class RopaFragment : Fragment() {
         color =  prenda.color
         estampado = prenda.estampado
         ocasion = prenda.ocasion
+        ultimoUso = prenda.ultimoUso
         ruta = rutaTemp
 
         val lCategorias = resources.getStringArray(R.array.s_categorias)

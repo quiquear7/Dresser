@@ -1,5 +1,6 @@
 package com.uc3m.dresser.ui.elegiroutfit
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -15,9 +16,11 @@ import com.uc3m.dresser.databinding.FragmentElegirOutfitBinding
 import com.uc3m.dresser.ui.outfitadapter.OutfitAdapter
 import com.uc3m.dresser.viewModels.PrendaViewModel
 import androidx.fragment.app.setFragmentResultListener
+import com.uc3m.dresser.database.Prenda
 import com.uc3m.dresser.database.Registro
 import com.uc3m.dresser.ui.SendData
-import com.uc3m.dresser.ui.dashboard.DashboardViewModel
+import java.text.SimpleDateFormat
+import java.util.*
 
 
 class ElegirOutfitFragment :  Fragment(), SendData {
@@ -39,6 +42,7 @@ class ElegirOutfitFragment :  Fragment(), SendData {
         return binding.root
     }
 
+    @SuppressLint("SimpleDateFormat")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         // Use the Kotlin extension in the fragment-ktx artifact
@@ -57,24 +61,45 @@ class ElegirOutfitFragment :  Fragment(), SendData {
                     recyclerView.adapter = adapter
                     recyclerView.layoutManager = LinearLayoutManager(requireContext())
 
-                    prendaViewModel.readOcasion(ocasion).observe(viewLifecycleOwner, {prendas->
+                    val sdf = SimpleDateFormat("yyyy/MM/dd")
+                    val currentDate = sdf.format(Date())
+                    val fechas = currentDate.split("/")
+                    val fecha = Date(fechas[0].toInt() , fechas[1].toInt(), fechas[2].toInt())
+
+                    prendaViewModel.readOcasion(ocasion, fecha.time).observe(viewLifecycleOwner, {prendas->
                         if(temperatura!=null){
                             val list = elegirOutfitViewModel.generarOutfits(prendas, temperatura!!, llueve)
+                            Log.i("list", list.toString())
                             adapter.setData(list)
-                        }
-                        else{
+                        } else{
                             Toast.makeText(requireActivity(),"No se ha obtenido Temperatura", Toast.LENGTH_SHORT).show()
                         }
                     })
                 }
             }
-
         }
     }
 
-    override fun sendInfo(registro: Registro) {
+    override fun sendInfo(registro: Registro, date: Date?) {
         prendaViewModel.addRegistro(registro)
+        updatePrenda(registro.prenda.cazadoras, date)
+        updatePrenda(registro.prenda.calzado, date)
+        updatePrenda(registro.prenda.conjuntos, date)
+        updatePrenda(registro.prenda.jerseis, date)
+        updatePrenda(registro.prenda.parteInferior, date)
+        updatePrenda(registro.prenda.parteSuperior, date)
+
         findNavController().navigate(R.id.action_elegirOutfitFragment_to_navigation_home)
+    }
+
+    private fun updatePrenda(prenda: Prenda?, date:Date?){
+        if(prenda!=null){
+            val currentPrenda: Prenda = prenda
+            if (date != null) {
+                currentPrenda.ultimoUso = date.time
+                prendaViewModel.updatePrenda(currentPrenda)
+            }
+        }
     }
 
 
