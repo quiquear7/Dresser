@@ -46,7 +46,9 @@ class MainActivity : AppCompatActivity() {
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
-        this.supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        
+        //this.supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
     }
 
     private val INTERVALO = 2000 //2 segundos para salir
@@ -117,12 +119,12 @@ class MainActivity : AppCompatActivity() {
 
     private fun showBottomNav() {
         binding.navView.visibility = View.VISIBLE
-
+        supportActionBar?.show()
     }
 
     private fun hideBottomNav() {
         binding.navView.visibility = View.GONE
-
+        supportActionBar?.hide()
     }
 
 
