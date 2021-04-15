@@ -275,7 +275,7 @@ class DashboardFragment : Fragment() {
                         MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
                         column, sel, arrayOf(id), null
                     )
-                    
+
                     val columnIndex = cursor?.getColumnIndex(column[0])
 
                     if (cursor != null) {
