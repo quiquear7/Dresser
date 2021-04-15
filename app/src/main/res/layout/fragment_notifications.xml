@@ -45,9 +45,9 @@
         android:layout_marginTop="380dp"
         android:background="#FFFFFF"
         android:drawableStart="@drawable/ic_baseline_logout_24"
-        android:drawablePadding="-230dp"
+        android:drawablePadding="-180dp"
         android:paddingStart="30dp"
-        android:text="@string/logout"
+        android:text="@string/cerrar_sesi_n"
         app:layout_constraintTop_toTopOf="parent"
         tools:layout_editor_absoluteX="0dp" />
 

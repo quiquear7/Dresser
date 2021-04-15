@@ -46,7 +46,7 @@ class MainActivity : AppCompatActivity() {
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
-        
+
         //this.supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
     }
@@ -126,8 +126,6 @@ class MainActivity : AppCompatActivity() {
         binding.navView.visibility = View.GONE
         supportActionBar?.hide()
     }
-
-
 
 
 }

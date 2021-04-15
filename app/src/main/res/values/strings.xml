@@ -102,4 +102,5 @@
     <string name="title_activity_scrolling_activityadsfasdf">ScrollingActivity</string>
     <string name="title_activity_scrolling_activitydf">ScrollingActivity</string>
     <string name="logout">Logout</string>
+    <string name="cerrar_sesi_n">Cerrar Sesión</string>
 </resources>
