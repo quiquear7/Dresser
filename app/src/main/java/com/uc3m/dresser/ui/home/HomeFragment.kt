@@ -13,6 +13,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResult
@@ -48,29 +49,11 @@ class HomeFragment : Fragment() {
 
         binding = FragmentHomeBinding.inflate(inflater, container, false)
         val view = binding.root
+        binding.srl.setColorSchemeColors(resources.getColor(R.color.cyan))
+        coordenadas()
 
-        fusedLocationClient = LocationServices.getFusedLocationProviderClient(activity)
-        if (context?.checkSelfPermission(
-                Manifest.permission.ACCESS_FINE_LOCATION
-            ) != PackageManager.PERMISSION_GRANTED && context?.checkSelfPermission(
-                Manifest.permission.ACCESS_COARSE_LOCATION
-            ) != PackageManager.PERMISSION_GRANTED
-        ) {
-            val permisosCamara = arrayOf(
-                Manifest.permission.ACCESS_FINE_LOCATION,
-                Manifest.permission.ACCESS_COARSE_LOCATION
-            )
-            requestPermissions(permisosCamara, 1)
-        }else{
-            fusedLocationClient.lastLocation
-                .addOnSuccessListener { location: Location? ->
-                    if (location != null) {
-                        val latitud = location.latitude.toString()
-                        val longitud = location.longitude.toString()
-                        llamarApi(latitud, longitud, binding)
-                    }
-                }
-        }
+
+
 
         prendaViewModel = ViewModelProvider(this).get(PrendaViewModel::class.java)
         prendaViewModel.lastOutfit.observe(viewLifecycleOwner, { registro ->
@@ -143,6 +126,11 @@ class HomeFragment : Fragment() {
             seleccionContexto(temperatura, "PLAYA", llueve)
         }
 
+        binding.srl.setOnRefreshListener {
+            coordenadas()
+            binding.srl.isRefreshing = false
+        }
+
 
         return view
     }
@@ -179,6 +167,34 @@ class HomeFragment : Fragment() {
         })
     }
 
+    private fun coordenadas(){
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(activity)
+        if (context?.checkSelfPermission(
+                        Manifest.permission.ACCESS_FINE_LOCATION
+                ) != PackageManager.PERMISSION_GRANTED && context?.checkSelfPermission(
+                        Manifest.permission.ACCESS_COARSE_LOCATION
+                ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            val permisosCamara = arrayOf(
+                    Manifest.permission.ACCESS_FINE_LOCATION,
+                    Manifest.permission.ACCESS_COARSE_LOCATION
+            )
+            requestPermissions(permisosCamara, 1)
+
+        }else{
+            fusedLocationClient.lastLocation
+                    .addOnSuccessListener { location: Location? ->
+                        if (location != null) {
+                            val latitud = location.latitude.toString()
+                            val longitud = location.longitude.toString()
+                            llamarApi(latitud, longitud, binding)
+                        }else{
+                            Toast.makeText(requireActivity(), "No se ha obtenido Temperatura, Regarga la página", Toast.LENGTH_SHORT).show()
+                        }
+                    }
+        }
+    }
+
     private fun seleccionContexto(temp: Float?, ocasion: String, llueve: Boolean){
         if(temp!=null && ocasion!=""){
             setFragmentResult("ocasion", bundleOf("ocasion" to ocasion))
@@ -189,5 +205,9 @@ class HomeFragment : Fragment() {
         else{
             Toast.makeText(requireActivity(), "No se ha obtenido Temperatura", Toast.LENGTH_SHORT).show()
         }
+    }
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
     }
 }
