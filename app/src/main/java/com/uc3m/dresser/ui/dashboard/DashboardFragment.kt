@@ -249,12 +249,12 @@ class DashboardFragment : Fragment() {
             permissions: Array<out String>,
             grantResults: IntArray
     ) {
-        /*if (requestCode == REQUEST_IMAGE_CAPTURE && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+        if (requestCode == REQUEST_IMAGE_CAPTURE && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
             abrirCamara()
         }
         if (requestCode == PHOTO_SELECTED && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
             abrirGaleria()
-        }*/
+        }
     }
 
     private fun abrirCamara() {
