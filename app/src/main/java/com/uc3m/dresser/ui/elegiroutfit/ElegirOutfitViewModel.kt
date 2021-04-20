@@ -115,7 +115,7 @@ class ElegirOutfitViewModel : ViewModel() {
                         || i.categoria=="TOPS")) {
                 var ctemp = 0
                 for (registro in combinaciones){
-                    if(registro.parteSuperior==null && ctemp<parteInferior*calzado){
+                    if(registro.parteSuperior==null && ctemp<parteInferior*calzado && nPrendas(registro)<prendasNecesarias){
                         registro.parteSuperior=i
                         ctemp++
                     }
@@ -125,7 +125,7 @@ class ElegirOutfitViewModel : ViewModel() {
                         || i.categoria=="FALDAS" || i.categoria == "JEANS")){
                 var ctemp = 0
                 for (registro in combinaciones){
-                    if(registro.parteInferior==null && ctemp<parteSuperior*calzado){
+                    if(registro.parteInferior==null && ctemp<parteSuperior*calzado && nPrendas(registro)<prendasNecesarias){
                         registro.parteInferior=i
                         ctemp++
                     }
@@ -135,7 +135,7 @@ class ElegirOutfitViewModel : ViewModel() {
                         || i.categoria == "BOTAS Y BOTINES" || i.categoria == "SANDALIAS")){
                 var ctemp = 0
                 for (registro in combinaciones){
-                    if(registro.calzado==null && ctemp<parteSuperior*parteInferior){
+                    if(registro.calzado==null && ctemp<parteSuperior*parteInferior && nPrendas(registro)<prendasNecesarias){
                         registro.calzado=i
                         ctemp++
                     }
@@ -145,7 +145,7 @@ class ElegirOutfitViewModel : ViewModel() {
                         || i.categoria=="BLAZERS") && prendasNecesarias>4) {
                 var ctemp = 0
                 for (registro in combinaciones){
-                    if(registro.cazadoras==null && ctemp<parteSuperior*parteInferior*calzado*jerseis){
+                    if(registro.cazadoras==null && ctemp<parteSuperior*parteInferior*calzado*jerseis && nPrendas(registro)<prendasNecesarias){
                         registro.cazadoras=i
                         ctemp++
                     }
@@ -156,7 +156,7 @@ class ElegirOutfitViewModel : ViewModel() {
                 && prendasNecesarias>3){
                 var ctemp = 0
                 for (registro in combinaciones){
-                    if(registro.jerseis == null && ctemp<parteSuperior*parteInferior*calzado){
+                    if(registro.jerseis == null && ctemp<parteSuperior*parteInferior*calzado && nPrendas(registro)<prendasNecesarias){
                         registro.jerseis=i
                         ctemp++
                     }
@@ -165,7 +165,7 @@ class ElegirOutfitViewModel : ViewModel() {
             if(i.categoria == "VESTIDOS" || i.categoria=="MONOS" || i.categoria=="TRAJES"){
                 var ctemp = 0
                 for (registro in combinaciones){
-                    if(registro.conjuntos == null && ctemp<calzado){
+                    if(registro.conjuntos == null && ctemp<calzado && nPrendas(registro)<prendasNecesarias){
                         registro.conjuntos=i
                         ctemp++
                     }
@@ -194,4 +194,14 @@ class ElegirOutfitViewModel : ViewModel() {
         return factorial
     }
 
+    private fun nPrendas(registro: Combinacion): Int{
+        var cont = 0
+        if(registro.parteSuperior != null) cont++
+        if(registro.parteInferior != null) cont++
+        if(registro.conjuntos != null) cont++
+        if(registro.cazadoras != null) cont++
+        if(registro.calzado != null) cont++
+        if(registro.jerseis != null) cont++
+        return cont
+    }
 }
