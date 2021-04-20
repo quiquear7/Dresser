@@ -190,5 +190,4 @@ class HomeFragment : Fragment() {
             Toast.makeText(requireActivity(), "No se ha obtenido Temperatura", Toast.LENGTH_SHORT).show()
         }
     }
-
 }

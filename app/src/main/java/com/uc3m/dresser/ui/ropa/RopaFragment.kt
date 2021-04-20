@@ -68,6 +68,9 @@ class RopaFragment : Fragment() {
             })
         }
 
+        if(!context?.packageManager?.hasSystemFeature(PackageManager.FEATURE_CAMERA)!!){
+            binding.bCamara.hide()
+        }
 
         val lCategorias = resources.getStringArray(R.array.s_categorias)
 

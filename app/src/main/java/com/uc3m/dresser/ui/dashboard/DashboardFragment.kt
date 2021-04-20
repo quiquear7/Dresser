@@ -2,9 +2,11 @@ package com.uc3m.dresser.ui.dashboard
 
 
 import android.app.Activity
+import android.app.Activity.RESULT_OK
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.database.Cursor
+import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
@@ -26,6 +28,8 @@ import com.uc3m.dresser.database.Prenda
 import com.uc3m.dresser.databinding.FragmentDashboardBinding
 import com.uc3m.dresser.viewModels.PrendaViewModel
 import java.io.File
+import java.io.IOException
+import java.text.SimpleDateFormat
 import java.util.*
 import javax.crypto.KeyGenerator
 
@@ -73,6 +77,10 @@ class DashboardFragment : Fragment() {
                     .build()
             keyGenerator.init(keyGenParameterSpec)
             keyGenerator.generateKey()
+        }
+
+        if (!context?.packageManager?.hasSystemFeature(PackageManager.FEATURE_CAMERA)!!) {
+            binding.bCamara.hide()
         }
 
         val spnCategorias = binding.categorias
@@ -232,7 +240,6 @@ class DashboardFragment : Fragment() {
             } else {
                 abrirGaleria()
             }
-
         }
         return view
     }
@@ -242,22 +249,12 @@ class DashboardFragment : Fragment() {
             permissions: Array<out String>,
             grantResults: IntArray
     ) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        if (requestCode == REQUEST_IMAGE_CAPTURE && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+        /*if (requestCode == REQUEST_IMAGE_CAPTURE && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
             abrirCamara()
-        } else {
-            val permisosCamara = arrayOf(
-                    android.Manifest.permission.CAMERA,
-                    android.Manifest.permission.WRITE_EXTERNAL_STORAGE
-            )
-            requestPermissions(permisosCamara, REQUEST_IMAGE_CAPTURE)
         }
         if (requestCode == PHOTO_SELECTED && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
             abrirGaleria()
-        } else {
-            val permisosLectura = arrayOf(android.Manifest.permission.WRITE_EXTERNAL_STORAGE, android.Manifest.permission.READ_EXTERNAL_STORAGE)
-            requestPermissions(permisosLectura, PHOTO_SELECTED)
-        }
+        }*/
     }
 
     private fun abrirCamara() {
@@ -277,7 +274,7 @@ class DashboardFragment : Fragment() {
     }
 
     private fun crearImagen(): File? {
-        val nombre = "foto_"
+        val nombre = "dresser_"
         val directorio = context?.getExternalFilesDir(Environment.DIRECTORY_PICTURES)
         val imagen = File.createTempFile(nombre, ".jpg", directorio)
         ruta = imagen.absolutePath
@@ -291,15 +288,18 @@ class DashboardFragment : Fragment() {
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_IMAGE_CAPTURE) {
-            imgFoto?.setImageURI(foto)
+        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
+            if (foto != null) {
+                imgFoto?.setImageURI(foto)
+            } else {
+                Toast.makeText(requireActivity(), "Fallo al realizar imagen", Toast.LENGTH_SHORT).show()
+            }
         }
-        if (resultCode == Activity.RESULT_OK && requestCode == PHOTO_SELECTED) {
+
+        if (resultCode == RESULT_OK && requestCode == PHOTO_SELECTED) {
             if (data != null) {
                 foto = data.data
                 if (foto != null) {
-
                     val wholeID = DocumentsContract.getDocumentId(foto)
                     val id = wholeID.split(":").toTypedArray()[1]
 
@@ -325,7 +325,6 @@ class DashboardFragment : Fragment() {
             }
         }
     }
-
 }
 
 
