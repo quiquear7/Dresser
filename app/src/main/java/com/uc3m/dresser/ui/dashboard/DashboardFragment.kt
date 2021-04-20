@@ -1,6 +1,6 @@
 package com.uc3m.dresser.ui.dashboard
 
-import android.R.attr
+
 import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -36,11 +36,11 @@ class DashboardFragment : Fragment() {
     private lateinit var binding: FragmentDashboardBinding
 
     private var foto: Uri? = null
-    private var categoria =  ""
-    private var color =  ""
+    private var categoria = ""
+    private var color = ""
     private var ruta = ""
     private var ocasion = ""
-    private var estampado =  ""
+    private var estampado = ""
     private val REQUEST_IMAGE_CAPTURE = 1
     private val PHOTO_SELECTED = 2
 
@@ -58,19 +58,19 @@ class DashboardFragment : Fragment() {
         binding = FragmentDashboardBinding.inflate(inflater, container, false)
         val view = binding.root
 
-        if(!dashboardViewModel.checkKey()){
+        if (!dashboardViewModel.checkKey()) {
             val keyGenerator = KeyGenerator.getInstance(
                 KeyProperties.KEY_ALGORITHM_AES,
                 "AndroidKeyStore"
             )
             val keyGenParameterSpec = KeyGenParameterSpec
-                    .Builder(
-                        "MyKeyStore",
-                        KeyProperties.PURPOSE_ENCRYPT or KeyProperties.PURPOSE_DECRYPT
-                    )
-                    .setBlockModes(KeyProperties.BLOCK_MODE_CBC)
-                    .setEncryptionPaddings(KeyProperties.ENCRYPTION_PADDING_NONE)
-                    .build()
+                .Builder(
+                    "MyKeyStore",
+                    KeyProperties.PURPOSE_ENCRYPT or KeyProperties.PURPOSE_DECRYPT
+                )
+                .setBlockModes(KeyProperties.BLOCK_MODE_CBC)
+                .setEncryptionPaddings(KeyProperties.ENCRYPTION_PADDING_NONE)
+                .build()
             keyGenerator.init(keyGenParameterSpec)
             keyGenerator.generateKey()
         }
@@ -85,8 +85,8 @@ class DashboardFragment : Fragment() {
         )
         spnCategorias.adapter = aCat
 
-        spnCategorias.onItemSelectedListener = object:
-            AdapterView.OnItemSelectedListener{
+        spnCategorias.onItemSelectedListener = object :
+            AdapterView.OnItemSelectedListener {
             override fun onItemSelected(
                 parent: AdapterView<*>?,
                 view: View?,
@@ -95,6 +95,7 @@ class DashboardFragment : Fragment() {
             ) {
                 categoria = lCategorias[position]
             }
+
             override fun onNothingSelected(parent: AdapterView<*>?) {
 
             }
@@ -108,8 +109,8 @@ class DashboardFragment : Fragment() {
 
 
 
-        spnColores.onItemSelectedListener = object:
-                AdapterView.OnItemSelectedListener{
+        spnColores.onItemSelectedListener = object :
+            AdapterView.OnItemSelectedListener {
             override fun onItemSelected(
                 parent: AdapterView<*>?,
                 view: View?,
@@ -118,6 +119,7 @@ class DashboardFragment : Fragment() {
             ) {
                 color = lColores[position]
             }
+
             override fun onNothingSelected(parent: AdapterView<*>?) {
 
             }
@@ -133,8 +135,8 @@ class DashboardFragment : Fragment() {
         )
         spnEstampado.adapter = aEst
 
-        spnEstampado.onItemSelectedListener = object:
-            AdapterView.OnItemSelectedListener{
+        spnEstampado.onItemSelectedListener = object :
+            AdapterView.OnItemSelectedListener {
             override fun onItemSelected(
                 parent: AdapterView<*>?,
                 view: View?,
@@ -143,6 +145,7 @@ class DashboardFragment : Fragment() {
             ) {
                 estampado = lEstampados[position]
             }
+
             override fun onNothingSelected(parent: AdapterView<*>?) {
 
             }
@@ -154,8 +157,8 @@ class DashboardFragment : Fragment() {
         val aOc = ArrayAdapter(requireActivity(), android.R.layout.simple_spinner_item, lOcasion)
         spnOcasion.adapter = aOc
 
-        spnOcasion.onItemSelectedListener = object:
-            AdapterView.OnItemSelectedListener{
+        spnOcasion.onItemSelectedListener = object :
+            AdapterView.OnItemSelectedListener {
             override fun onItemSelected(
                 parent: AdapterView<*>?,
                 view: View?,
@@ -164,6 +167,7 @@ class DashboardFragment : Fragment() {
             ) {
                 ocasion = lOcasion[position]
             }
+
             override fun onNothingSelected(parent: AdapterView<*>?) {
 
             }
@@ -173,24 +177,25 @@ class DashboardFragment : Fragment() {
 
         val botonCamara = binding.bCamara
         botonCamara.setOnClickListener() {
-            if (context?.checkSelfPermission(android.Manifest.permission.CAMERA)  == PackageManager.PERMISSION_DENIED
-                || context?.checkSelfPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED) {
+            if (context?.checkSelfPermission(android.Manifest.permission.CAMERA) == PackageManager.PERMISSION_DENIED
+                || context?.checkSelfPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED
+            ) {
                 val permisosCamara = arrayOf(
                     android.Manifest.permission.CAMERA,
                     android.Manifest.permission.WRITE_EXTERNAL_STORAGE
                 )
                 requestPermissions(permisosCamara, REQUEST_IMAGE_CAPTURE)
-            }else{
+            } else {
                 abrirCamara()
             }
         }
 
 
         val botonAdd = binding.bagregar
-        botonAdd.setOnClickListener(){
+        botonAdd.setOnClickListener() {
 
             val nombre = binding.nameText.text.toString()
-            if(foto!=null && nombre != "" && ruta != ""){
+            if (foto != null && nombre != "" && ruta != "") {
                 val pair = dashboardViewModel.encrypData(ruta)
                 val encodedIV: String = Base64.encodeToString(pair.first, Base64.DEFAULT)
                 val encodedText: String = Base64.encodeToString(pair.second, Base64.DEFAULT)
@@ -214,17 +219,17 @@ class DashboardFragment : Fragment() {
                 ruta = ""
                 binding.nameText.text.clear()
                 Toast.makeText(requireActivity(), "Add Completed", Toast.LENGTH_SHORT).show()
-            }
-            else{
-                Toast.makeText(requireActivity(), "Image and Name Required", Toast.LENGTH_SHORT).show()
+            } else {
+                Toast.makeText(requireActivity(), "Image and Name Required", Toast.LENGTH_SHORT)
+                    .show()
             }
         }
 
-       binding.fabGallery.setOnClickListener{
-            if ( context?.checkSelfPermission(android.Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED) {
+        binding.fabGallery.setOnClickListener {
+            if (context?.checkSelfPermission(android.Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED) {
                 val permisosLectura = arrayOf(android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
                 requestPermissions(permisosLectura, PHOTO_SELECTED)
-            }else{
+            } else {
                 abrirGaleria()
             }
 
@@ -236,31 +241,31 @@ class DashboardFragment : Fragment() {
         requestCode: Int,
         permissions: Array<out String>,
         grantResults: IntArray
-    ){
+    ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        if(requestCode == REQUEST_IMAGE_CAPTURE && grantResults[0] == PackageManager.PERMISSION_GRANTED){
+        if (requestCode == REQUEST_IMAGE_CAPTURE && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
             abrirCamara()
-        }else{
+        } else {
             val permisosCamara = arrayOf(
                 android.Manifest.permission.CAMERA,
                 android.Manifest.permission.WRITE_EXTERNAL_STORAGE
             )
             requestPermissions(permisosCamara, REQUEST_IMAGE_CAPTURE)
         }
-        if(requestCode == PHOTO_SELECTED && grantResults[0] == PackageManager.PERMISSION_GRANTED){
+        if (requestCode == PHOTO_SELECTED && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
             abrirGaleria()
-        }else{
+        } else {
             val permisosLectura = arrayOf(android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
             requestPermissions(permisosLectura, PHOTO_SELECTED)
         }
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?){
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if(resultCode == Activity.RESULT_OK && requestCode == REQUEST_IMAGE_CAPTURE){
+        if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_IMAGE_CAPTURE) {
             imgFoto?.setImageURI(foto)
         }
-        if(resultCode == Activity.RESULT_OK && requestCode == PHOTO_SELECTED ){
+        if (resultCode == Activity.RESULT_OK && requestCode == PHOTO_SELECTED) {
             if (data != null) {
                 foto = data.data
                 if (foto != null) {
@@ -291,34 +296,35 @@ class DashboardFragment : Fragment() {
         }
     }
 
-    private fun  abrirCamara(){
+    private fun abrirCamara() {
         val camaraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
         val imagen: File? = crearImagen()
-        if(imagen != null){
-            foto = context?.let { FileProvider.getUriForFile(
-                it,
-                "com.uc3m.dresser.ui.dashboard.fileprovider",
-                imagen
-            ) }
+        if (imagen != null) {
+            foto = context?.let {
+                FileProvider.getUriForFile(
+                    it,
+                    "com.uc3m.dresser.ui.dashboard.fileprovider",
+                    imagen
+                )
+            }
             camaraIntent.putExtra(MediaStore.EXTRA_OUTPUT, foto)
             startActivityForResult(camaraIntent, REQUEST_IMAGE_CAPTURE)
         }
     }
 
-    private fun crearImagen() : File?{
-        val nombre =  "foto_"
+    private fun crearImagen(): File? {
+        val nombre = "foto_"
         val directorio = context?.getExternalFilesDir(Environment.DIRECTORY_PICTURES)
         val imagen = File.createTempFile(nombre, ".jpg", directorio)
-        ruta =  imagen.absolutePath
+        ruta = imagen.absolutePath
         return imagen
     }
 
-    private fun  abrirGaleria(){
+    private fun abrirGaleria() {
         val intent = Intent(Intent.ACTION_GET_CONTENT)
         intent.type = "image/*"
         startActivityForResult(intent, PHOTO_SELECTED)
     }
-
 
 
 }

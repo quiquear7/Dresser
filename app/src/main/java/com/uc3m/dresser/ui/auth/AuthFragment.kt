@@ -13,14 +13,9 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
-import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.google.android.material.snackbar.Snackbar
-import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GoogleAuthProvider
-import com.uc3m.dresser.ProviderType
 import com.uc3m.dresser.R
 import com.uc3m.dresser.databinding.FragmentAuthBinding
 
@@ -36,8 +31,8 @@ class AuthFragment : Fragment() {
     private lateinit var binding: FragmentAuthBinding
     private val GOOGLE_SIGN_IN = 100
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+            inflater: LayoutInflater, container: ViewGroup?,
+            savedInstanceState: Bundle?
     ): View? {
         authViewModel = ViewModelProvider(this).get(AuthViewModel::class.java)
         binding = FragmentAuthBinding.inflate(inflater, container, false)
@@ -50,9 +45,9 @@ class AuthFragment : Fragment() {
         }
 
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-            .requestIdToken(getString(R.string.default_web_client_id))
-            .requestEmail()
-            .build()
+                .requestIdToken(getString(R.string.default_web_client_id))
+                .requestEmail()
+                .build()
 
         googleSignInClient =  GoogleSignIn.getClient(requireContext(), gso)
         googleSignInClient.signOut()
