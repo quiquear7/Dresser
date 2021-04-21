@@ -12,14 +12,13 @@ import javax.crypto.spec.IvParameterSpec
 
 class ElegirOutfitViewModel : ViewModel() {
 
-    fun checkKey(): Boolean{
+    fun checkKey(): Boolean {
         val keystore: KeyStore = KeyStore.getInstance("AndroidKeyStore")
         keystore.load(null)
         val secretKeyEntry = keystore.getEntry("MyKeyStore", null) as? KeyStore.SecretKeyEntry
         return if (secretKeyEntry != null) {
             secretKeyEntry.secretKey != null
-        }
-        else{
+        } else {
             false
         }
     }
@@ -31,10 +30,10 @@ class ElegirOutfitViewModel : ViewModel() {
         return secretKeyEntry.secretKey
     }
 
-    fun encrypData(data: String): Pair<ByteArray, ByteArray>{
+    fun encrypData(data: String): Pair<ByteArray, ByteArray> {
         val cipher: Cipher = Cipher.getInstance("AES/CBC/NoPadding")
         var temp: String = data
-        while(temp.toByteArray().size % 16 != 0 )
+        while (temp.toByteArray().size % 16 != 0)
             temp += "\u0020"
         cipher.init(Cipher.ENCRYPT_MODE, getKey())
         val ivBytes = cipher.iv
@@ -43,10 +42,10 @@ class ElegirOutfitViewModel : ViewModel() {
 
     }
 
-    fun decryptData(ivBytes: ByteArray, data: ByteArray) : String{
+    fun decryptData(ivBytes: ByteArray, data: ByteArray): String {
         val cipher = Cipher.getInstance("AES/CBC/NoPadding")
         val spec = IvParameterSpec(ivBytes)
-        cipher.init(Cipher.DECRYPT_MODE, getKey(),spec)
+        cipher.init(Cipher.DECRYPT_MODE, getKey(), spec)
         return cipher.doFinal(data).toString(Charsets.UTF_8).trim()
     }
 
@@ -56,14 +55,12 @@ class ElegirOutfitViewModel : ViewModel() {
         val combinaciones = emptyList<Combinacion>().toMutableList()
         var prendasNecesarias = 5
 
-        if(temperatura>15 && temperatura<=25){
+        if (temperatura > 15 && temperatura <= 25) {
             prendasNecesarias = 4
         }
-        if(temperatura>25){
+        if (temperatura > 25) {
             prendasNecesarias = 3
         }
-
-        Log.i("PrendasNecesarios",prendasNecesarias.toString())
 
         val parteSuperiorL = emptyList<Prenda>().toMutableList()
         val parteInferiorL = emptyList<Prenda>().toMutableList()
@@ -79,65 +76,64 @@ class ElegirOutfitViewModel : ViewModel() {
         var cazadoras = 0
         var conjuntos = 0
 
-        for (i in outfitList){
-            if((i.categoria=="CAMISA M. LARGA" || i.categoria=="CAMISA M. CORTA"
-                        || i.categoria=="CAMISETAS M. CORTA" || i.categoria=="CAMISETAS M. LARGA"
-                        || i.categoria=="CAMISETAS TIRANTES" || i.categoria=="POLOS"
-                        || i.categoria=="TOPS")) {
+        for (i in outfitList) {
+            if ((i.categoria == "CAMISA M. LARGA" || i.categoria == "CAMISA M. CORTA"
+                            || i.categoria == "CAMISETAS M. CORTA" || i.categoria == "CAMISETAS M. LARGA"
+                            || i.categoria == "CAMISETAS TIRANTES" || i.categoria == "POLOS"
+                            || i.categoria == "TOPS")) {
                 parteSuperior++
                 parteSuperiorL.add(i)
             }
             if ((i.categoria == "PANTALONES" || i.categoria == "PANTALONES CORTOS"
-                        || i.categoria=="FALDAS" || i.categoria == "JEANS")){
+                            || i.categoria == "FALDAS" || i.categoria == "JEANS")) {
                 parteInferior++
                 parteInferiorL.add(i)
             }
-            if((i.categoria == "DEPORTIVAS" || i.categoria == "ZAPATOS"
-                        || i.categoria == "BOTAS Y BOTINES" || i.categoria == "SANDALIAS")){
+            if ((i.categoria == "DEPORTIVAS" || i.categoria == "ZAPATOS"
+                            || i.categoria == "BOTAS Y BOTINES" || i.categoria == "SANDALIAS")) {
                 calzado++
                 calzadoL.add(i)
             }
-            if ((i.categoria=="ABRIGOS" || i.categoria=="CAZADORAS" || i.categoria=="CHUBASQUERO"
-                        || i.categoria=="BLAZERS")) {
+            if ((i.categoria == "ABRIGOS" || i.categoria == "CAZADORAS" || i.categoria == "CHUBASQUERO"
+                            || i.categoria == "BLAZERS")) {
                 cazadoras++
                 cazadorasL.add(i)
 
             }
-            if ((i.categoria=="SOBRECAMISAS" || i.categoria=="CHALECOS" || i.categoria=="CHALECOS"
-                        || i.categoria=="JERSÉIS" || i.categoria=="CHAQUETAS" || i.categoria=="SUDADERAS")){
+            if ((i.categoria == "SOBRECAMISAS" || i.categoria == "CHALECOS" || i.categoria == "CHALECOS"
+                            || i.categoria == "JERSÉIS" || i.categoria == "CHAQUETAS" || i.categoria == "SUDADERAS")) {
                 jerseis++
                 jerseisL.add(i)
             }
-            if((i.categoria=="VESTIDOS" || i.categoria=="MONOS" || i.categoria=="TRAJES")){
+            if ((i.categoria == "VESTIDOS" || i.categoria == "MONOS" || i.categoria == "TRAJES")) {
                 conjuntos++
                 conjuntosL.add(i)
             }
         }
         var comb = 1
-        if(parteSuperior>0){
-            comb*=parteSuperior
+        if (parteSuperior > 0) {
+            comb *= parteSuperior
         }
-        if(parteInferior>0){
-            comb*=parteInferior
+        if (parteInferior > 0) {
+            comb *= parteInferior
         }
-        if(calzado>0){
-            comb*=calzado
+        if (calzado > 0) {
+            comb *= calzado
         }
-        if(jerseis>0){
-            comb*=jerseis
+        if (jerseis > 0) {
+            comb *= jerseis
         }
-        if(cazadoras>0){
-            comb*=cazadoras
+        if (cazadoras > 0) {
+            comb *= cazadoras
         }
-        if(conjuntos>0){
-            comb*=parteSuperior
+        if (conjuntos > 0) {
+            comb *= parteSuperior
         }
 
-        for (t in 1..comb){
-            val registro  = Combinacion(null, null, null, null, null, null)
+        for (t in 1..comb) {
+            val registro = Combinacion(null, null, null, null, null, null)
             combinaciones += registro
         }
-
 
         var indexCazadoras = 0
         var ctempCazadoras = 0
@@ -151,131 +147,136 @@ class ElegirOutfitViewModel : ViewModel() {
         var ctempCalzado = 0
 
         var sCazadoras = comb
-        if(cazadoras > 0){
-             sCazadoras = comb/cazadoras
+        if (cazadoras > 0) {
+            sCazadoras = comb / cazadoras
         }
         var sJerseis = sCazadoras
-        if(jerseis>0){
-            sJerseis =  sCazadoras/jerseis
+        if (jerseis > 0) {
+            sJerseis = sCazadoras / jerseis
         }
         var sParteSuperior = sJerseis
-        if(parteSuperior > 0){
-            sParteSuperior =  sJerseis/parteSuperior
+        if (parteSuperior > 0) {
+            sParteSuperior = sJerseis / parteSuperior
         }
-        var sParteInferior =  sParteSuperior
-        if(parteInferior > 0){
-            sParteInferior =  sParteSuperior/parteInferior
+        var sParteInferior = sParteSuperior
+        if (parteInferior > 0) {
+            sParteInferior = sParteSuperior / parteInferior
         }
         var sCalzado = sParteInferior
-        if(calzado>0){
-            sCalzado = sParteInferior/calzado
+        if (calzado > 0) {
+            sCalzado = sParteInferior / calzado
         }
 
-        for (registro in combinaciones){
+        for (registro in combinaciones) {
 
-            if(prendasNecesarias==5 && cazadoras>0) {
-                if(registro.cazadoras==null && nPrendas(registro)<prendasNecesarias){
-                    if(ctempCazadoras<sCazadoras){
-                        registro.cazadoras= cazadorasL[indexCazadoras]
+            if (prendasNecesarias == 5 && cazadoras > 0) {
+                if (registro.cazadoras == null && nPrendas(registro) < prendasNecesarias) {
+                    if (ctempCazadoras < sCazadoras) {
+                        registro.cazadoras = cazadorasL[indexCazadoras]
                         ctempCazadoras++
-                    }else{
-                        if(indexCazadoras+1==cazadoras){
-                            indexCazadoras=0
-                        }else{
+                    } else {
+                        if (indexCazadoras + 1 == cazadoras) {
+                            indexCazadoras = 0
+                        } else {
                             indexCazadoras++
                         }
-                        registro.cazadoras= cazadorasL[indexCazadoras]
-                        ctempCazadoras=1
+                        registro.cazadoras = cazadorasL[indexCazadoras]
+                        ctempCazadoras = 1
                     }
                 }
             }
 
-            if(prendasNecesarias==4 && jerseis>0){
-                if(registro.jerseis==null && nPrendas(registro)<prendasNecesarias){
-                    if(ctempJerseis<sJerseis){
-                        registro.jerseis= jerseisL[indexJerseis]
+            if (prendasNecesarias == 4 && jerseis > 0) {
+                if (registro.jerseis == null && nPrendas(registro) < prendasNecesarias) {
+                    if (ctempJerseis < sJerseis) {
+                        registro.jerseis = jerseisL[indexJerseis]
                         ctempJerseis++
-                    }else{
-                        if(indexJerseis+1==jerseis){
-                            indexJerseis=0
-                        }else{
+                    } else {
+                        if (indexJerseis + 1 == jerseis) {
+                            indexJerseis = 0
+                        } else {
                             indexJerseis++
                         }
-                        registro.jerseis= jerseisL[indexJerseis]
-                        ctempJerseis=1
+                        registro.jerseis = jerseisL[indexJerseis]
+                        ctempJerseis = 1
                     }
                 }
             }
 
-            if(registro.parteSuperior==null && nPrendas(registro)<prendasNecesarias){
-                if(ctempPSuperior<sParteSuperior){
-                    registro.parteSuperior= parteSuperiorL[indexPSuperior]
-                    ctempPSuperior++
-                }else{
-                    if(indexPSuperior+1==parteSuperior){
-                        indexPSuperior=0
-                    }else{
-                        indexPSuperior++
+            if (parteSuperior > 0) {
+                if (registro.parteSuperior == null && nPrendas(registro) < prendasNecesarias) {
+                    if (ctempPSuperior < sParteSuperior) {
+                        registro.parteSuperior = parteSuperiorL[indexPSuperior]
+                        ctempPSuperior++
+                    } else {
+                        if (indexPSuperior + 1 == parteSuperior) {
+                            indexPSuperior = 0
+                        } else {
+                            indexPSuperior++
+                        }
+                        registro.parteSuperior = parteSuperiorL[indexPSuperior]
+                        ctempPSuperior = 1
                     }
-                    registro.parteSuperior= parteSuperiorL[indexPSuperior]
-                    ctempPSuperior=1
                 }
             }
 
-            if(registro.parteInferior==null && nPrendas(registro)<prendasNecesarias){
-                if(ctempPInferior<sParteInferior){
-                    registro.parteInferior= parteInferiorL[indexPInferior]
-                    ctempPInferior++
-                }else{
-                    if(indexPInferior+1==parteInferior){
-                        indexPInferior=0
-                    }else{
-                        indexPInferior++
+            if (parteInferior > 0) {
+                if (registro.parteInferior == null && nPrendas(registro) < prendasNecesarias) {
+                    if (ctempPInferior < sParteInferior) {
+                        registro.parteInferior = parteInferiorL[indexPInferior]
+                        ctempPInferior++
+                    } else {
+                        if (indexPInferior + 1 == parteInferior) {
+                            indexPInferior = 0
+                        } else {
+                            indexPInferior++
+                        }
+                        registro.parteInferior = parteInferiorL[indexPInferior]
+                        ctempPInferior = 1
                     }
-                    registro.parteInferior= parteInferiorL[indexPInferior]
-                    ctempPInferior=1
                 }
             }
 
-            if(registro.calzado==null && nPrendas(registro)<prendasNecesarias){
-                if(ctempCalzado<sCalzado){
-                    registro.calzado= calzadoL[indexCalzado]
-                    ctempCalzado++
-                }else{
-                    if(indexCalzado+1==calzado){
-                        indexCalzado=0
-                    }else{
-                        indexCalzado++
+            if (calzado > 0) {
+                if (registro.calzado == null && nPrendas(registro) < prendasNecesarias) {
+                    if (ctempCalzado < sCalzado) {
+                        registro.calzado = calzadoL[indexCalzado]
+                        ctempCalzado++
+                    } else {
+                        if (indexCalzado + 1 == calzado) {
+                            indexCalzado = 0
+                        } else {
+                            indexCalzado++
+                        }
+                        registro.calzado = calzadoL[indexCalzado]
+                        ctempCalzado = 1
                     }
-                    registro.calzado= calzadoL[indexCalzado]
-                    ctempCalzado=1
                 }
             }
-
         }
 
         val indices: MutableList<Int> = mutableListOf()
-        for((index, i) in combinaciones.withIndex()){
-            if (i.calzado == null || nPrendas(i) < prendasNecesarias ){
-                indices.add(0,index)
+        for ((index, i) in combinaciones.withIndex()) {
+            if (i.calzado == null || nPrendas(i) < prendasNecesarias) {
+                indices.add(0, index)
             }
         }
 
-        for (i in indices){
+        for (i in indices) {
             combinaciones.removeAt(i)
         }
         return combinaciones
     }
 
 
-    private fun nPrendas(registro: Combinacion): Int{
+    private fun nPrendas(registro: Combinacion): Int {
         var cont = 0
-        if(registro.parteSuperior != null) cont++
-        if(registro.parteInferior != null) cont++
-        if(registro.conjuntos != null) cont+=2
-        if(registro.cazadoras != null) cont++
-        if(registro.calzado != null) cont++
-        if(registro.jerseis != null) cont++
+        if (registro.parteSuperior != null) cont++
+        if (registro.parteInferior != null) cont++
+        if (registro.conjuntos != null) cont += 2
+        if (registro.cazadoras != null) cont++
+        if (registro.calzado != null) cont++
+        if (registro.jerseis != null) cont++
         return cont
     }
 

@@ -94,12 +94,10 @@ class ElegirOutfitFragment :  Fragment(), SendData {
     private fun updatePrenda(prenda: Prenda?, date:String){
         if(prenda!=null){
             val currentPrenda: Prenda = prenda
-            if (date != null) {
-                val fechas = date.split("/")
-                val fecha = Date(fechas[0].toInt() , fechas[1].toInt(), fechas[2].toInt())
-                currentPrenda.ultimoUso = fecha.time
-                prendaViewModel.updatePrenda(currentPrenda)
-            }
+            val fechas = date.split("/")
+            val fecha = Date(fechas[2].toInt() , fechas[1].toInt(), fechas[0].toInt())
+            currentPrenda.ultimoUso = fecha.time
+            prendaViewModel.updatePrenda(currentPrenda)
         }
     }
 

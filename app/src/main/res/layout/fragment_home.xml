@@ -104,36 +104,53 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
+
             <ImageView
                 android:id="@+id/iButton1"
                 android:layout_width="124dp"
                 android:layout_height="105dp"
                 android:layout_alignParentStart="true"
-                android:layout_alignParentTop="true"
                 android:layout_marginEnd="16dp"
                 android:contentDescription="@string/todo"
                 android:rotation="90"
                 android:scaleType="centerCrop"
                 tools:srcCompat="@tools:sample/avatars" />
 
+            <TextView
+                android:id="@+id/tNombre2"
+                android:layout_width="124dp"
+                android:layout_height="25dp"
+                android:layout_below="@+id/iButton1"
+                android:layout_alignParentStart="true"
+                android:text=""
+                android:textSize="14sp" />
 
             <ImageView
                 android:id="@+id/iButton2"
                 android:layout_width="124dp"
                 android:layout_height="105dp"
-                android:layout_below="@+id/iButton1"
+                android:layout_below="@+id/tNombre2"
+                android:layout_alignParentStart="true"
                 android:layout_marginEnd="16dp"
                 android:contentDescription="@string/todo"
                 android:rotation="90"
                 android:scaleType="centerCrop"
                 tools:srcCompat="@tools:sample/avatars" />
 
+            <TextView
+                android:id="@+id/tNombre3"
+                android:layout_width="124dp"
+                android:layout_height="25dp"
+                android:layout_below="@+id/iButton2"
+                android:layout_alignParentStart="true"
+                android:text=""
+                android:textSize="14sp" />
 
             <ImageView
                 android:id="@+id/iButton3"
                 android:layout_width="124dp"
                 android:layout_height="105dp"
-                android:layout_below="@+id/iButton2"
+                android:layout_below="@+id/tNombre3"
                 android:layout_marginEnd="16dp"
                 android:contentDescription="@string/todo"
                 android:rotation="90"
@@ -144,7 +161,6 @@
                 android:id="@+id/iButton4"
                 android:layout_width="124dp"
                 android:layout_height="105dp"
-                android:layout_alignParentTop="true"
                 android:layout_alignParentEnd="true"
                 android:layout_marginEnd="16dp"
                 android:contentDescription="@string/todo"
@@ -152,12 +168,20 @@
                 android:scaleType="centerCrop"
                 tools:srcCompat="@tools:sample/avatars" />
 
+            <TextView
+                android:id="@+id/tNombre5"
+                android:layout_width="124dp"
+                android:layout_height="25dp"
+                android:layout_below="@+id/iButton4"
+                android:layout_alignParentEnd="true"
+                android:text=""
+                android:textSize="14sp" />
 
             <ImageView
                 android:id="@+id/iButton5"
                 android:layout_width="124dp"
                 android:layout_height="105dp"
-                android:layout_below="@+id/iButton4"
+                android:layout_below="@+id/tNombre5"
                 android:layout_alignParentEnd="true"
                 android:layout_marginEnd="16dp"
                 android:contentDescription="@string/todo"
@@ -165,12 +189,20 @@
                 android:scaleType="centerCrop"
                 tools:srcCompat="@tools:sample/avatars" />
 
+            <TextView
+                android:id="@+id/tNombre6"
+                android:layout_width="124dp"
+                android:layout_height="25dp"
+                android:layout_below="@+id/iButton5"
+                android:layout_alignParentEnd="true"
+                android:text=""
+                android:textSize="14sp" />
 
             <ImageView
                 android:id="@+id/iButton6"
                 android:layout_width="124dp"
                 android:layout_height="105dp"
-                android:layout_below="@+id/iButton5"
+                android:layout_below="@+id/tNombre6"
                 android:layout_alignParentEnd="true"
                 android:layout_marginEnd="16dp"
                 android:contentDescription="@string/todo"
