@@ -63,6 +63,15 @@ class ElegirOutfitViewModel : ViewModel() {
             prendasNecesarias = 3
         }
 
+        Log.i("PrendasNecesarios",prendasNecesarias.toString())
+
+        val parteSuperiorL = emptyList<Prenda>().toMutableList()
+        val parteInferiorL = emptyList<Prenda>().toMutableList()
+        val calzadoL = emptyList<Prenda>().toMutableList()
+        val jerseisL = emptyList<Prenda>().toMutableList()
+        val cazadorasL = emptyList<Prenda>().toMutableList()
+        val conjuntosL = emptyList<Prenda>().toMutableList()
+
         var parteSuperior = 0
         var parteInferior = 0
         var calzado = 0
@@ -76,106 +85,178 @@ class ElegirOutfitViewModel : ViewModel() {
                         || i.categoria=="CAMISETAS TIRANTES" || i.categoria=="POLOS"
                         || i.categoria=="TOPS")) {
                 parteSuperior++
+                parteSuperiorL.add(i)
             }
             if ((i.categoria == "PANTALONES" || i.categoria == "PANTALONES CORTOS"
                         || i.categoria=="FALDAS" || i.categoria == "JEANS")){
                 parteInferior++
+                parteInferiorL.add(i)
             }
             if((i.categoria == "DEPORTIVAS" || i.categoria == "ZAPATOS"
                         || i.categoria == "BOTAS Y BOTINES" || i.categoria == "SANDALIAS")){
                 calzado++
+                calzadoL.add(i)
             }
             if ((i.categoria=="ABRIGOS" || i.categoria=="CAZADORAS" || i.categoria=="CHUBASQUERO"
                         || i.categoria=="BLAZERS")) {
                 cazadoras++
+                cazadorasL.add(i)
+
             }
             if ((i.categoria=="SOBRECAMISAS" || i.categoria=="CHALECOS" || i.categoria=="CHALECOS"
                         || i.categoria=="JERSÉIS" || i.categoria=="CHAQUETAS" || i.categoria=="SUDADERAS")){
                 jerseis++
+                jerseisL.add(i)
             }
             if((i.categoria=="VESTIDOS" || i.categoria=="MONOS" || i.categoria=="TRAJES")){
                 conjuntos++
+                conjuntosL.add(i)
             }
         }
-
-        val m = parteSuperior + parteInferior + calzado + jerseis + cazadoras + conjuntos
-        val n = prendasNecesarias
-        val comb = funFactorial((n+m-1))/(funFactorial(m)*funFactorial(n-1))
+        var comb = 1
+        if(parteSuperior>0){
+            comb*=parteSuperior
+        }
+        if(parteInferior>0){
+            comb*=parteInferior
+        }
+        if(calzado>0){
+            comb*=calzado
+        }
+        if(jerseis>0){
+            comb*=jerseis
+        }
+        if(cazadoras>0){
+            comb*=cazadoras
+        }
+        if(conjuntos>0){
+            comb*=parteSuperior
+        }
 
         for (t in 1..comb){
             val registro  = Combinacion(null, null, null, null, null, null)
             combinaciones += registro
         }
 
-        for (i in outfitList){
-            Log.i("Registro: ", combinaciones.toString())
-            if((i.categoria=="CAMISA M. LARGA" || i.categoria=="CAMISA M. CORTA"
-                        || i.categoria=="CAMISETAS M. CORTA" || i.categoria=="CAMISETAS M. LARGA"
-                        || i.categoria=="CAMISETAS TIRANTES" || i.categoria=="POLOS"
-                        || i.categoria=="TOPS")) {
-                var ctemp = 0
-                for (registro in combinaciones){
-                    if(registro.parteSuperior==null && ctemp<parteInferior*calzado && nPrendas(registro)<prendasNecesarias){
-                        registro.parteSuperior=i
-                        ctemp++
+
+        var indexCazadoras = 0
+        var ctempCazadoras = 0
+        var indexJerseis = 0
+        var ctempJerseis = 0
+        var indexPSuperior = 0
+        var ctempPSuperior = 0
+        var indexPInferior = 0
+        var ctempPInferior = 0
+        var indexCalzado = 0
+        var ctempCalzado = 0
+
+        var sCazadoras = comb
+        if(cazadoras > 0){
+             sCazadoras = comb/cazadoras
+        }
+        var sJerseis = sCazadoras
+        if(jerseis>0){
+            sJerseis =  sCazadoras/jerseis
+        }
+        var sParteSuperior = sJerseis
+        if(parteSuperior > 0){
+            sParteSuperior =  sJerseis/parteSuperior
+        }
+        var sParteInferior =  sParteSuperior
+        if(parteInferior > 0){
+            sParteInferior =  sParteSuperior/parteInferior
+        }
+        var sCalzado = sParteInferior
+        if(calzado>0){
+            sCalzado = sParteInferior/calzado
+        }
+
+        for (registro in combinaciones){
+
+            if(prendasNecesarias==5 && cazadoras>0) {
+                if(registro.cazadoras==null && nPrendas(registro)<prendasNecesarias){
+                    if(ctempCazadoras<sCazadoras){
+                        registro.cazadoras= cazadorasL[indexCazadoras]
+                        ctempCazadoras++
+                    }else{
+                        if(indexCazadoras+1==cazadoras){
+                            indexCazadoras=0
+                        }else{
+                            indexCazadoras++
+                        }
+                        registro.cazadoras= cazadorasL[indexCazadoras]
+                        ctempCazadoras=1
                     }
                 }
             }
-            if ((i.categoria == "PANTALONES" || i.categoria == "PANTALONES CORTOS"
-                        || i.categoria=="FALDAS" || i.categoria == "JEANS")){
-                var ctemp = 0
-                for (registro in combinaciones){
-                    if(registro.parteInferior==null && ctemp<parteSuperior*calzado && nPrendas(registro)<prendasNecesarias){
-                        registro.parteInferior=i
-                        ctemp++
+
+            if(prendasNecesarias==4 && jerseis>0){
+                if(registro.jerseis==null && nPrendas(registro)<prendasNecesarias){
+                    if(ctempJerseis<sJerseis){
+                        registro.jerseis= jerseisL[indexJerseis]
+                        ctempJerseis++
+                    }else{
+                        if(indexJerseis+1==jerseis){
+                            indexJerseis=0
+                        }else{
+                            indexJerseis++
+                        }
+                        registro.jerseis= jerseisL[indexJerseis]
+                        ctempJerseis=1
                     }
                 }
             }
-            if((i.categoria == "DEPORTIVAS" || i.categoria == "ZAPATOS"
-                        || i.categoria == "BOTAS Y BOTINES" || i.categoria == "SANDALIAS")){
-                var ctemp = 0
-                for (registro in combinaciones){
-                    if(registro.calzado==null && ctemp<parteSuperior*parteInferior && nPrendas(registro)<prendasNecesarias){
-                        registro.calzado=i
-                        ctemp++
+
+            if(registro.parteSuperior==null && nPrendas(registro)<prendasNecesarias){
+                if(ctempPSuperior<sParteSuperior){
+                    registro.parteSuperior= parteSuperiorL[indexPSuperior]
+                    ctempPSuperior++
+                }else{
+                    if(indexPSuperior+1==parteSuperior){
+                        indexPSuperior=0
+                    }else{
+                        indexPSuperior++
                     }
+                    registro.parteSuperior= parteSuperiorL[indexPSuperior]
+                    ctempPSuperior=1
                 }
             }
-            if ((i.categoria=="ABRIGOS" || i.categoria=="CAZADORAS" || i.categoria=="CHUBASQUERO"
-                        || i.categoria=="BLAZERS") && prendasNecesarias>4) {
-                var ctemp = 0
-                for (registro in combinaciones){
-                    if(registro.cazadoras==null && ctemp<parteSuperior*parteInferior*calzado*jerseis && nPrendas(registro)<prendasNecesarias){
-                        registro.cazadoras=i
-                        ctemp++
+
+            if(registro.parteInferior==null && nPrendas(registro)<prendasNecesarias){
+                if(ctempPInferior<sParteInferior){
+                    registro.parteInferior= parteInferiorL[indexPInferior]
+                    ctempPInferior++
+                }else{
+                    if(indexPInferior+1==parteInferior){
+                        indexPInferior=0
+                    }else{
+                        indexPInferior++
                     }
+                    registro.parteInferior= parteInferiorL[indexPInferior]
+                    ctempPInferior=1
                 }
             }
-            if ((i.categoria=="SOBRECAMISAS" || i.categoria=="CHALECOS" || i.categoria=="CHALECOS"
-                        || i.categoria=="JERSÉIS" || i.categoria=="CHAQUETAS" || i.categoria=="SUDADERAS")
-                && prendasNecesarias>3){
-                var ctemp = 0
-                for (registro in combinaciones){
-                    if(registro.jerseis == null && ctemp<parteSuperior*parteInferior*calzado && nPrendas(registro)<prendasNecesarias){
-                        registro.jerseis=i
-                        ctemp++
+
+            if(registro.calzado==null && nPrendas(registro)<prendasNecesarias){
+                if(ctempCalzado<sCalzado){
+                    registro.calzado= calzadoL[indexCalzado]
+                    ctempCalzado++
+                }else{
+                    if(indexCalzado+1==calzado){
+                        indexCalzado=0
+                    }else{
+                        indexCalzado++
                     }
+                    registro.calzado= calzadoL[indexCalzado]
+                    ctempCalzado=1
                 }
             }
-            if(i.categoria == "VESTIDOS" || i.categoria=="MONOS" || i.categoria=="TRAJES"){
-                var ctemp = 0
-                for (registro in combinaciones){
-                    if(registro.conjuntos == null && ctemp<calzado && nPrendas(registro)<prendasNecesarias){
-                        registro.conjuntos=i
-                        ctemp++
-                    }
-                }
-            }
+
         }
 
         val indices: MutableList<Int> = mutableListOf()
         for((index, i) in combinaciones.withIndex()){
-            if (i.calzado == null || i.parteInferior == null || i.parteSuperior==null){
+            if (i.calzado == null || nPrendas(i) < prendasNecesarias ){
                 indices.add(0,index)
             }
         }
@@ -186,22 +267,16 @@ class ElegirOutfitViewModel : ViewModel() {
         return combinaciones
     }
 
-    private fun funFactorial(num: Int): Long {
-        var factorial: Long=1
-        for(i in 1..num){
-            factorial*=i.toLong()
-        }
-        return factorial
-    }
 
     private fun nPrendas(registro: Combinacion): Int{
         var cont = 0
         if(registro.parteSuperior != null) cont++
         if(registro.parteInferior != null) cont++
-        if(registro.conjuntos != null) cont++
+        if(registro.conjuntos != null) cont+=2
         if(registro.cazadoras != null) cont++
         if(registro.calzado != null) cont++
         if(registro.jerseis != null) cont++
         return cont
     }
+
 }

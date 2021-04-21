@@ -2,6 +2,7 @@ package com.uc3m.dresser.ui.dashboard
 
 
 import android.app.Activity
+import android.Manifest
 import android.app.Activity.RESULT_OK
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -183,21 +184,6 @@ class DashboardFragment : Fragment() {
 
         imgFoto = binding.imgFoto
 
-        val botonCamara = binding.bCamara
-        botonCamara.setOnClickListener() {
-            if (context?.checkSelfPermission(android.Manifest.permission.CAMERA) == PackageManager.PERMISSION_DENIED
-                    || context?.checkSelfPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED
-            ) {
-                val permisosCamara = arrayOf(
-                        android.Manifest.permission.CAMERA,
-                        android.Manifest.permission.WRITE_EXTERNAL_STORAGE
-                )
-                requestPermissions(permisosCamara, REQUEST_IMAGE_CAPTURE)
-            } else {
-                abrirCamara()
-            }
-        }
-
 
         val botonAdd = binding.bagregar
         botonAdd.setOnClickListener() {
@@ -233,9 +219,20 @@ class DashboardFragment : Fragment() {
             }
         }
 
+        binding.bCamara.setOnClickListener() {
+            if (context?.checkSelfPermission(Manifest.permission.CAMERA) == PackageManager.PERMISSION_DENIED
+                    || context?.checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED
+            ) {
+                val permisosCamara = arrayOf(Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                requestPermissions(permisosCamara, REQUEST_IMAGE_CAPTURE)
+            } else {
+                abrirCamara()
+            }
+        }
+
         binding.fabGallery.setOnClickListener {
-            if (context?.checkSelfPermission(android.Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED) {
-                val permisosLectura = arrayOf(android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
+            if (context?.checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED) {
+                val permisosLectura = arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE)
                 requestPermissions(permisosLectura, PHOTO_SELECTED)
             } else {
                 abrirGaleria()
@@ -288,39 +285,43 @@ class DashboardFragment : Fragment() {
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
-            if (foto != null) {
-                imgFoto?.setImageURI(foto)
-            } else {
-                Toast.makeText(requireActivity(), "Fallo al realizar imagen", Toast.LENGTH_SHORT).show()
-            }
-        }
-
-        if (resultCode == RESULT_OK && requestCode == PHOTO_SELECTED) {
-            if (data != null) {
-                foto = data.data
+        if(resultCode != RESULT_OK){
+            Toast.makeText(requireActivity(), "Fallo", Toast.LENGTH_SHORT).show()
+        }else{
+            if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
                 if (foto != null) {
-                    val wholeID = DocumentsContract.getDocumentId(foto)
-                    val id = wholeID.split(":").toTypedArray()[1]
-
-                    val column = arrayOf(MediaStore.Images.Media.DATA)
-                    val sel = MediaStore.Images.Media._ID + "=?"
-
-                    val cursor: Cursor? = activity?.contentResolver?.query(
-                            MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
-                            column, sel, arrayOf(id), null
-                    )
-
-                    val columnIndex = cursor?.getColumnIndex(column[0])
-
-                    if (cursor != null) {
-                        if (cursor.moveToFirst()) {
-                            ruta = columnIndex?.let { cursor.getString(it) }.toString()
-                        }
-                    }
-                    cursor?.close()
-
                     imgFoto?.setImageURI(foto)
+                } else {
+                    Toast.makeText(requireActivity(), "Fallo al realizar imagen", Toast.LENGTH_SHORT).show()
+                }
+            }
+
+            if (resultCode == RESULT_OK && requestCode == PHOTO_SELECTED) {
+                if (data != null) {
+                    foto = data.data
+                    if (foto != null) {
+                        val wholeID = DocumentsContract.getDocumentId(foto)
+                        val id = wholeID.split(":").toTypedArray()[1]
+
+                        val column = arrayOf(MediaStore.Images.Media.DATA)
+                        val sel = MediaStore.Images.Media._ID + "=?"
+
+                        val cursor: Cursor? = activity?.contentResolver?.query(
+                                MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+                                column, sel, arrayOf(id), null
+                        )
+
+                        val columnIndex = cursor?.getColumnIndex(column[0])
+
+                        if (cursor != null) {
+                            if (cursor.moveToFirst()) {
+                                ruta = columnIndex?.let { cursor.getString(it) }.toString()
+                            }
+                        }
+                        cursor?.close()
+
+                        imgFoto?.setImageURI(foto)
+                    }
                 }
             }
         }

@@ -10,12 +10,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-
         <Button
             android:id="@+id/bagregar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="72dp"
+            android:layout_marginBottom="67dp"
             android:drawableStart="@drawable/ic_baseline_add_24"
             android:text="@string/agregar"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -72,7 +71,6 @@
             android:layout_marginTop="16dp"
             android:layout_marginBottom="603dp"
             android:contentDescription="@string/todo"
-            android:rotation="90"
             android:scaleType="fitXY"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -86,14 +84,29 @@
             android:id="@+id/bCamara"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
+            android:layout_marginTop="20dp"
             android:backgroundTint="#009688"
             android:clickable="true"
             android:contentDescription="@string/foto"
             android:src="@drawable/ic_baseline_camera_alt_24"
             app:backgroundTint="#009688"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintHorizontal_bias="0.284"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imgFoto" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fabGallery"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:backgroundTint="#009688"
+            android:clickable="true"
+            android:contentDescription="@string/foto"
+            android:src="@drawable/ic_baseline_image_24"
+            app:backgroundTint="#009688"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.715"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/imgFoto" />
 
