@@ -67,14 +67,13 @@ class ElegirOutfitViewModel : ViewModel() {
         val calzadoL = emptyList<Prenda>().toMutableList()
         val jerseisL = emptyList<Prenda>().toMutableList()
         val cazadorasL = emptyList<Prenda>().toMutableList()
-        val conjuntosL = emptyList<Prenda>().toMutableList()
 
         var parteSuperior = 0
         var parteInferior = 0
         var calzado = 0
         var jerseis = 0
         var cazadoras = 0
-        var conjuntos = 0
+
 
         for (i in outfitList) {
             if ((i.categoria == "CAMISA M. LARGA" || i.categoria == "CAMISA M. CORTA"
@@ -105,10 +104,7 @@ class ElegirOutfitViewModel : ViewModel() {
                 jerseis++
                 jerseisL.add(i)
             }
-            if ((i.categoria == "VESTIDOS" || i.categoria == "MONOS" || i.categoria == "TRAJES")) {
-                conjuntos++
-                conjuntosL.add(i)
-            }
+
         }
         var comb = 1
         if (parteSuperior > 0) {
@@ -126,9 +122,7 @@ class ElegirOutfitViewModel : ViewModel() {
         if (cazadoras > 0) {
             comb *= cazadoras
         }
-        if (conjuntos > 0) {
-            comb *= parteSuperior
-        }
+
 
         for (t in 1..comb) {
             val registro = Combinacion(null, null, null, null, null, null)
@@ -166,6 +160,7 @@ class ElegirOutfitViewModel : ViewModel() {
         if (calzado > 0) {
             sCalzado = sParteInferior / calzado
         }
+
 
         for (registro in combinaciones) {
 
@@ -259,6 +254,28 @@ class ElegirOutfitViewModel : ViewModel() {
         for ((index, i) in combinaciones.withIndex()) {
             if (i.calzado == null || nPrendas(i) < prendasNecesarias) {
                 indices.add(0, index)
+            }else{
+               if ((i.parteInferior?.color  == "MARRÓN" && i.parteSuperior?.color  == "NEGRO")
+                       || (i.parteInferior?.color  == "NEGRO" && i.parteSuperior?.color  == "MARRÓN")
+                       || (i.parteInferior?.color  == "AZUL" && i.parteSuperior?.color  == "NEGRO")
+                       || (i.parteInferior?.color  == "NEGRO" && i.parteSuperior?.color  == "AZUL")
+                       || (i.parteInferior?.color  == "ROJO" && i.parteSuperior?.color  == "VERDE")
+                       || (i.parteInferior?.color  == "VERDE" && i.parteSuperior?.color  == "ROJO")
+                       || (i.parteInferior?.color  == "ROSA" && i.parteSuperior?.color  == "VERDE")
+                       || (i.parteInferior?.color  == "VERDE" && i.parteSuperior?.color  == "ROSA")
+                       || (i.parteInferior?.color  == "NARANJA" && i.parteSuperior?.color  == "VERDE")
+                       || (i.parteInferior?.color  == "VERDE" && i.parteSuperior?.color  == "NARANJA")
+                       || (i.parteInferior?.color  == "MORADO" && i.parteSuperior?.color  == "AMARILLO")
+                       || (i.parteInferior?.color  == "AMARILLO" && i.parteSuperior?.color  == "MORADO")
+                       || (i.parteInferior?.color  == "ROJO" && i.parteSuperior?.color  == "NARANJA")
+                       || (i.parteInferior?.color  == "NARANJA" && i.parteSuperior?.color  == "ROJO")
+                       || (i.parteInferior?.estampado  == "RAYAS" && i.parteSuperior?.estampado  == "CUADROS")
+                       || (i.parteInferior?.estampado  == "CUADROS" && i.parteSuperior?.estampado  == "RAYAS")
+                       || (prendasNecesarias==3 && (i.parteSuperior?.categoria  == "CAMISA M. LARGA"
+                               || i.parteSuperior?.categoria  == "CAMISETAS M. LARGA"  ))
+                       ){
+                   indices.add(0, index)
+                }
             }
         }
 

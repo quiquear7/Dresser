@@ -46,14 +46,10 @@ class HomeFragment : Fragment() {
         homeViewModel =
                 ViewModelProvider(this).get(HomeViewModel::class.java)
 
-
         binding = FragmentHomeBinding.inflate(inflater, container, false)
         val view = binding.root
         binding.srl.setColorSchemeColors(resources.getColor(R.color.cyan))
         coordenadas()
-
-
-
 
         prendaViewModel = ViewModelProvider(this).get(PrendaViewModel::class.java)
         prendaViewModel.lastOutfit.observe(viewLifecycleOwner, { registro ->
@@ -111,8 +107,6 @@ class HomeFragment : Fragment() {
             }
         })
 
-
-
         binding.accionCasual.setOnClickListener{
             seleccionContexto(temperatura, "CASUAL", llueve)
         }
@@ -122,15 +116,11 @@ class HomeFragment : Fragment() {
         binding.accionFormal.setOnClickListener{
             seleccionContexto(temperatura, "FORMAL", llueve)
         }
-        binding.accionPlaya.setOnClickListener{
-            seleccionContexto(temperatura, "PLAYA", llueve)
-        }
 
         binding.srl.setOnRefreshListener {
             coordenadas()
             binding.srl.isRefreshing = false
         }
-
 
         return view
     }
@@ -161,6 +151,9 @@ class HomeFragment : Fragment() {
                     binding.textClima.text = w.weather[0].description
                     if (("09" in imgclima) || ("10" in imgclima) || ("11" in imgclima) || ("13" in imgclima)) {
                         llueve = true
+                        binding.tLluvia.text = "LLueve, no olvides el paraguas"
+                    }else{
+                        binding.tLluvia.text = ""
                     }
                 }
             }

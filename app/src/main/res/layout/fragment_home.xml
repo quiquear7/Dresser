@@ -89,6 +89,7 @@
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
+
         </RelativeLayout>
 
 
@@ -276,18 +277,19 @@
                 fab:fab_size="mini"
                 fab:fab_title="FORMAL" />
 
-            <com.getbase.floatingactionbutton.FloatingActionButton
-                android:id="@+id/accion_playa"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:fab_addButtonColorPressed="@color/cyan"
-                app:fab_colorPressed="@color/cyan"
-                fab:fab_colorNormal="@color/teal"
-                fab:fab_icon="@drawable/ic_ola"
-                fab:fab_size="mini"
-                fab:fab_title="PLAYA" />
 
         </com.getbase.floatingactionbutton.FloatingActionsMenu>
+
+        <TextView
+            android:id="@+id/tLluvia"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="32dp"
+            android:textSize="16sp"
+            android:text=""
+            app:layout_constraintBottom_toTopOf="@+id/tituloOutfit"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
