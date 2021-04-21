@@ -54,7 +54,6 @@
         <item>CASUAL</item>
         <item>DEPORTE</item>
         <item>FORMAL</item>
-        <item>PLAYA</item>
     </string-array>
 
     <string-array name="s_estampados">

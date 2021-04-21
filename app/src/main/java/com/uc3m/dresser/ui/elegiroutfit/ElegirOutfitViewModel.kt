@@ -124,6 +124,7 @@ class ElegirOutfitViewModel : ViewModel() {
         }
 
 
+
         for (t in 1..comb) {
             val registro = Combinacion(null, null, null, null, null, null)
             combinaciones += registro
@@ -161,6 +162,7 @@ class ElegirOutfitViewModel : ViewModel() {
             sCalzado = sParteInferior / calzado
         }
 
+        Log.i("cazadoras", cazadorasL.toString())
 
         for (registro in combinaciones) {
 
@@ -181,7 +183,7 @@ class ElegirOutfitViewModel : ViewModel() {
                 }
             }
 
-            if (prendasNecesarias == 4 && jerseis > 0) {
+            if (prendasNecesarias >= 4 && jerseis > 0) {
                 if (registro.jerseis == null && nPrendas(registro) < prendasNecesarias) {
                     if (ctempJerseis < sJerseis) {
                         registro.jerseis = jerseisL[indexJerseis]
@@ -255,7 +257,7 @@ class ElegirOutfitViewModel : ViewModel() {
             if (i.calzado == null || nPrendas(i) < prendasNecesarias) {
                 indices.add(0, index)
             }else{
-               if ((i.parteInferior?.color  == "MARRÓN" && i.parteSuperior?.color  == "NEGRO")
+              if ((i.parteInferior?.color  == "MARRÓN" && i.parteSuperior?.color  == "NEGRO")
                        || (i.parteInferior?.color  == "NEGRO" && i.parteSuperior?.color  == "MARRÓN")
                        || (i.parteInferior?.color  == "AZUL" && i.parteSuperior?.color  == "NEGRO")
                        || (i.parteInferior?.color  == "NEGRO" && i.parteSuperior?.color  == "AZUL")
@@ -271,6 +273,8 @@ class ElegirOutfitViewModel : ViewModel() {
                        || (i.parteInferior?.color  == "NARANJA" && i.parteSuperior?.color  == "ROJO")
                        || (i.parteInferior?.estampado  == "RAYAS" && i.parteSuperior?.estampado  == "CUADROS")
                        || (i.parteInferior?.estampado  == "CUADROS" && i.parteSuperior?.estampado  == "RAYAS")
+                       || (prendasNecesarias >3 && i.parteInferior?.categoria == "PANTALONES CORTOS"
+                               && i.parteInferior?.ocasion !="DEPORTE")
                        || (prendasNecesarias==3 && (i.parteSuperior?.categoria  == "CAMISA M. LARGA"
                                || i.parteSuperior?.categoria  == "CAMISETAS M. LARGA"  ))
                        ){
