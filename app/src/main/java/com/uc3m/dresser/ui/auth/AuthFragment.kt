@@ -32,14 +32,14 @@ class AuthFragment : Fragment() {
     private lateinit var  googleSignInClient: GoogleSignInClient
     private lateinit var button: FloatingActionButton
     private lateinit var auth: FirebaseAuth
-    private lateinit var authViewModel: AuthViewModel
+
     private lateinit var binding: FragmentAuthBinding
     private val GOOGLE_SIGN_IN = 100
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        authViewModel = ViewModelProvider(this).get(AuthViewModel::class.java)
+
         binding = FragmentAuthBinding.inflate(inflater, container, false)
 
         auth = FirebaseAuth.getInstance()
