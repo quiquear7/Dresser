@@ -181,15 +181,19 @@ class RopaFragment : Fragment() {
         val iv: ByteArray = Base64.decode(prenda.iv, Base64.DEFAULT)
         val text: ByteArray = Base64.decode(prenda.encryptedRuta, Base64.DEFAULT)
         val rutaTemp = ropaViewModel.decryptData(iv, text)
-        val imgBitmap: Bitmap =  BitmapFactory.decodeFile(rutaTemp)
-        binding.imgFoto.setImageBitmap(imgBitmap)
-        binding.nameText.setText(prenda.nombre)
-        categoria = prenda.categoria
-        color =  prenda.color
-        estampado = prenda.estampado
-        ocasion = prenda.ocasion
-        ultimoUso = prenda.ultimoUso
-        ruta = rutaTemp
+
+        if (rutaTemp!=""){
+            ruta = rutaTemp
+            val imgBitmap: Bitmap =  BitmapFactory.decodeFile(rutaTemp)
+            binding.imgFoto.setImageBitmap(imgBitmap)
+            binding.nameText.setText(prenda.nombre)
+            categoria = prenda.categoria
+            color =  prenda.color
+            estampado = prenda.estampado
+            ocasion = prenda.ocasion
+            ultimoUso = prenda.ultimoUso
+        }
+
 
         val lCategorias = resources.getStringArray(R.array.s_categorias)
         spnCategorias.setSelection(lCategorias.indexOf(categoria),true)

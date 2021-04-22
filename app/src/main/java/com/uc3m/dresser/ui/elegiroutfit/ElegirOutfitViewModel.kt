@@ -3,6 +3,7 @@ package com.uc3m.dresser.ui.elegiroutfit
 
 import android.util.Log
 import androidx.lifecycle.ViewModel
+import com.google.firebase.auth.FirebaseAuth
 import com.uc3m.dresser.database.Combinacion
 import com.uc3m.dresser.database.Prenda
 import java.security.KeyStore
@@ -11,11 +12,11 @@ import javax.crypto.SecretKey
 import javax.crypto.spec.IvParameterSpec
 
 class ElegirOutfitViewModel : ViewModel() {
-
+    val auth = FirebaseAuth.getInstance()
     fun checkKey(): Boolean {
         val keystore: KeyStore = KeyStore.getInstance("AndroidKeyStore")
         keystore.load(null)
-        val secretKeyEntry = keystore.getEntry("MyKeyStore", null) as? KeyStore.SecretKeyEntry
+        val secretKeyEntry = keystore.getEntry(auth.currentUser.email, null) as? KeyStore.SecretKeyEntry
         return if (secretKeyEntry != null) {
             secretKeyEntry.secretKey != null
         } else {
@@ -23,11 +24,23 @@ class ElegirOutfitViewModel : ViewModel() {
         }
     }
 
-    fun getKey(): SecretKey {
+    fun getKey(): SecretKey? {
         val keystore: KeyStore = KeyStore.getInstance("AndroidKeyStore")
         keystore.load(null)
-        val secretKeyEntry = keystore.getEntry("MyKeyStore", null) as KeyStore.SecretKeyEntry
-        return secretKeyEntry.secretKey
+        return (keystore.getEntry(auth.currentUser.email, null) as KeyStore.SecretKeyEntry?)?.secretKey
+    }
+
+
+    fun decryptData(ivBytes: ByteArray, data: ByteArray) : String{
+        val cipher = Cipher.getInstance("AES/CBC/NoPadding")
+        val spec = IvParameterSpec(ivBytes)
+        return if(getKey()!=null){
+            cipher.init(Cipher.DECRYPT_MODE, getKey(),spec)
+            cipher.doFinal(data).toString(Charsets.UTF_8).trim()
+        }else{
+            ""
+        }
+
     }
 
     fun encrypData(data: String): Pair<ByteArray, ByteArray> {
@@ -41,14 +54,6 @@ class ElegirOutfitViewModel : ViewModel() {
         return Pair(ivBytes, encryptedBytes)
 
     }
-
-    fun decryptData(ivBytes: ByteArray, data: ByteArray): String {
-        val cipher = Cipher.getInstance("AES/CBC/NoPadding")
-        val spec = IvParameterSpec(ivBytes)
-        cipher.init(Cipher.DECRYPT_MODE, getKey(), spec)
-        return cipher.doFinal(data).toString(Charsets.UTF_8).trim()
-    }
-
 
     fun generarOutfits(outfitList: List<Prenda>, temperatura: Float, llueve: Boolean): List<Combinacion> {
 

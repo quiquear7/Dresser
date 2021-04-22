@@ -24,6 +24,7 @@ import android.widget.*
 import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import com.google.firebase.auth.FirebaseAuth
 import com.uc3m.dresser.R
 import com.uc3m.dresser.database.Prenda
 import com.uc3m.dresser.databinding.FragmentDashboardBinding
@@ -39,7 +40,7 @@ class DashboardFragment : Fragment() {
 
     private lateinit var dashboardViewModel: DashboardViewModel
     private lateinit var binding: FragmentDashboardBinding
-
+    private lateinit var auth: FirebaseAuth
     private var foto: Uri? = null
     private var categoria = ""
     private var color = ""
@@ -62,7 +63,7 @@ class DashboardFragment : Fragment() {
 
         binding = FragmentDashboardBinding.inflate(inflater, container, false)
         val view = binding.root
-
+        auth = FirebaseAuth.getInstance()
         if (!dashboardViewModel.checkKey()) {
             val keyGenerator = KeyGenerator.getInstance(
                     KeyProperties.KEY_ALGORITHM_AES,
@@ -70,7 +71,7 @@ class DashboardFragment : Fragment() {
             )
             val keyGenParameterSpec = KeyGenParameterSpec
                     .Builder(
-                            "MyKeyStore",
+                            auth.currentUser.email,
                             KeyProperties.PURPOSE_ENCRYPT or KeyProperties.PURPOSE_DECRYPT
                     )
                     .setBlockModes(KeyProperties.BLOCK_MODE_CBC)
@@ -184,7 +185,6 @@ class DashboardFragment : Fragment() {
 
         imgFoto = binding.imgFoto
 
-
         val botonAdd = binding.bagregar
         botonAdd.setOnClickListener() {
 
@@ -285,43 +285,39 @@ class DashboardFragment : Fragment() {
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        if(resultCode != RESULT_OK){
-            Toast.makeText(requireActivity(), "Fallo", Toast.LENGTH_SHORT).show()
-        }else{
-            if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
-                if (foto != null) {
-                    imgFoto?.setImageURI(foto)
-                } else {
-                    Toast.makeText(requireActivity(), "Fallo al realizar imagen", Toast.LENGTH_SHORT).show()
-                }
+        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
+            if (foto != null) {
+                imgFoto?.setImageURI(foto)
+            } else {
+                Toast.makeText(requireActivity(), "Fallo al realizar imagen", Toast.LENGTH_SHORT).show()
             }
+        }
 
-            if (resultCode == RESULT_OK && requestCode == PHOTO_SELECTED) {
-                if (data != null) {
-                    foto = data.data
-                    if (foto != null) {
-                        val wholeID = DocumentsContract.getDocumentId(foto)
-                        val id = wholeID.split(":").toTypedArray()[1]
+        if (resultCode == RESULT_OK && requestCode == PHOTO_SELECTED) {
+            if (data != null) {
+                foto = data.data
+                if (foto != null) {
+                    val wholeID = DocumentsContract.getDocumentId(foto)
+                    val id = wholeID.split(":").toTypedArray()[1]
 
-                        val column = arrayOf(MediaStore.Images.Media.DATA)
-                        val sel = MediaStore.Images.Media._ID + "=?"
+                    val column = arrayOf(MediaStore.Images.Media.DATA)
+                    val sel = MediaStore.Images.Media._ID + "=?"
 
-                        val cursor: Cursor? = activity?.contentResolver?.query(
-                                MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
-                                column, sel, arrayOf(id), null
-                        )
+                    val cursor: Cursor? = activity?.contentResolver?.query(
+                            MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+                            column, sel, arrayOf(id), null
+                    )
 
-                        val columnIndex = cursor?.getColumnIndex(column[0])
+                    val columnIndex = cursor?.getColumnIndex(column[0])
 
-                        if (cursor != null) {
-                            if (cursor.moveToFirst()) {
-                                ruta = columnIndex?.let { cursor.getString(it) }.toString()
-                            }
+                    if (cursor != null) {
+                        if (cursor.moveToFirst()) {
+                            ruta = columnIndex?.let { cursor.getString(it) }.toString()
                         }
-                        cursor?.close()
-
-                        imgFoto?.setImageURI(foto)
                     }
+                    cursor?.close()
+
+                    imgFoto?.setImageURI(foto)
                 }
             }
         }

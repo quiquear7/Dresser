@@ -63,8 +63,11 @@ class HomeFragment : Fragment() {
                         Base64.DEFAULT
                     )
                     val ruta = homeViewModel.decryptData(iv, text)
-                    val imgBitmap: Bitmap = BitmapFactory.decodeFile(ruta)
-                    binding.iButton1.setImageBitmap(imgBitmap)
+                    if(ruta !=""){
+                        val imgBitmap: Bitmap = BitmapFactory.decodeFile(ruta)
+                        binding.iButton1.setImageBitmap(imgBitmap)
+                    }
+
                 }
                 if (i.parteInferior != null) {
                     val iv: ByteArray = Base64.decode(i.parteInferior!!.iv, Base64.DEFAULT)
@@ -73,37 +76,40 @@ class HomeFragment : Fragment() {
                         Base64.DEFAULT
                     )
                     val ruta = homeViewModel.decryptData(iv, text)
-                    val imgBitmap: Bitmap = BitmapFactory.decodeFile(ruta)
-                    binding.iButton2.setImageBitmap(imgBitmap)
+                    if(ruta !="") {
+                        val imgBitmap: Bitmap = BitmapFactory.decodeFile(ruta)
+                        binding.iButton2.setImageBitmap(imgBitmap)
+                    }
                 }
                 if (i.calzado != null) {
                     val iv: ByteArray = Base64.decode(i.calzado!!.iv, Base64.DEFAULT)
                     val text: ByteArray = Base64.decode(i.calzado!!.encryptedRuta, Base64.DEFAULT)
                     val ruta = homeViewModel.decryptData(iv, text)
-                    val imgBitmap: Bitmap = BitmapFactory.decodeFile(ruta)
-                    binding.iButton3.setImageBitmap(imgBitmap)
+                    if(ruta !="") {
+                        val imgBitmap: Bitmap = BitmapFactory.decodeFile(ruta)
+                        binding.iButton3.setImageBitmap(imgBitmap)
+                    }
                 }
                 if (i.cazadoras != null) {
                     val iv: ByteArray = Base64.decode(i.cazadoras!!.iv, Base64.DEFAULT)
                     val text: ByteArray = Base64.decode(i.cazadoras!!.encryptedRuta, Base64.DEFAULT)
                     val ruta = homeViewModel.decryptData(iv, text)
-                    val imgBitmap: Bitmap = BitmapFactory.decodeFile(ruta)
-                    binding.iButton4.setImageBitmap(imgBitmap)
+                    if(ruta !="") {
+                        val imgBitmap: Bitmap = BitmapFactory.decodeFile(ruta)
+                        binding.iButton4.setImageBitmap(imgBitmap)
+                    }
                 }
                 if (i.jerseis != null) {
                     val iv: ByteArray = Base64.decode(i.jerseis!!.iv, Base64.DEFAULT)
                     val text: ByteArray = Base64.decode(i.jerseis!!.encryptedRuta, Base64.DEFAULT)
                     val ruta = homeViewModel.decryptData(iv, text)
-                    val imgBitmap: Bitmap = BitmapFactory.decodeFile(ruta)
-                    binding.iButton5.setImageBitmap(imgBitmap)
+                    if(ruta !="") {
+                        val imgBitmap: Bitmap = BitmapFactory.decodeFile(ruta)
+                        binding.iButton5.setImageBitmap(imgBitmap)
+                    }
                 }
-                if (i.conjuntos != null) {
-                    val iv: ByteArray = Base64.decode(i.conjuntos!!.iv, Base64.DEFAULT)
-                    val text: ByteArray = Base64.decode(i.conjuntos!!.encryptedRuta, Base64.DEFAULT)
-                    val ruta = homeViewModel.decryptData(iv, text)
-                    val imgBitmap: Bitmap = BitmapFactory.decodeFile(ruta)
-                    binding.iButton6.setImageBitmap(imgBitmap)
-                }
+            }else{
+                binding.tituloOutfit.text = "GENERA TU PRIMER OUTFIT"
             }
         })
 

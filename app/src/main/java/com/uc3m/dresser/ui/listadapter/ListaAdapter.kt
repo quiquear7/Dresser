@@ -8,9 +8,9 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.chauthai.swipereveallayout.ViewBinderHelper
+import com.google.firebase.auth.FirebaseAuth
 import com.uc3m.dresser.database.Prenda
 import com.uc3m.dresser.databinding.RecyclerViewItemBinding
-import com.uc3m.dresser.ui.SendData
 import java.security.KeyStore
 import javax.crypto.Cipher
 import javax.crypto.SecretKey
@@ -20,11 +20,13 @@ import javax.crypto.spec.IvParameterSpec
 class ListaAdapter(listener: SendPrenda): RecyclerView.Adapter<ListaAdapter.MyViewHolder>() {
     private var prendaList = emptyList<Prenda>()
     private val viewBinderHelper = ViewBinderHelper()
+    private lateinit var auth: FirebaseAuth
     private  var listener: SendPrenda = listener
 
     class MyViewHolder(val binding: RecyclerViewItemBinding): RecyclerView.ViewHolder(binding.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
+        auth = FirebaseAuth.getInstance()
         val binding = RecyclerViewItemBinding.inflate(
             LayoutInflater.from(parent.context), parent,
             false
@@ -42,20 +44,21 @@ class ListaAdapter(listener: SendPrenda): RecyclerView.Adapter<ListaAdapter.MyVi
             val iv: ByteArray = Base64.decode(item.iv, Base64.DEFAULT)
             val text: ByteArray = Base64.decode(item.encryptedRuta, Base64.DEFAULT)
             val ruta = decryptData(iv, text)
-            val imgBitmap: Bitmap =  BitmapFactory.decodeFile(ruta)
-            binding.iButton.setImageBitmap(imgBitmap)
-            binding.tCategoria.text = item.categoria
-            binding.tColor.text = item.color
-            binding.tNombre.text = item.nombre
-            binding.tOcasion.text = item.ocasion
-            binding.editButton.setOnClickListener{
-                listener.sendInfo(item, 0)
-            }
-            binding.deleteButton.setOnClickListener{
-                listener.sendInfo(item, 1)
+            if(ruta !=""){
+                val imgBitmap: Bitmap =  BitmapFactory.decodeFile(ruta)
+                binding.iButton.setImageBitmap(imgBitmap)
+                binding.tCategoria.text = item.categoria
+                binding.tColor.text = item.color
+                binding.tNombre.text = item.nombre
+                binding.tOcasion.text = item.ocasion
+                binding.editButton.setOnClickListener{
+                    listener.sendInfo(item, 0)
+                }
+                binding.deleteButton.setOnClickListener{
+                    listener.sendInfo(item, 1)
+                }
             }
         }
-
     }
 
 
@@ -76,18 +79,22 @@ class ListaAdapter(listener: SendPrenda): RecyclerView.Adapter<ListaAdapter.MyVi
         viewBinderHelper.restoreStates(inState)
     }
 
-    fun getKey(): SecretKey {
+    fun getKey(): SecretKey? {
         val keystore: KeyStore = KeyStore.getInstance("AndroidKeyStore")
         keystore.load(null)
-        val secretKeyEntry = keystore.getEntry("MyKeyStore", null) as KeyStore.SecretKeyEntry
-        return secretKeyEntry.secretKey
+        return (keystore.getEntry(auth.currentUser.email, null) as KeyStore.SecretKeyEntry?)?.secretKey
     }
 
 
     fun decryptData(ivBytes: ByteArray, data: ByteArray) : String{
         val cipher = Cipher.getInstance("AES/CBC/NoPadding")
         val spec = IvParameterSpec(ivBytes)
-        cipher.init(Cipher.DECRYPT_MODE, getKey(),spec)
-        return cipher.doFinal(data).toString(Charsets.UTF_8).trim()
+        return if(getKey()!=null){
+            cipher.init(Cipher.DECRYPT_MODE, getKey(),spec)
+            cipher.doFinal(data).toString(Charsets.UTF_8).trim()
+        }else{
+            ""
+        }
+
     }
 }
