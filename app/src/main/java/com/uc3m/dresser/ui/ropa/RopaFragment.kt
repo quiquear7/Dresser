@@ -184,8 +184,11 @@ class RopaFragment : Fragment() {
 
         if (rutaTemp!=""){
             ruta = rutaTemp
-            val imgBitmap: Bitmap =  BitmapFactory.decodeFile(rutaTemp)
-            binding.imgFoto.setImageBitmap(imgBitmap)
+            val af = File(ruta)
+            if (af.exists()){
+                val imgBitmap: Bitmap =  BitmapFactory.decodeFile(rutaTemp)
+                binding.imgFoto.setImageBitmap(imgBitmap)
+            }
             binding.nameText.setText(prenda.nombre)
             categoria = prenda.categoria
             color =  prenda.color

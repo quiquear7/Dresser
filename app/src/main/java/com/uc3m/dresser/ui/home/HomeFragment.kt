@@ -29,6 +29,7 @@ import com.uc3m.dresser.repository.Repository
 import com.uc3m.dresser.viewModels.MainViewModel
 import com.uc3m.dresser.viewModels.MainViewModelFactory
 import com.uc3m.dresser.viewModels.PrendaViewModel
+import java.io.File
 
 
 class HomeFragment : Fragment() {
@@ -64,21 +65,24 @@ class HomeFragment : Fragment() {
                     )
                     val ruta = homeViewModel.decryptData(iv, text)
                     if(ruta !=""){
-                        val imgBitmap: Bitmap = BitmapFactory.decodeFile(ruta)
-                        binding.iButton1.setImageBitmap(imgBitmap)
+                        val af = File(ruta)
+                        if (af.exists()){
+                            val imgBitmap: Bitmap =  BitmapFactory.decodeFile(ruta)
+                            binding.iButton1.setImageBitmap(imgBitmap)
+                        }
                     }
 
                 }
                 if (i.parteInferior != null) {
                     val iv: ByteArray = Base64.decode(i.parteInferior!!.iv, Base64.DEFAULT)
-                    val text: ByteArray = Base64.decode(
-                        i.parteInferior!!.encryptedRuta,
-                        Base64.DEFAULT
-                    )
+                    val text: ByteArray = Base64.decode(i.parteInferior!!.encryptedRuta, Base64.DEFAULT)
                     val ruta = homeViewModel.decryptData(iv, text)
                     if(ruta !="") {
-                        val imgBitmap: Bitmap = BitmapFactory.decodeFile(ruta)
-                        binding.iButton2.setImageBitmap(imgBitmap)
+                        val af = File(ruta)
+                        if (af.exists()){
+                            val imgBitmap: Bitmap =  BitmapFactory.decodeFile(ruta)
+                            binding.iButton2.setImageBitmap(imgBitmap)
+                        }
                     }
                 }
                 if (i.calzado != null) {
@@ -86,8 +90,11 @@ class HomeFragment : Fragment() {
                     val text: ByteArray = Base64.decode(i.calzado!!.encryptedRuta, Base64.DEFAULT)
                     val ruta = homeViewModel.decryptData(iv, text)
                     if(ruta !="") {
-                        val imgBitmap: Bitmap = BitmapFactory.decodeFile(ruta)
-                        binding.iButton3.setImageBitmap(imgBitmap)
+                        val af = File(ruta)
+                        if (af.exists()){
+                            val imgBitmap: Bitmap =  BitmapFactory.decodeFile(ruta)
+                            binding.iButton3.setImageBitmap(imgBitmap)
+                        }
                     }
                 }
                 if (i.cazadoras != null) {
@@ -95,8 +102,11 @@ class HomeFragment : Fragment() {
                     val text: ByteArray = Base64.decode(i.cazadoras!!.encryptedRuta, Base64.DEFAULT)
                     val ruta = homeViewModel.decryptData(iv, text)
                     if(ruta !="") {
-                        val imgBitmap: Bitmap = BitmapFactory.decodeFile(ruta)
-                        binding.iButton4.setImageBitmap(imgBitmap)
+                        val af = File(ruta)
+                        if (af.exists()){
+                            val imgBitmap: Bitmap =  BitmapFactory.decodeFile(ruta)
+                            binding.iButton4.setImageBitmap(imgBitmap)
+                        }
                     }
                 }
                 if (i.jerseis != null) {
@@ -104,8 +114,11 @@ class HomeFragment : Fragment() {
                     val text: ByteArray = Base64.decode(i.jerseis!!.encryptedRuta, Base64.DEFAULT)
                     val ruta = homeViewModel.decryptData(iv, text)
                     if(ruta !="") {
-                        val imgBitmap: Bitmap = BitmapFactory.decodeFile(ruta)
-                        binding.iButton5.setImageBitmap(imgBitmap)
+                        val af = File(ruta)
+                        if (af.exists()){
+                            val imgBitmap: Bitmap =  BitmapFactory.decodeFile(ruta)
+                            binding.iButton5.setImageBitmap(imgBitmap)
+                        }
                     }
                 }
             }else{

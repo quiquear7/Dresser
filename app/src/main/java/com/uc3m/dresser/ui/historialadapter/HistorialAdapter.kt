@@ -12,6 +12,7 @@ import com.uc3m.dresser.database.Combinacion
 import com.uc3m.dresser.database.Prenda
 import com.uc3m.dresser.database.Registro
 import com.uc3m.dresser.databinding.HistorialItemBinding
+import java.io.File
 import java.security.KeyStore
 import javax.crypto.Cipher
 import javax.crypto.SecretKey
@@ -38,8 +39,11 @@ class HistorialAdapter: RecyclerView.Adapter<HistorialAdapter.MyViewHolder>()  {
                 val text: ByteArray = Base64.decode(i.parteSuperior!!.encryptedRuta, Base64.DEFAULT)
                 val ruta = decryptData(iv, text)
                 if(ruta !="") {
-                    val imgBitmap: Bitmap = BitmapFactory.decodeFile(ruta)
-                    binding.iButton1.setImageBitmap(imgBitmap)
+                    val af = File(ruta)
+                    if (af.exists()){
+                        val imgBitmap: Bitmap =  BitmapFactory.decodeFile(ruta)
+                        binding.iButton1.setImageBitmap(imgBitmap)
+                    }
                     binding.tNombre1.text = i.parteSuperior!!.nombre
                 }
             }
@@ -48,8 +52,11 @@ class HistorialAdapter: RecyclerView.Adapter<HistorialAdapter.MyViewHolder>()  {
                 val text: ByteArray = Base64.decode(i.parteInferior!!.encryptedRuta, Base64.DEFAULT)
                 val ruta = decryptData(iv, text)
                 if(ruta !="") {
-                    val imgBitmap: Bitmap = BitmapFactory.decodeFile(ruta)
-                    binding.iButton2.setImageBitmap(imgBitmap)
+                    val af = File(ruta)
+                    if (af.exists()){
+                        val imgBitmap: Bitmap =  BitmapFactory.decodeFile(ruta)
+                        binding.iButton2.setImageBitmap(imgBitmap)
+                    }
                     binding.tNombre2.text = i.parteInferior!!.nombre
                 }
             }
@@ -58,8 +65,11 @@ class HistorialAdapter: RecyclerView.Adapter<HistorialAdapter.MyViewHolder>()  {
                 val text: ByteArray = Base64.decode(i.calzado!!.encryptedRuta, Base64.DEFAULT)
                 val ruta = decryptData(iv, text)
                 if(ruta !="") {
-                    val imgBitmap: Bitmap = BitmapFactory.decodeFile(ruta)
-                    binding.iButton3.setImageBitmap(imgBitmap)
+                    val af = File(ruta)
+                    if (af.exists()){
+                        val imgBitmap: Bitmap =  BitmapFactory.decodeFile(ruta)
+                        binding.iButton3.setImageBitmap(imgBitmap)
+                    }
                     binding.tNombre3.text = i.calzado!!.nombre
                 }
             }
@@ -68,8 +78,11 @@ class HistorialAdapter: RecyclerView.Adapter<HistorialAdapter.MyViewHolder>()  {
                 val text: ByteArray = Base64.decode(i.cazadoras!!.encryptedRuta, Base64.DEFAULT)
                 val ruta = decryptData(iv, text)
                 if(ruta !="") {
-                    val imgBitmap: Bitmap = BitmapFactory.decodeFile(ruta)
-                    binding.iButton4.setImageBitmap(imgBitmap)
+                    val af = File(ruta)
+                    if (af.exists()){
+                        val imgBitmap: Bitmap =  BitmapFactory.decodeFile(ruta)
+                        binding.iButton4.setImageBitmap(imgBitmap)
+                    }
                     binding.tNombre4.text = i.cazadoras!!.nombre
                 }
             }
@@ -78,8 +91,11 @@ class HistorialAdapter: RecyclerView.Adapter<HistorialAdapter.MyViewHolder>()  {
                 val text: ByteArray = Base64.decode(i.jerseis!!.encryptedRuta, Base64.DEFAULT)
                 val ruta = decryptData(iv, text)
                 if(ruta !="") {
-                    val imgBitmap: Bitmap = BitmapFactory.decodeFile(ruta)
-                    binding.iButton5.setImageBitmap(imgBitmap)
+                    val af = File(ruta)
+                    if (af.exists()){
+                        val imgBitmap: Bitmap =  BitmapFactory.decodeFile(ruta)
+                        binding.iButton5.setImageBitmap(imgBitmap)
+                    }
                     binding.tNombre5.text = i.jerseis!!.nombre
                 }
             }
@@ -88,8 +104,11 @@ class HistorialAdapter: RecyclerView.Adapter<HistorialAdapter.MyViewHolder>()  {
                 val text: ByteArray = Base64.decode(i.conjuntos!!.encryptedRuta, Base64.DEFAULT)
                 val ruta = decryptData(iv, text)
                 if(ruta !="") {
-                    val imgBitmap: Bitmap = BitmapFactory.decodeFile(ruta)
-                    binding.iButton6.setImageBitmap(imgBitmap)
+                    val af = File(ruta)
+                    if (af.exists()){
+                        val imgBitmap: Bitmap =  BitmapFactory.decodeFile(ruta)
+                        binding.iButton6.setImageBitmap(imgBitmap)
+                    }
                     binding.tNombre6.text = i.conjuntos!!.nombre
                 }
             }

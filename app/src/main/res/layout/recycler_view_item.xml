@@ -109,7 +109,6 @@
                     android:layout_alignParentTop="true"
                     android:layout_marginEnd="16dp"
                     android:contentDescription="@string/todo"
-                    android:rotation="90"
                     android:scaleType="centerCrop"
                     tools:srcCompat="@tools:sample/avatars" />
 

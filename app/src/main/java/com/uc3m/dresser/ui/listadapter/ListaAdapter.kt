@@ -4,6 +4,7 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.util.Base64
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -11,6 +12,7 @@ import com.chauthai.swipereveallayout.ViewBinderHelper
 import com.google.firebase.auth.FirebaseAuth
 import com.uc3m.dresser.database.Prenda
 import com.uc3m.dresser.databinding.RecyclerViewItemBinding
+import java.io.File
 import java.security.KeyStore
 import javax.crypto.Cipher
 import javax.crypto.SecretKey
@@ -43,10 +45,14 @@ class ListaAdapter(listener: SendPrenda): RecyclerView.Adapter<ListaAdapter.MyVi
             viewBinderHelper.closeLayout(prendaList[position].id.toString())
             val iv: ByteArray = Base64.decode(item.iv, Base64.DEFAULT)
             val text: ByteArray = Base64.decode(item.encryptedRuta, Base64.DEFAULT)
-            val ruta = decryptData(iv, text)
-            if(ruta !=""){
-                val imgBitmap: Bitmap =  BitmapFactory.decodeFile(ruta)
-                binding.iButton.setImageBitmap(imgBitmap)
+            val ruta :String = decryptData(iv, text)
+
+            if(ruta !="" ){
+                val af = File(ruta)
+                if (af.exists()){
+                    val imgBitmap: Bitmap =  BitmapFactory.decodeFile(ruta)
+                    binding.iButton.setImageBitmap(imgBitmap)
+                }
                 binding.tCategoria.text = item.categoria
                 binding.tColor.text = item.color
                 binding.tNombre.text = item.nombre
@@ -90,7 +96,7 @@ class ListaAdapter(listener: SendPrenda): RecyclerView.Adapter<ListaAdapter.MyVi
         val cipher = Cipher.getInstance("AES/CBC/NoPadding")
         val spec = IvParameterSpec(ivBytes)
         return if(getKey()!=null){
-            cipher.init(Cipher.DECRYPT_MODE, getKey(),spec)
+            cipher.init(Cipher.DECRYPT_MODE, getKey(), spec)
             cipher.doFinal(data).toString(Charsets.UTF_8).trim()
         }else{
             ""
