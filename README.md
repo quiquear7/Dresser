@@ -1,2 +1,3 @@
-# Practica_SDM
-proyecto creado
+Dresser
+
+Aplicación Android para gestionar tu armario
